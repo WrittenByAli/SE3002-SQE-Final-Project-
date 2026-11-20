@@ -1,0 +1,50 @@
+name: Defect
+description: A defect found by a test or review (feeds defect density, RCA and Pareto)
+title: "[Defect] "
+labels: ["type:defect", "status:new"]
+body:
+  - type: markdown
+    attributes:
+      value: "Log it the day you find it. Evidence must be a real artifact (test name + CI run or report path)."
+  - type: textarea
+    id: summary
+    attributes: {label: Summary, description: "One sentence: what is wrong."}
+    validations: {required: true}
+  - type: textarea
+    id: steps
+    attributes: {label: Steps to reproduce, description: "Numbered steps, data used (synthetic), endpoint/screen.", placeholder: "1. bash tests/team/run.sh env-reset\n2. POST /rooms/api/booking/create with ..."}
+    validations: {required: true}
+  - type: textarea
+    id: expected
+    attributes: {label: Expected result, description: "Per requirement FR-/BR- (cite it)."}
+    validations: {required: true}
+  - type: textarea
+    id: actual
+    attributes: {label: Actual result, description: "Status code, body, screenshot."}
+    validations: {required: true}
+  - type: input
+    id: evidence
+    attributes: {label: Evidence, description: "Test name + CI run link or docs/team/evidence/... path"}
+    validations: {required: true}
+  - type: dropdown
+    id: severity
+    attributes: {label: Severity, options: [critical, major, minor, trivial]}
+    validations: {required: true}
+  - type: dropdown
+    id: priority
+    attributes: {label: Priority, options: [p1, p2, p3]}
+    validations: {required: true}
+  - type: dropdown
+    id: category
+    attributes: {label: Category (for Pareto), options: [validation, authorization, state, error-handling, usability, accessibility, performance, security, documentation]}
+    validations: {required: true}
+  - type: dropdown
+    id: area
+    attributes: {label: Found by area, options: [area-1, area-2, area-3, shared]}
+    validations: {required: true}
+  - type: input
+    id: risk
+    attributes: {label: Risk register link, description: "R-xx from docs/team/risk-register.md"}
+  - type: textarea
+    id: triage
+    attributes: {label: Triage decision (filled at weekly triage), description: "fix / defer / won't fix / duplicate / not a defect, plus the reason"}

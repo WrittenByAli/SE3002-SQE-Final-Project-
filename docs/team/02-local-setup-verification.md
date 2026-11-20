@@ -68,6 +68,10 @@ Seed data (`tests/team/seed/seed_rb.py`):
 2. **Rule rejections return HTTP 418 ("I'm a teapot")** with `{"message": ...}`, while schema errors return 422 with
    `webargs_errors` and access errors return 403 with `{"error": {...}}`. That gives three different error shapes for one API.
 3. **Unknown booking id returns an HTML 404 page**, not JSON, on a `/rooms/api/` route.
+5. **Server error on a valid enum value.** `POST /booking/create` with `repeat_frequency` = `DAY`/`WEEK`/`MONTH` and
+   `repeat_interval: 0` (the schema default) returns **HTTP 500** `"Unsupported interval"` instead of a 422 validation error.
+   Found by the first generated EP run (`tests/team/api/generated_create_test.py`, 2026-11-21). Root cause to confirm:
+   `CreateBookingSchema` validates `repeat_interval >= 0` only, while occurrence generation rejects 0 for repeating bookings.
 4. **The overlap rejection message is vague**: "Reservation has no valid occurrences" does not tell the user the slot is already booked.
 
 ## Conclusion

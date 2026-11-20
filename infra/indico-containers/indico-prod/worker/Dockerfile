@@ -2,7 +2,8 @@ FROM python:3.12-trixie
 
 ENV INDICO_VIRTUALENV="/opt/indico/.venv" INDICO_CONFIG="/opt/indico/etc/indico.conf"
 
-ARG tag="latest"
+# SQE team: pinned to the baseline release (was "latest", which silently drifts)
+ARG tag="3.3.14"
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
@@ -39,14 +40,14 @@ USER indico
 
 RUN set -ex && \
     python -m venv ${INDICO_VIRTUALENV} && \
-    uv pip install uwsgi
+    uv pip install uwsgi==2.0.31
 
 RUN if [ "$tag" = "latest" ]; then \
     uv pip install indico; \
 else \
     uv pip install indico==${tag}; \
 fi;
-RUN uv pip install indico-plugins python-ldap
+RUN uv pip install indico-plugins==3.3.8 python-ldap==3.4.8
 
 RUN ${INDICO_VIRTUALENV}/bin/indico setup create-symlinks /opt/indico
 

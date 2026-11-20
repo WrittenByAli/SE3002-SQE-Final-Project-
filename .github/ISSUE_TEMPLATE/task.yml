@@ -1,0 +1,27 @@
+name: Task
+description: One checklist item from docs/team/tasks/ (one task = one issue = one branch = one PR)
+title: "[Task] "
+labels: ["type:task"]
+body:
+  - type: dropdown
+    id: area
+    attributes: {label: Area, options: [area-1 (Muhammad Ali), area-2 (Fahima), area-3 (Wania), shared]}
+    validations: {required: true}
+  - type: input
+    id: component
+    attributes: {label: Rubric component, description: "e.g. API and integration testing (10)"}
+    validations: {required: true}
+  - type: textarea
+    id: what
+    attributes: {label: What to deliver, description: "Copy the checklist item from your task file. Name the output files."}
+    validations: {required: true}
+  - type: textarea
+    id: done
+    attributes: {label: Definition of done, description: "Measurable: e.g. all 4 BR covered, CI gate green, evidence in docs/team/evidence/area2/"}
+    validations: {required: true}
+  - type: input
+    id: skill
+    attributes: {label: Skill / agent to use, description: "e.g. sqe-api-testing, test-case-designer"}
+  - type: input
+    id: estimate
+    attributes: {label: "Three-point estimate (hours): O / M / P", description: "Feeds docs/team/estimation.md"}

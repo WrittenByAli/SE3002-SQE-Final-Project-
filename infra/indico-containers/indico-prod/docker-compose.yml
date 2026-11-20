@@ -2,9 +2,11 @@ services:
   # The main Indico container which runs flask
   # The same image is also used to run celery
   indico-web: &indico-web
-    build: worker
-    # privileged is ONLY needed if you want to use LaTeX builds
-    privileged: true
+    build:
+      context: worker
+      args:
+        tag: "3.3.14"   # SQE team: baseline release, keep in sync with README
+    # SQE team: privileged mode removed (only needed for LaTeX builds, unused here; least privilege)
     command: /opt/indico/run_indico.sh
     depends_on:
       - indico-redis
@@ -59,14 +61,14 @@ services:
     command: /opt/indico/run_celery.sh beat
   # Redis
   indico-redis:
-    image: redis
+    image: redis:8.10.3   # SQE team: pinned (was floating "redis")
     networks:
       - backend
     volumes:
       - 'redis:/data'
   # Postgres
   indico-postgres:
-    image: postgres:15-bookworm
+    image: postgres:15.20-bookworm   # SQE team: pinned minor
     environment:
       - POSTGRES_USER=${PGUSER}
       - POSTGRES_PASSWORD=${PGPASSWORD}
@@ -78,7 +80,7 @@ services:
   # Nginx proxy
   # Indico can be accessed by default via localhost:8080
   indico-nginx:
-    image: ghcr.io/nginxinc/nginx-unprivileged:stable-alpine
+    image: ghcr.io/nginxinc/nginx-unprivileged:1.26.3-alpine   # SQE team: pinned (was stable-alpine)
     depends_on:
       - indico-web
     networks:
