@@ -1,96 +1,73 @@
-# Indico ![CI Status](https://github.com/indico/indico/workflows/CI/badge.svg) [![License](https://img.shields.io/github/license/indico/indico.svg)](https://github.com/indico/indico/blob/master/LICENSE) [![Available on PyPI](https://img.shields.io/pypi/v/indico.svg)](https://pypi.python.org/pypi/indico/) [![Made at CERN!](https://img.shields.io/badge/CERN-Open%20Source-%232980b9.svg)](https://home.cern)
+# SE3002 SQE Final Project: Automated Testing of Indico Room Booking
 
-<img src="https://github.com/indico/indico/raw/master/indico/web/static/images/logo_indico.svg"
-     align="right"
-     width="300"
-     style="width: 300px; float: right; margin-right: 50px;">
+Automated quality engineering of an open-source MIS for SE3002 Software Quality Engineering (Fall 2026).
 
-**Indico** is:
- * 🗓 a general-purpose **event management** tool;
- * 🌍 fully **web-based**;
- * 🧩 **feature-rich** but also **extensible** through the use of [plugins](https://docs.getindico.io/en/stable/plugins/);
- * ⚖️ **Open-Source** Software under the MIT License;
- * <img src="https://raw.githubusercontent.com/indico/assets/master/cern_badge.png" width="20"> **made at CERN**, [the place where the web was born](https://home.cern/science/computing/the-birth-of-the-web/)!
+## System under test
 
-![A sneak peek of Indico](https://raw.githubusercontent.com/indico/indico/master/sneakpeek.gif)
+| | |
+|---|---|
+| MIS | **Indico**: open-source event and room-booking management system (CERN) |
+| Upstream | https://github.com/indico/indico |
+| Baseline | tag **`v3.3.14`**, commit **`a42252ead3509f9b31db0691cc9af899ab18416e`** (imported unmodified as this repo's first commit) |
+| Licence | MIT (see [LICENSE](LICENSE)) |
+| Module | Room Booking (`indico/modules/rb`) |
+| Workflow A | User submits a booking request for a room that needs confirmation, which creates a **pending** booking |
+| Workflow B | Room manager **approves / rejects** it (pending → accepted / rejected / cancelled) |
+| Shared record | the `Reservation` and the room's availability for that slot |
 
-## What does it do?
-Indico's **main features** are:
- * a powerful and flexible **hierarchical content management** system for events;
- * a full-blown **conference organization workflow** with:
-   - 📢 **Call for Abstracts** and **abstract reviewing** modules;
-   - 📝 flexible **registration form** creation and configuration;
-   - 💰 integration with existing **payment systems**;
-   - ✅ a **paper reviewing** workflow;
-   - 🗓 a **drag and drop timetable management interface**;
-   - 🎫 a simple **badge editor** with the possibility to print badges and tickets for participants;
- * tools for **meeting management** and archival of presentation materials;
- * a powerful **room booking** interface;
- * integration with existing **video conferencing solutions**;
+Scope, requirements, business rules and roles: [docs/team/01-scope-draft.md](docs/team/01-scope-draft.md)
+Local setup evidence and first API results: [docs/team/02-local-setup-verification.md](docs/team/02-local-setup-verification.md)
 
-A more detailed list [can be found here](https://getindico.io/features/). There is also a [video](https://www.youtube.com/watch?v=yo8rgg9dOcc)!
+## Repository layout
 
-## I just want to try it out!
+| Path | Contents |
+|---|---|
+| `indico/`, root files | Upstream Indico source at the baseline. Changes to it go only through PRs |
+| `tests/team/` | **All team tests** (upstream `*_test.py` files are not ours and earn no marks) |
+| `tests/team/seed/` | `seed_rb.py` (synthetic data) and `reset.sh` (full wipe + reseed) |
+| `infra/indico-containers/` | Docker setup, adapted from [indico/indico-containers](https://github.com/indico/indico-containers) @ `5ebc1f3` |
+| `docs/team/` | Test plan, risk register, traceability, reports |
 
-We've got a [Sandbox](https://sandbox.getindico.io)🧪!
+## Setup
 
-## Browser support
+Requirements: Docker Desktop (or Docker Engine + Compose v2), Git, Python 3.11+, curl, bash (Git Bash on Windows).
 
-These are the minimum versions of major browsers currently supported by Indico. We try to target all modern browsers as
-much as possible, but only issues detected on those will be considered at critical level.
+```bash
+cd infra/indico-containers/indico-prod
+cp .env.example .env          # then set PGPASSWORD and INDICO_SECRET_KEY
+docker compose up -d --build  # first build ~5–10 min; Indico at http://localhost:8081
+cd ../../..
+bash tests/team/seed/reset.sh # wipe + seed; writes tests/team/.env.test (tokens, room id)
+```
 
-<!-- BROWSERS - this is all machine-generated! Don't change it. -->
-| <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" /><br>Firefox | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" /><br>Chrome | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" /><br>Safari | <img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt="Edge" width="24px" height="24px" /><br>Edge |
-|:---------:|:---------:|:---------:|:---------:|
-| 127+ | 125+ | 17.4+ | 125+ |
+The containers run Indico 3.3.14 from PyPI, but **`indico/modules/rb` is bind-mounted from this repo**. After changing
+room-booking code, run `docker compose restart indico-web indico-celery` (in `infra/indico-containers/indico-prod`).
 
-However, if you have an issue with a browser [on this list](https://browserl.ist/?q=and_chr%20126%2C%20and_ff%20127%2C%20chrome%20126%2C%20chrome%20125%2C%20chrome%20124%2C%20chrome%20123%2C%20chrome%20109%2C%20edge%20126%2C%20edge%20125%2C%20edge%20124%2C%20edge%20123%2C%20firefox%20128%2C%20firefox%20127%2C%20firefox%20126%2C%20firefox%20125%2C%20firefox%20115%2C%20ios_saf%2017.4%2C%20ios_saf%2016.6-16.7%2C%20safari%2017.5%2C%20safari%2017.4%2C%20safari%2017.3%2C%20safari%2017.2%2C%20samsung%2025), please feel free to open a bug report.
-<!-- ENDBROWSERS -->
+Test accounts (synthetic): `admin`, `user1` (booker), `mgr1` (R1 moderator). Password is `<username>-Pass123!`.
 
-## Getting Indico
+### Reset between runs
 
-Information on how to get the latest release can be found [at the project's web site](https://getindico.io/getting-started/).
-There are installation guides for different systems available in [the project's documentation](https://docs.getindico.io/en/stable/installation/).
+```bash
+bash tests/team/seed/reset.sh   # drops all volumes (DB, Redis, files), recreates schema, reseeds (~1 min)
+```
 
-## Contributing
+### Stop
 
-Indico is the result of the collective work of more than 100 different developers, translators and usability
-specialists of many nationalities. You can be the next one - read our
-[Contribution Guide](https://github.com/indico/indico/blob/master/CONTRIBUTING.md) if you'd like to help out.
+```bash
+cd infra/indico-containers/indico-prod && docker compose down      # keep data
+docker compose down -v                                             # also wipe data
+```
 
-**You don't need to know how to write code in order to help!**
+## Team and area ownership
 
-## Roadmap
+| Area | Owner |
+|---|---|
+| 1. Static analysis, white-box, mutation, CI | _TBD_ |
+| 2. API testing and test data generation | _TBD_ |
+| 3. Use cases, usability, accessibility, security, performance | _TBD_ |
+| Test management | shared |
 
-The full roadmap is [available on the project site](https://getindico.io/roadmap/).
+## AI use
 
-## Community
-
-The main meeting points for the community are:
- * the [Project Forum](https://talk.getindico.io);
- * the Chat Room
-([#indico on Libera.Chat](https://web.libera.chat/gamja/?channels=#indico) or on [Matrix](https://app.element.io/#/room/#indico:matrix.org)).
-
-We follow [CERN's Values](https://hr.web.cern.ch/cerns-values) and the principles established by
-[CERN's Code of Conduct](https://hr.web.cern.ch/codeofconduct).
-
-## History
-
-This software project was initially funded by the European Union's FP5 programme🇪🇺, in what was called the [**In**tegrated **Di**gital **Co**nferencing Project](https://cordis.europa.eu/project/rcn/61849/factsheet/en), or just **InDiCo**. CERN was responsible for the development of the "Make-a-Conference" workpackage (inspired by an already existing system called **CDS Agenda**, also developed at the Organization) which would then become what we nowadays know as **Indico**.
-
-We have since stopped using the ~~*InDiCo*~~ acronym, as it no longer reflects accurately the nature of the project. The word *Indico* now has no particular meaning other than the product's name.
-
-
----
-
-
-|||
-|-|-|
-|<a href="https://home.cern"><img src="https://raw.githubusercontent.com/indico/assets/master/cern_badge.png" width="64"></a>|Made at [CERN](https://home.cern)<br>[Take part!](https://careers.cern/)|
-|||
-
-> ### Note
->
-> *In applying the MIT license, CERN does not waive the privileges and immunities
-> granted to it by virtue of its status as an Intergovernmental Organization
-> or submit itself to any jurisdiction.*
+Generative AI (Claude Code) was used for repository selection research, scope drafting, environment setup and the seed and reset
+scripts. All of it is recorded in `docs/team/ai-use-record.md` with prompts, outputs and what the team checked or changed.

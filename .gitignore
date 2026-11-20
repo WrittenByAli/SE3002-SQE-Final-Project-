@@ -52,3 +52,19 @@ htmlcov/
 # node/webpack
 webpack-build-config.json
 *.lock
+
+# ---- SQE team additions ----
+tests/team/.env.test
+infra/indico-containers/indico-prod/.env
+*.pdf
+tests/team/**/reports/
+test-results/
+playwright-report/
+.coverage
+htmlcov/
+mutants/
+.mutmut-cache
+# container config is needed to run; contains no secrets (secret lives in .env)
+!infra/indico-containers/indico-prod/indico.conf
+!infra/indico-containers/indico-prod/logging.yaml
+!infra/indico-containers/indico-prod/nginx.conf
