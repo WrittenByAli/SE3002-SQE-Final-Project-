@@ -1,0 +1,32 @@
+# Usage (from repo root):  bash tests/team/run.sh unit     (see tests/team/run.sh for all targets)
+name: sqe-test-runner
+services:
+  testdb:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: indicotest
+      POSTGRES_DB: indicotest
+      POSTGRES_HOST_AUTH_METHOD: trust
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "indicotest"]
+      interval: 3s
+      retries: 20
+    tmpfs:
+      - /var/lib/postgresql/data      # throwaway DB: every run starts clean
+
+  runner:
+    build:
+      context: ../..
+      dockerfile: infra/test-runner/Dockerfile
+    image: sqe-test-runner:local
+    depends_on:
+      testdb:
+        condition: service_healthy
+    environment:
+      PGHOST: testdb
+      PGUSER: indicotest
+      PGDATABASE: indicotest
+      INDICO_TEST_DATABASE_URI: postgresql://indicotest@testdb/indicotest
+    volumes:
+      - ../..:/repo
+    working_dir: /repo

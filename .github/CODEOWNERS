@@ -1,0 +1,28 @@
+# CODEOWNERS: GitHub automatically requests a review from these people on PRs that touch these paths.
+# The default rotation in docs/team/harness/github-workflow.md decides who REVIEWS; CODEOWNERS makes sure the area owner
+# is always informed. TODO: add Wania's GitHub username where marked, once she is a collaborator.
+
+# Harness + CI (Area 1 owns CI; harness changes need the repo admin)
+/.github/                   @WrittenByAli
+/.claude/                   @WrittenByAli
+/CLAUDE.md                  @WrittenByAli
+/infra/                     @WrittenByAli
+/tests/team/tools/          @WrittenByAli
+
+# Area 1: white-box, mutation, static analysis
+/tests/team/unit/           @WrittenByAli
+/tests/team/mutation/       @WrittenByAli
+
+# Area 2: API + data generation
+/tests/team/api/            @Fahima-sohail
+/tests/team/generator/      @Fahima-sohail
+/openapi/                   @Fahima-sohail
+
+# Area 3: use cases, a11y, security, performance. Replace @WrittenByAli with Wania's @username once she is a
+# collaborator (GitHub ignores owners who have no write access, so until then the repo admin is notified).
+/tests/team/e2e/            @WrittenByAli
+/tests/team/perf/           @WrittenByAli
+/docs/team/use-cases/       @WrittenByAli
+
+# Upstream source changes (fix PR, live task) are reviewed by Area 1 + Area 2
+/indico/                    @WrittenByAli @Fahima-sohail

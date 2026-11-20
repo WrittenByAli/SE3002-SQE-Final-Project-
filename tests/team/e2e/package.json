@@ -1,0 +1,14 @@
+{
+  "name": "sqe-e2e",
+  "private": true,
+  "description": "Playwright (Chromium) browser tests for the SQE Indico Room Booking project. Tests go in tests/.",
+  "scripts": {
+    "test": "playwright test",
+    "report": "playwright show-report ../reports/e2e/html"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.65.0",
+    "@types/node": "26.6.6"
+  }
+}

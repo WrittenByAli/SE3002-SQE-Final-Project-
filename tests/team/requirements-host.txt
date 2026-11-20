@@ -1,0 +1,7 @@
+# Host-side tools for API tests, the OpenAPI generator and harness checks (any OS, Python >= 3.10).
+#   python -m venv .venv && .venv/Scripts/pip install -r tests/team/requirements-host.txt   (Windows)
+#   python -m venv .venv && .venv/bin/pip install -r tests/team/requirements-host.txt       (Linux/macOS)
+pytest==9.1.1
+pytest-timeout==2.4.0
+requests==2.34.2
+PyYAML==6.0.3

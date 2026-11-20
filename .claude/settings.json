@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(bash tests/team/run.sh:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(gh pr checks:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Bash(gh issue list:*)",
+      "Bash(docker compose ps:*)",
+      "Bash(docker compose logs:*)"
+    ],
+    "deny": [
+      "Read(./tests/team/.env.test)",
+      "Read(./infra/indico-containers/indico-prod/.env)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|PowerShell|Edit|Write|MultiEdit",
+        "hooks": [
+          { "type": "command", "command": "python \"$(git rev-parse --show-toplevel)/.claude/hooks/guard.py\"", "timeout": 30 }
+        ]
+      }
+    ]
+  }
+}

@@ -26,7 +26,10 @@ Local setup evidence and first API results: [docs/team/02-local-setup-verificati
 | `tests/team/` | **All team tests** (upstream `*_test.py` files are not ours and earn no marks) |
 | `tests/team/seed/` | `seed_rb.py` (synthetic data) and `reset.sh` (full wipe + reseed) |
 | `infra/indico-containers/` | Docker setup, adapted from [indico/indico-containers](https://github.com/indico/indico-containers) @ `5ebc1f3` |
-| `docs/team/` | Test plan, risk register, traceability, reports |
+| `docs/team/` | Task division, harness guides, templates, (later) test plan, risk register, traceability, reports |
+| `infra/test-runner/` | Linux runner (Python 3.12, Indico deps, mutmut) for unit + mutation testing |
+| `.claude/` | Claude Code harness: skills, agents, guard hook, settings |
+| `.github/` | CI workflow, PR template, issue forms, CODEOWNERS, labels, branch protection |
 
 ## Setup
 
@@ -60,12 +63,21 @@ docker compose down -v                                             # also wipe d
 
 ## Team and area ownership
 
-| Area | Owner |
-|---|---|
-| 1. Static analysis, white-box, mutation, CI | _TBD_ |
-| 2. API testing and test data generation | _TBD_ |
-| 3. Use cases, usability, accessibility, security, performance | _TBD_ |
-| Test management | shared |
+| Member | Area | Task file |
+|---|---|---|
+| Muhammad Ali (`WrittenByAli`) | 1. Static analysis, white-box, mutation, CI | [area1-muhammad-ali.md](docs/team/tasks/area1-muhammad-ali.md) |
+| Fahima (`Fahima-sohail`) | 2. API testing and test data generation | [area2-fahima.md](docs/team/tasks/area2-fahima.md) |
+| Wania | 3. Use cases, usability, accessibility, security, performance | [area3-wania.md](docs/team/tasks/area3-wania.md) |
+| All three | Test management (leads per component) | [shared-test-management.md](docs/team/tasks/shared-test-management.md) |
+
+## Start here (new member)
+
+1. [Task division](docs/team/tasks/README.md) → your task file.
+2. [How we work on GitHub](docs/team/harness/github-workflow.md): `main` is protected; branch → PR → review → merge.
+3. [Harness map](docs/team/harness/README.md): skills, agents, templates, CI, commands.
+4. In Claude Code, say **"onboard me"**. [`CLAUDE.md`](CLAUDE.md) holds the project rules every session follows.
+
+Status: **prerequisites and harness done; assignment work not started.** All team commands: `bash tests/team/run.sh help`.
 
 ## AI use
 

@@ -1,0 +1,112 @@
+# SQE CI: runs on every PR to main and on every push to main.
+# Branch protection requires ONE check: "CI gate". Every job must be listed in ci-gate.needs (check_harness.py enforces it).
+# Rules (assignment §2): no continue-on-error, no `|| true`, no --exit-zero, no skipped gates. Area 1 adds the test gates
+# (unit + coverage, mutation, SonarQube, API, E2E) as new jobs and appends them to ci-gate.needs. See .claude/skills/sqe-ci-gate.
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  harness:
+    name: harness
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install host tools
+        run: pip install -r tests/team/requirements-host.txt
+      - name: Validate harness (front-matter, links, workflows, hook self-test, secrets, line endings)
+        run: python tests/team/tools/check_harness.py
+
+  runner:
+    name: runner
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build Linux test runner (Py3.12 + pinned Indico deps + mutmut)
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: infra/test-runner/Dockerfile
+          tags: sqe-test-runner:ci
+          load: true
+          cache-from: type=gha,scope=test-runner
+          cache-to: type=gha,mode=max,scope=test-runner
+      - name: Indico + tooling import inside the runner
+        run: |
+          docker run --rm -v "$PWD:/repo" sqe-test-runner:ci \
+            python -c "import indico, mutmut, pytest, coverage; print('indico', indico.__version__)"
+
+  app-smoke:
+    name: app-smoke
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Create throwaway .env (CI only, never committed)
+        working-directory: infra/indico-containers/indico-prod
+        run: |
+          cp .env.example .env
+          sed -i "s/^PGPASSWORD=.*/PGPASSWORD=$(openssl rand -hex 16)/" .env
+          sed -i "s/^INDICO_SECRET_KEY=.*/INDICO_SECRET_KEY=$(openssl rand -hex 32)/" .env
+      - name: Build app stack (Indico 3.3.14, pinned images)
+        working-directory: infra/indico-containers/indico-prod
+        run: docker compose build
+      - name: Boot, wipe and seed (tests/team/seed/reset.sh)
+        run: bash tests/team/seed/reset.sh
+      - name: Environment smoke (seeded tokens reach the Room Booking API)
+        run: |
+          set -euo pipefail
+          source tests/team/.env.test
+          for who in USER1 MGR1; do
+            token_var="${who}_TOKEN"
+            code=$(curl -s -o /tmp/body.json -w '%{http_code}' -H "Authorization: Bearer ${!token_var}" \
+                   "$INDICO_BASE_URL/rooms/api/bookings/mine")
+            echo "$who GET /rooms/api/bookings/mine -> HTTP $code"
+            test "$code" = "200"
+          done
+      - name: Container logs (only shown when a step above failed)
+        if: failure()
+        working-directory: infra/indico-containers/indico-prod
+        run: docker compose logs --tail 200
+
+  ci-gate:
+    name: CI gate
+    # always() so a failed/cancelled/skipped dependency produces a RED gate instead of a skipped (= silently passing) one.
+    if: ${{ always() }}
+    needs: [harness, runner, app-smoke]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Every required job must have succeeded
+        env:
+          NEEDS: ${{ toJSON(needs) }}
+        run: |
+          python3 - <<'PY'
+          import json, os, sys
+          needs = json.loads(os.environ["NEEDS"])
+          for name, info in needs.items():
+              print(f"{name:12} {info['result']}")
+          bad = {k: v["result"] for k, v in needs.items() if v["result"] != "success"}
+          sys.exit(f"CI gate FAILED: {bad}" if bad else 0)
+          PY

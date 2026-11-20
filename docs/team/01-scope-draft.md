@@ -133,10 +133,11 @@ the CSRF check for OAuth/token requests. The fallback is session cookie + `X-CSR
 |---|---|---|---|
 | **BR1** | Booking length (days) must be **≤ booking_limit_days** (room value, or global `booking_limit` if unset), and the start must not be in the past. | **Boundary / limit** | BVA with limit 7: 6 / 7 / 8 days. Start time: just before now / now / just after now |
 | **BR2** | Approve is allowed **only if** `is_pending` **AND** `room.can_moderate(user)` (`Reservation.can_accept`). | **Decision, 2 Boolean conditions** | Decision table (4 combinations) + MCC → MC/DC |
-| **BR3** | States: `pending → accepted`, `pending → rejected`, `pending → cancelled`, `accepted → cancelled`, `accepted → rejected` (**verify**). `rejected` and `cancelled` are terminal. | **Change of state** | State transitions: every allowed one + one disallowed from each state (e.g. approve an accepted one, approve a rejected one, cancel a cancelled one) |
+| **BR3** | States: `pending → accepted`, `pending → rejected`, `pending → cancelled`, `accepted → cancelled` (by the booker, or an RB admin, only while an occurrence is within the cancel grace period), `accepted → rejected` (moderator; confirmed in `can_reject`). `rejected` and `cancelled` are terminal. | **Change of state** | State transitions: every allowed one + one disallowed from each state (e.g. approve an accepted one, approve a rejected one, cancel a cancelled one) |
 | BR4 | Booking permission: a user may book directly only if the room `is_reservable` **AND** (public **AND** no confirmation needed, or the user has explicit book rights). Otherwise pre-book only, if allowed. | **Decision, ≥3 conditions** (critical module candidate) | Decision table + MCC/MC/DC on `Room.can_book` / `can_prebook` |
 
-> Verify the exact transitions in `Reservation.can_cancel` / `can_reject` (`rb/models/reservations.py`) before finalising
+> Checked in the v3.3.14 source (`rb/models/reservations.py`): `can_reject` blocks only rejected/cancelled; `can_cancel` allows only the
+> owner/booked-for user or an RB admin, never a plain moderator. Confirm on the running app before finalising
 > BR3. If the code allows a transition the docs say it should not, log that as a defect.
 
 ---
@@ -146,7 +147,7 @@ the CSRF check for OAuth/token requests. The fallback is session cookie + `X-CSR
 | Role | Account | Can | Cannot |
 |---|---|---|---|
 | Regular user (booker) | `user1` | search rooms, pre-book R1, view and cancel own bookings | approve or reject; book R1 directly (it needs confirmation) |
-| Room manager / moderator | `mgr1` (manager of R1) | everything above, plus approve, reject and cancel any R1 booking | moderate rooms they don't manage (**verify**) |
+| Room manager / moderator | `mgr1` (manager of R1) | approve and reject any R1 booking | cancel other people's bookings (`can_cancel` = booker or RB admin only); moderate rooms they don't manage (**verify**) |
 | (Admin, setup only) | `admin` | create location and rooms, set limits | not a tested role |
 
 ---

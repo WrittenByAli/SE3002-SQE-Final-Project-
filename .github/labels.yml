@@ -1,0 +1,30 @@
+# Repository labels (applied with: bash tests/team/tools/sync_labels.sh). Used by issue templates, triage and the Pareto chart.
+- {name: "type:defect",            color: "d73a4a", description: "Defect found by a test or review"}
+- {name: "type:task",              color: "0e8a16", description: "Checklist item from docs/team/tasks"}
+- {name: "type:review",            color: "5319e7", description: "Review request / review follow-up"}
+- {name: "area:1",                 color: "1d76db", description: "Area 1 - static analysis, white-box, mutation, CI (Muhammad Ali)"}
+- {name: "area:2",                 color: "0052cc", description: "Area 2 - API testing, data generation (Fahima)"}
+- {name: "area:3",                 color: "006b75", description: "Area 3 - use cases, a11y, security, performance (Wania)"}
+- {name: "area:shared",            color: "bfdadc", description: "Shared test management"}
+- {name: "severity:critical",      color: "b60205", description: "Blocks a workflow / data loss / security breach"}
+- {name: "severity:major",         color: "d93f0b", description: "Wrong business-rule result, no workaround"}
+- {name: "severity:minor",         color: "fbca04", description: "Wrong but with workaround / cosmetic in a flow"}
+- {name: "severity:trivial",       color: "fef2c0", description: "Typo, wording"}
+- {name: "priority:p1",            color: "b60205", description: "Fix/decide this week"}
+- {name: "priority:p2",            color: "fbca04", description: "Fix/decide before completion report"}
+- {name: "priority:p3",            color: "c2e0c6", description: "Nice to have"}
+- {name: "status:new",             color: "ededed", description: "Not yet triaged"}
+- {name: "status:triaged",         color: "c5def5", description: "Triage decision recorded"}
+- {name: "status:in-progress",     color: "0075ca", description: "Being worked on"}
+- {name: "status:fixed",           color: "0e8a16", description: "Fix merged, awaiting verification"}
+- {name: "status:verified",        color: "2ea44f", description: "Fix verified by a test"}
+- {name: "status:reopened",        color: "e99695", description: "Failed verification (reopen-rate metric)"}
+- {name: "category:validation",    color: "f9d0c4", description: "Pareto: input validation"}
+- {name: "category:authorization", color: "f9d0c4", description: "Pareto: roles / access"}
+- {name: "category:state",         color: "f9d0c4", description: "Pareto: state transitions"}
+- {name: "category:error-handling", color: "f9d0c4", description: "Pareto: error codes / messages"}
+- {name: "category:usability",     color: "f9d0c4", description: "Pareto: usability"}
+- {name: "category:accessibility", color: "f9d0c4", description: "Pareto: accessibility"}
+- {name: "category:performance",   color: "f9d0c4", description: "Pareto: performance"}
+- {name: "category:security",      color: "f9d0c4", description: "Pareto: security"}
+- {name: "category:documentation", color: "f9d0c4", description: "Pareto: docs / spec mismatch"}
