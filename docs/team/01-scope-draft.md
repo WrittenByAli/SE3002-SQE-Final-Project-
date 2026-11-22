@@ -1,8 +1,8 @@
 # Section 1: System and Test Scope (DRAFT)
 
-> Status: draft written with AI help (Claude Code, 2026-11-21). Rules and routes were read from the upstream
-> source on GitHub, but **nothing has been run locally yet**. Check every item against your install before it
-> goes into the report, and log this in the AI-use record.
+> Status: scope remains a draft. The upstream v3.3.14 baseline is frozen, and local setup/API checks are recorded in
+> `docs/team/02-local-setup-verification.md`. Area 1 unit coverage and SonarQube metrics have not yet been measured.
+> Review the proposed rule surface with the team before treating its coverage denominator as final.
 
 ---
 
@@ -45,9 +45,7 @@ target scoped to the room-booking (`rb`) logic you test, and justify that scope 
 | Raw backend source | Full source, MIT | ✅ |
 
 **Scoping decisions to write in the test plan:**
-- "All server-side business logic" = the rule functions in `indico/modules/rb` used by the two workflows
-  (`RHCreateBooking._process` + `_validate_room_booking_limit`, `RHBookingStateActions`, `Reservation.can_accept/can_reject/can_cancel/accept/reject/cancel`,
-  `Room.can_book/can_prebook`). Everything else is out of scope, with justification.
+- Proposed unit/coverage surface = the functions in `tests/team/rule_surface.yml`: booking-start grace and limit validation; booking creation authorization/processing; reservation creation and approval/rejection/cancellation rules; moderator action guards; and room book/pre-book permissions. Wania should review the list with Fahima and Ali before freezing it. Everything outside the selected two workflows needs an explicit scope justification.
 - Run mutmut on those files only. A mutation run over the whole of Indico would be far too slow for CI.
 
 **Business-rule labels:** BR1–BR4 are project IDs for traceability, not names built into Indico. These definitions are based on the pinned v3.3.14 source and still require confirmation against the running app before the scope is frozen.

@@ -1,0 +1,102 @@
+# Proposed unit/coverage scope for Area 1. Review with Fahima and Ali before treating as final.
+# BR1-BR4 are project traceability IDs for behavior in the frozen upstream baseline.
+schema_version: 1
+project: Indico Room Booking
+upstream_baseline:
+  tag: v3.3.14
+  commit: a42252ead3509f9b31db0691cc9af899ab18416e
+status: proposed_for_team_review
+coverage_target:
+  statements_percent: 100
+  branches_percent: 100
+scope_rationale: >-
+  Include the server-side functions that implement the four documented business rules
+  in the selected create/moderate booking workflows. Exclude unrelated Indico modules,
+  frontend code, and behavior outside those workflows. Review any excluded behavior
+  that directly affects a rule before freezing this list.
+functions:
+  - rule: BR1
+    description: Booking start grace-period and booking-length limit
+    file: indico/modules/rb/util.py
+    class: null
+    function: is_booking_start_within_grace_period
+  - rule: BR1
+    description: Booking length boundary calculation
+    file: indico/modules/rb/controllers/backend/bookings.py
+    class: RHCreateBooking
+    function: _validate_room_booking_limit
+  - rule: BR1
+    description: Create-workflow server-side validation and rule dispatch
+    file: indico/modules/rb/controllers/backend/bookings.py
+    class: RHCreateBooking
+    function: _process
+  - rule: BR2
+    description: Approval eligibility
+    file: indico/modules/rb/models/reservations.py
+    class: Reservation
+    function: can_accept
+  - rule: BR3
+    description: Rejection eligibility
+    file: indico/modules/rb/models/reservations.py
+    class: Reservation
+    function: can_reject
+  - rule: BR3
+    description: Cancellation eligibility; critical MCC/MC-DC function
+    file: indico/modules/rb/models/reservations.py
+    class: Reservation
+    function: can_cancel
+  - rule: BR3
+    description: Reservation state-changing operations
+    file: indico/modules/rb/models/reservations.py
+    class: Reservation
+    function: accept
+  - rule: BR3
+    description: Reservation state-changing operations
+    file: indico/modules/rb/models/reservations.py
+    class: Reservation
+    function: reject
+  - rule: BR3
+    description: Reservation state-changing operations
+    file: indico/modules/rb/models/reservations.py
+    class: Reservation
+    function: cancel
+  - rule: BR3
+    description: Moderator action guards and dispatch
+    file: indico/modules/rb/controllers/backend/bookings.py
+    class: RHBookingStateActions
+    function: _check_access
+  - rule: BR3
+    description: Moderator approval action and collision guard
+    file: indico/modules/rb/controllers/backend/bookings.py
+    class: RHBookingStateActions
+    function: accept
+  - rule: BR3
+    description: Moderator rejection action
+    file: indico/modules/rb/controllers/backend/bookings.py
+    class: RHBookingStateActions
+    function: reject
+  - rule: BR3
+    description: Moderator state-action dispatch
+    file: indico/modules/rb/controllers/backend/bookings.py
+    class: RHBookingStateActions
+    function: _process
+  - rule: BR4
+    description: Permission to create direct bookings
+    file: indico/modules/rb/models/rooms.py
+    class: Room
+    function: can_book
+  - rule: BR4
+    description: Permission to create pre-bookings
+    file: indico/modules/rb/models/rooms.py
+    class: Room
+    function: can_prebook
+  - rule: BR4
+    description: Create reservation in pending or accepted state according to booking mode
+    file: indico/modules/rb/models/reservations.py
+    class: Reservation
+    function: create_from_data
+  - rule: BR4
+    description: Create-request authorization
+    file: indico/modules/rb/controllers/backend/bookings.py
+    class: RHCreateBooking
+    function: _check_access
