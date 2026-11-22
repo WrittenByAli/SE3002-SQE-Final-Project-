@@ -3,7 +3,7 @@ name: sqe-security
 description: "Defensive security assessment on the local Indico copy: attack surface of both workflows, role access matrix with >=4 Playwright-verified access decisions, OWASP ZAP passive scan during Playwright runs, review of >=2 controls (cookies, role checks, CSRF), and pip-audit dependency audit. Defensive only, synthetic data, local instance. Use for \"security\", \"access matrix\", \"ZAP\", \"pip-audit\", \"cookie flags\"."
 ---
 
-# Defensive security (Area 3, 6 marks)
+# Defensive security (Ali owns)
 
 Only the **local** instance, synthetic accounts, passive inspection, source review and normal application actions.
 No active scanning or attacks against any external system.

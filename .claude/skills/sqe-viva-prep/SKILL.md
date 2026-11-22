@@ -18,7 +18,7 @@ Draw one at random and let the **member** predict before changing anything:
 2. BR2: moderators may approve accepted bookings again. → decision-table row 3 fails; state-transition API test fails.
 3. Spec: `x-booking-limit-days: 5`. → regenerate; cases at 5/6 now expect reject; API tests vs unchanged app fail → mismatch report.
 4. Spec: `reason` becomes required with `minLength: 3`. → new EP invalid classes + BVA 2/3/4.
-5. BR3: rejected bookings can be cancelled. → state transition rejected→cancelled now allowed; `can_cancel` MCC row changes.
+5. BR3: an accepted booking's cancellation grace-period guard changes. → update the BR3 transition/decision cases and the `can_cancel` MCC rows; predict the unit, API, and mutation gates affected.
 Then make the change on a branch, run `bash tests/team/run.sh unit|api`, open a PR, and show which CI gate went red and why.
 
 ## Drill 3: component quiz

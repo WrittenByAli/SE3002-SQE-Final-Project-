@@ -2,9 +2,9 @@
 - {name: "type:defect",            color: "d73a4a", description: "Defect found by a test or review"}
 - {name: "type:task",              color: "0e8a16", description: "Checklist item from docs/team/tasks"}
 - {name: "type:review",            color: "5319e7", description: "Review request / review follow-up"}
-- {name: "area:1",                 color: "1d76db", description: "Area 1 - static analysis, white-box, mutation, CI (Muhammad Ali)"}
-- {name: "area:2",                 color: "0052cc", description: "Area 2 - API testing, data generation (Fahima)"}
-- {name: "area:3",                 color: "006b75", description: "Area 3 - use cases, a11y, security, performance (Wania)"}
+- {name: "area:1",                 color: "1d76db", description: "Static analysis, white-box, mutation, CI (Wania)"}
+- {name: "area:2",                 color: "0052cc", description: "API testing and data generation (Fahima)"}
+- {name: "area:3",                 color: "006b75", description: "Use cases, usability, accessibility, security, performance (Muhammad Ali)"}
 - {name: "area:shared",            color: "bfdadc", description: "Shared test management"}
 - {name: "severity:critical",      color: "b60205", description: "Blocks a workflow / data loss / security breach"}
 - {name: "severity:major",         color: "d93f0b", description: "Wrong business-rule result, no workaround"}

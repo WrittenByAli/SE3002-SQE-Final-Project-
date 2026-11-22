@@ -6,8 +6,8 @@ review flow and CI. **No assignment deliverable exists yet.** Each member builds
 ## Start here (every member, ~30 minutes)
 
 1. Read **[the task division](../tasks/README.md)**, then **your** task file:
-   [Muhammad Ali, Area 1](../tasks/area1-muhammad-ali.md) · [Fahima, Area 2](../tasks/area2-fahima.md) ·
-   [Wania, Area 3](../tasks/area3-wania.md) · [Shared test management](../tasks/shared-test-management.md)
+   [Wania, Area 1](../tasks/wania-unit-mutation.md) · [Fahima, Area 2](../tasks/fahima-api-quality.md) ·
+   [Muhammad Ali, Area 3](../tasks/muhammad-ali-browser-security.md) · [Shared test management](../tasks/shared-test-management.md)
 2. Read **[how we work on GitHub](github-workflow.md)**: branches, PRs, reviews, CI. `main` is protected.
 3. Set up your laptop: open Claude Code in the repo and say **"onboard me"** (skill `sqe-onboard`), or follow the steps in
    [`.claude/skills/sqe-onboard/SKILL.md`](../../../.claude/skills/sqe-onboard/SKILL.md).

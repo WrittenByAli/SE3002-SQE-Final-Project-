@@ -3,7 +3,7 @@ name: sqe-api-testing
 description: "API and integration testing of Indico Room Booking endpoints with pytest + requests. EP and 3-point BVA on every input from generator output, decision tables, state transitions, rule rejections, repeated requests (no duplicates), read-back of shared records, API coverage criteria and endpoint weaknesses. Use for \"API test\", \"BVA\", \"EP\", \"state transition test\", \"idempotency\", \"endpoint weakness\"."
 ---
 
-# API & integration testing (Area 2, 10 marks)
+# API & integration testing (Fahima owns, 10 marks)
 
 Run: `bash tests/team/run.sh env-reset && PYTHON=.venv/Scripts/python bash tests/team/run.sh api`.
 Client + fixtures: `tests/team/api/conftest.py` (`user1`, `mgr1`, `room_id`, `free_slot`, `booking_payload`).

@@ -1,28 +1,33 @@
 # CODEOWNERS: GitHub automatically requests a review from these people on PRs that touch these paths.
-# The default rotation in docs/team/harness/github-workflow.md decides who REVIEWS; CODEOWNERS makes sure the area owner
-# is always informed. TODO: add Wania's GitHub username where marked, once she is a collaborator.
+# The default rotation in docs/team/harness/github-workflow.md decides who reviews; add Wania's GitHub username when known.
 
-# Harness + CI (Area 1 owns CI; harness changes need the repo admin)
+# Harness/repository settings notify the repo admin; Wania owns the CI quality gate.
 /.github/                   @WrittenByAli
+/.github/workflows/ci.yml   @WrittenByAli
 /.claude/                   @WrittenByAli
 /CLAUDE.md                  @WrittenByAli
 /infra/                     @WrittenByAli
 /tests/team/tools/          @WrittenByAli
 
-# Area 1: white-box, mutation, static analysis
-/tests/team/unit/           @WrittenByAli
-/tests/team/mutation/       @WrittenByAli
+# Wania owns Area 1. Until her GitHub username is added, notify the repo admin.
+/tests/team/unit/            @WrittenByAli
+/tests/team/mutation/        @WrittenByAli
+/tests/team/rule_surface.yml @WrittenByAli
+/tests/team/quality-gates.yml @WrittenByAli
+/docs/team/static-analysis.md @WrittenByAli
 
-# Area 2: API + data generation
+# Fahima owns Area 2: API and data generation.
 /tests/team/api/            @Fahima-sohail
 /tests/team/generator/      @Fahima-sohail
 /openapi/                   @Fahima-sohail
 
-# Area 3: use cases, a11y, security, performance. Replace @WrittenByAli with Wania's @username once she is a
-# collaborator (GitHub ignores owners who have no write access, so until then the repo admin is notified).
+# Ali owns Area 3: browser, usability/accessibility, security, and performance.
 /tests/team/e2e/            @WrittenByAli
 /tests/team/perf/           @WrittenByAli
+/docs/team/accessibility.md @WrittenByAli
+/docs/team/security.md      @WrittenByAli
+/docs/team/performance.md   @WrittenByAli
 /docs/team/use-cases/       @WrittenByAli
 
-# Upstream source changes (fix PR, live task) are reviewed by Area 1 + Area 2
+# Upstream changes (documented fix PR/live task) are reviewed by the relevant area owner; admin stands in for Wania until her username is known.
 /indico/                    @WrittenByAli @Fahima-sohail

@@ -1,14 +1,14 @@
-# Shared: Test management (29 marks, everyone contributes, the lead is accountable)
+# Shared: Test management (29 marks, all three own the work)
 
 Skill: `sqe-test-management`, `sqe-defect`. Agent: `rubric-auditor` (run weekly). Templates: `docs/team/templates/`.
 
-| Component (marks) | Deliverable | Lead | Everyone's input |
+| Component (marks) | Deliverable | Owners | Everyone's input |
 |---|---|---|---|
-| System & scope (5) | `docs/team/01-scope-draft.md` (final) | Ali | verify FR/BR in your area against the app |
-| Test plan, estimation, traceability (7) | `test-plan.md`, `estimation.md`, `traceability.md` | Ali (plan, estimation), Fahima (traceability) | own-area approach, 3-point estimates, actual hours weekly |
-| Risk register & exit criteria (5) | `risk-register.md` | Wania | risks from your area, technique + depth per risk |
-| Defect management & RCA (7) | GitHub Issues + `defects.md` | Fahima | log every defect you find as an Issue the same day |
-| Monitoring & completion (5) | `weekly/YYYY-MM-DD.md`, `test-completion-report.md` | Fahima (weekly), Wania (completion) | weekly status lines + metrics for your area |
+| System & scope (5) | `docs/team/01-scope-draft.md` (final) | All three | verify FR/BR and rules against the app |
+| Test plan, estimation, traceability (7) | `test-plan.md`, `estimation.md`, `traceability.md` | All three | agree on approach; each estimates and records actual hours; trace every applicable rule/test |
+| Risk register & exit criteria (5) | `risk-register.md` | All three | identify risks, map techniques/depth, agree on measurable criteria |
+| Defect management & RCA (7) | GitHub Issues + `defects.md` | All three | report and investigate area findings; triage, complete two major RCAs, and Pareto |
+| Monitoring & completion (5) | `weekly/YYYY-MM-DD.md`, `test-completion-report.md` | All three | provide weekly GQM metrics, results, open defects, and residual risks |
 
 ## Checklist (assignment §2 "Test plan and test management")
 

@@ -1,4 +1,4 @@
-"""Shared fixtures for API/integration tests (Area 2: Fahima).
+"""Shared fixtures for API/integration tests (lead: Fahima).
 
 Reads tests/team/.env.test (written by tests/team/seed/reset.sh) for the base URL, room id and Bearer tokens.
 Each test should create the data it needs; run `bash tests/team/run.sh env-reset` before a full suite run.

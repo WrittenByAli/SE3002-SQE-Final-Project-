@@ -17,7 +17,7 @@ body:
     validations: {required: true}
   - type: textarea
     id: done
-    attributes: {label: Definition of done, description: "Measurable: e.g. all 4 BR covered, CI gate green, evidence in docs/team/evidence/area2/"}
+    attributes: {label: Definition of done, description: "Measurable: e.g. all 4 BR covered, CI gate green, evidence in docs/team/evidence/<area>/"}
     validations: {required: true}
   - type: input
     id: skill

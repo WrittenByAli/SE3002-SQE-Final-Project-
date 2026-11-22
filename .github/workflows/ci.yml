@@ -1,6 +1,6 @@
 # SQE CI: runs on every PR to main and on every push to main.
 # Branch protection requires ONE check: "CI gate". Every job must be listed in ci-gate.needs (check_harness.py enforces it).
-# Rules (assignment §2): no continue-on-error, no `|| true`, no --exit-zero, no skipped gates. Area 1 adds the test gates
+# Rules (assignment §2): no continue-on-error, no `|| true`, no --exit-zero, no skipped gates. Fahima integrates test gates
 # (unit + coverage, mutation, SonarQube, API, E2E) as new jobs and appends them to ci-gate.needs. See .claude/skills/sqe-ci-gate.
 name: CI
 
