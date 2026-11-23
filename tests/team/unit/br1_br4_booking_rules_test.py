@@ -63,3 +63,33 @@ def test_br4_public_room_booking_modes(dummy_room, create_user, needs_confirmati
 def test_br4_room_booking_requires_user(dummy_room):
     assert dummy_room.can_book(None) is False
     assert dummy_room.can_prebook(None) is False
+
+
+def test_br1_grace_period_with_no_limit_uses_server_local_date(monkeypatch, freeze_time):
+    start = datetime(2026, 12, 1, 10)
+    timezone = pytz.timezone(config.DEFAULT_TIMEZONE)
+    frozen_now = timezone.localize(datetime(2026, 12, 1, 9)).astimezone(pytz.utc)
+    freeze_time(frozen_now)
+    monkeypatch.setattr(rb_settings, 'get', lambda key: None)
+
+    assert rb_util.is_booking_start_within_grace_period(start, user=object()) is True
+    assert rb_util.is_booking_start_within_grace_period(datetime(2026, 11, 30, 23, 59), user=object()) is False
+
+
+def test_br1_admin_override_bypasses_start_grace_period(monkeypatch):
+    monkeypatch.setattr(rb_util, 'rb_is_admin', lambda user: user == 'admin')
+
+    assert rb_util.is_booking_start_within_grace_period(datetime(2000, 1, 1), 'admin', allow_admin=True) is True
+
+
+@pytest.mark.parametrize(('method', 'allow_admin'), (
+    pytest.param('can_book', True, id='BR4-direct-nonreservable-denied'),
+    pytest.param('can_prebook', True, id='BR4-prebook-nonreservable-denied'),
+    pytest.param('can_book', False, id='BR4-direct-admin-override-disabled'),
+    pytest.param('can_prebook', False, id='BR4-prebook-admin-override-disabled'),
+))
+def test_br4_nonreservable_room_denies_regular_user(dummy_room, create_user, method, allow_admin):
+    dummy_room.is_reservable = False
+    user = create_user(129, rb_admin=(allow_admin is False))
+
+    assert getattr(dummy_room, method)(user, allow_admin=allow_admin) is False

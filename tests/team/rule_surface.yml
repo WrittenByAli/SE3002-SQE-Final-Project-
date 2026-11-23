@@ -1,11 +1,11 @@
-# Proposed unit/coverage scope for Area 1. Review with Fahima and Ali before treating as final.
+# Confirmed unit/coverage scope for Area 1.
 # BR1-BR4 are project traceability IDs for behavior in the frozen upstream baseline.
 schema_version: 1
 project: Indico Room Booking
 upstream_baseline:
   tag: v3.3.14
   commit: a42252ead3509f9b31db0691cc9af899ab18416e
-status: proposed_for_team_review
+status: confirmed_by_team
 coverage_target:
   statements_percent: 100
   branches_percent: 100

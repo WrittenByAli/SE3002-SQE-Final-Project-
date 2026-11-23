@@ -4,28 +4,28 @@
 
 | Field | Value |
 |---|---|
-| SonarQube version | Pending scan |
-| Scan date | Pending scan |
-| Commit | Pending scan |
-| Analyzed production scope | `indico/modules/rb` |
-| Analyzed test scope | `tests/team/unit`, `tests/team/api` |
-| Raw evidence | Save under `docs/team/evidence/area1/` after scan |
+| SonarQube version | Community Build `25.11.0.114957` |
+| Scan date | 2026-11-22 (date observed in the project session) |
+| Branch | `dev/work-division` |
+| Commit | SHA not captured by the dashboard; verify before citing as a reproducible baseline |
+| Analyzed scope | Project-wide scan, approximately 33k lines; Python coverage report is narrower and must not be compared as if it covered every language |
+| Raw evidence | `docs/team/evidence/area1/sonar-overview.png`, `technical-debt-sonarqube.png`, and `reservations-file-complexity-sonarqube.png`; scanner output/token metadata were not saved |
 
 ## Metrics
 
-Fill the values from the actual SonarQube scan. Do not estimate or type values from memory.
+The values below are transcribed from the saved SonarQube overview screenshot. Where the screenshot does not show a metric, keep it marked as pending until a measure page or export provides it.
 
 | Metric | Value | What it tells us about quality/risk | Action / risk link |
 |---|---:|---|---|
-| Cyclomatic complexity | Pending scan | Number of independent code paths; high values need more careful tests and are harder to maintain | |
-| Cognitive complexity | Pending scan | How difficult the code is to follow, especially with nested logic | |
-| Duplications | Pending scan | Repeated code that may need coordinated fixes | |
-| Code smells | Pending scan | Maintainability issues | |
-| Bugs | Pending scan | Reliability issues identified by SonarQube | |
-| Vulnerabilities / security hotspots | Pending scan | Potential security weaknesses requiring review | |
-| Coverage | Pending scan | Portion of analyzed code reached by tests; distinguish the Room Booking rule surface from the module-wide number | |
-| Technical debt | Pending scan | Estimated effort to fix maintainability issues | |
-| Ratings | Pending scan | SonarQube's reliability, security, and maintainability assessment | |
+| Cyclomatic complexity | 4,956 project-wide; 166 for `indico/modules/rb/models/reservations.py` in the file view | Number of independent code paths; high values need more careful tests and are harder to maintain | These are project/file totals, not the individual `can_cancel` score |
+| Cognitive complexity | 2,349 project-wide | How difficult the code is to follow, especially with nested logic | Project-wide measure |
+| Duplications | 0.6% | Repeated code that may need coordinated fixes | Review only in selected scope before treating as a project risk |
+| Maintainability | Rating A; overview showed 393 | Maintainability issues | Project-wide count from overview |
+| Reliability | Rating E; overview showed 229 | Reliability issues identified by SonarQube | Project-wide count from overview |
+| Security and hotspots | Rating B; overview showed 5; hotspots reviewed 0.0% | Potential security weaknesses requiring review | Project-wide overview; hotspot review remains outstanding |
+| Coverage | 12.5% Sonar overview | Portion of analyzed code reached by tests; distinguish the Room Booking rule surface from the module-wide number | Project-wide mixed-language denominator; use Python coverage report for the proposed rule-surface baseline |
+| Technical debt | Overall code debt `4d 2h`; debt ratio `0.2%`; `indico/modules/rb` debt ratio `0.2%`; Maintainability rating A | Estimated effort to fix maintainability issues | Recorded from `technical-debt-sonarqube.png`; tests/team ratio shown as 0.0% |
+| Ratings | Quality Gate Passed; Security B, Reliability E, Maintainability A | SonarQube's reliability, security, and maintainability assessment | Project-wide overview |
 
 ## Hand-calculated cyclomatic complexity
 
@@ -67,18 +67,18 @@ flowchart TD
 
 | Nodes N | Edges E | Components P | Calculation `E − N + 2P` | Decision count + 1 | Sonar value |
 |---:|---:|---:|---:|---:|---:|
-| 20 | 28 | 1 | `28 − 20 + 2 = 10` | `9 + 1 = 10` | Pending scan |
+| 20 | 28 | 1 | `28 − 20 + 2 = 10` | `9 + 1 = 10` | Sonar shows 166 for the whole `reservations.py` file; it does not expose the function-level score directly |
 
-The nine control-flow decision nodes come from the initial `user is None` check, the three checks in the rejected/cancelled/archived expression, the pending/grace-period expression, the owner/booked-for expression, and the final admin checks. Confirm this count against the SonarQube value after scanning; if it differs, inspect Sonar's Python counting rules and the exact analyzed function.
+The nine control-flow decision nodes come from the initial `user is None` check, the three checks in the rejected/cancelled/archived expression, the pending/grace-period expression, the owner/booked-for expression, and the final admin checks. Sonar calculates complexity for individual functions but does not display those individual scores; the `166` is the aggregate for the file. It cannot be compared one-to-one with the hand-calculated `can_cancel` value of `10`. Report both values with their scope clearly labeled and explain this tool limitation.
 
 ## Evidence screenshots to capture
 
-After SonarQube is running and the scan completes, save these screenshots (plus the raw scan/report export if available) under `docs/team/evidence/area1/`:
+The overview, technical-debt, and source/complexity screenshots currently present under `docs/team/evidence/area1/` document the scan and source review. To make the report evidence complete, capture these details if available (plus the raw scan/report export):
 
-1. **Project Overview:** project name, scan time, and overall quality-gate status.
-2. **Measures / Complexity:** overall complexity and the `Reservation.can_cancel` function-level complexity.
-3. **Measures / Duplications and Coverage:** duplication and coverage values, with the analyzed scope visible if possible.
-4. **Issues:** counts/categories for code smells, bugs, vulnerabilities, and security hotspots.
-5. **Maintainability:** technical debt and ratings.
+1. **Project Overview:** already captured in `sonar-overview.png`; project name, branch, and Quality Gate are visible.
+2. **Measures / Complexity:** overall complexity and the `reservations.py` file aggregate are recorded. Sonar does not directly display a function-level complexity score, so do not label the file total as `can_cancel`'s value.
+3. **Measures / Duplications and Coverage:** overview values are recorded; capture the measure page with analyzed scope visible if possible.
+4. **Issues:** capture counts/categories for code smells, bugs, vulnerabilities, and security hotspots.
+5. **Maintainability:** technical debt and ratings are captured in `technical-debt-sonarqube.png` and the overview.
 
 Use descriptive names such as `sonar-overview.png`, `sonar-complexity-can-cancel.png`, and `sonar-issues.png`. Screenshots supplement the report; they do not replace actual metrics or raw tool output.

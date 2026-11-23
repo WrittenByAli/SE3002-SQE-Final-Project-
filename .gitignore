@@ -58,10 +58,15 @@ tests/team/.env.test
 infra/indico-containers/indico-prod/.env
 *.pdf
 tests/team/**/reports/
+# Submit the unit coverage HTML site; keep other generated reports ignored.
+!tests/team/reports/
+!tests/team/reports/unit/
 test-results/
 playwright-report/
 .coverage
 htmlcov/
+!tests/team/reports/unit/htmlcov/
+!tests/team/reports/unit/htmlcov/**
 mutants/
 .mutmut-cache
 # container config is needed to run; contains no secrets (secret lives in .env)
