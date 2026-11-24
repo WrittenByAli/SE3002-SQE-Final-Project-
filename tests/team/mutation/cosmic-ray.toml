@@ -1,0 +1,13 @@
+[cosmic-ray]
+module-path = [
+    "indico/modules/rb/controllers/backend/bookings.py",
+    "indico/modules/rb/models/reservations.py",
+    "indico/modules/rb/models/rooms.py",
+    "indico/modules/rb/util.py",
+]
+timeout = 60.0
+excluded-modules = []
+test-command = "python -m pytest tests/team/unit --no-cov -q"
+
+[cosmic-ray.distributor]
+name = "local"

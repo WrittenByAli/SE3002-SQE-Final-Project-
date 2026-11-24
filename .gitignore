@@ -58,6 +58,11 @@ tests/team/.env.test
 infra/indico-containers/indico-prod/.env
 *.pdf
 tests/team/**/reports/
+# Keep the Area 1 HTML coverage report committed; other run outputs stay local/CI artifacts.
+tests/team/reports/mutation/
+tests/team/reports/unit/coverage.json
+tests/team/reports/unit/coverage.xml
+tests/team/reports/unit/junit.xml
 # Submit the unit coverage HTML site; keep other generated reports ignored.
 !tests/team/reports/
 !tests/team/reports/unit/
@@ -69,6 +74,7 @@ htmlcov/
 !tests/team/reports/unit/htmlcov/**
 mutants/
 .mutmut-cache
+.DS_Store
 # container config is needed to run; contains no secrets (secret lives in .env)
 !infra/indico-containers/indico-prod/indico.conf
 !infra/indico-containers/indico-prod/logging.yaml
