@@ -1,4 +1,4 @@
 # Team test tooling (on top of Indico's pinned requirements.txt + requirements.dev.txt).
 # Versions pinned so local runs, CI and the viva rerun give the same results.
-mutmut==3.8.1
+cosmic-ray==8.8.0
 pytest-timeout==2.4.0

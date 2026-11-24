@@ -140,7 +140,7 @@ def test_br3_state_action_access_guard(monkeypatch, action, pending, rejected, c
         handler._check_access()
 
 
-@pytest.mark.parametrize('action', ('approve', 'reject', 'cancel', 'unknown'))
+@pytest.mark.parametrize('action', ('approve', 'reject', 'cancel', 'unknown', 'aardvark', 'booking'))
 def test_br3_state_action_dispatch(monkeypatch, action):
     calls = []
     booking = SimpleNamespace(cancel=lambda user: calls.append('cancel'))
@@ -162,17 +162,48 @@ def test_br4_create_from_data_creates_accepted_reservation(monkeypatch, dummy_ro
 
     monkeypatch.setattr(reservation_module, 'notify_creation', lambda reservation: None)
     monkeypatch.setattr(reservation_module.signals.rb.booking_created, 'send', lambda *a, **kw: None)
+    skipped_conflicts = []
+    create_occurrences = Reservation.create_occurrences
+
+    def create_occurrences_spy(self, skip_conflicts, *args, **kwargs):
+        skipped_conflicts.append(skip_conflicts)
+        return create_occurrences(self, skip_conflicts, *args, **kwargs)
+
+    monkeypatch.setattr(Reservation, 'create_occurrences', create_occurrences_spy)
     start = datetime.combine(date.today() + timedelta(days=1), time(10))
-    result = Reservation.create_from_data(dummy_room, {
+    result = Reservation.create_from_data(room=dummy_room, data={
         'start_dt': start, 'end_dt': start + timedelta(hours=1),
         'repeat_frequency': RepeatFrequency.NEVER, 'repeat_interval': 0,
         'room_id': dummy_room.id, 'booking_reason': 'coverage case', 'recurrence_weekdays': None,
-    }, dummy_user, prebook=False)
+    }, user=dummy_user, prebook=False)
 
     assert result.state == ReservationState.accepted
     assert result.booked_for_user == dummy_user
     assert result.start_dt == start
     assert result.end_dt == start + timedelta(hours=1)
+    assert skipped_conflicts == [True]
+
+
+def test_br4_create_from_data_clamps_repeating_booking_to_first_and_last_occurrence(
+        monkeypatch, dummy_room, dummy_user):
+    from indico.modules.rb.models.reservations import RepeatFrequency, Reservation
+    import indico.modules.rb.models.reservations as reservation_module
+
+    monkeypatch.setattr(reservation_module, 'notify_creation', lambda reservation: None)
+    monkeypatch.setattr(reservation_module.signals.rb.booking_created, 'send', lambda *a, **kw: None)
+    start = datetime.combine(date.today() + timedelta(days=2), time(10))
+    until = start + timedelta(days=2, hours=1)
+    result = Reservation.create_from_data(dummy_room, {
+        'start_dt': start,
+        'end_dt': until,
+        'repeat_frequency': RepeatFrequency.DAY,
+        'repeat_interval': 1,
+        'room_id': dummy_room.id,
+        'booking_reason': 'repeated coverage case',
+    }, dummy_user, prebook=False)
+
+    assert result.start_dt == start
+    assert result.end_dt == until
 
 
 def test_br4_create_from_data_rejects_mismatched_single_booking_dates(dummy_room, dummy_user):
@@ -193,6 +224,7 @@ def test_br4_create_from_data_derives_direct_booking_and_internal_note(monkeypat
     monkeypatch.setattr(reservation_module.signals.rb.booking_created, 'send', lambda *a, **kw: None)
     monkeypatch.setattr(rb_module.rb_settings, 'get', lambda key: key == 'internal_notes_enabled')
     monkeypatch.setattr(dummy_room, 'can_book', lambda user, allow_admin=True: True)
+    monkeypatch.setattr(dummy_room, 'can_prebook', lambda user, allow_admin=True: False)
     monkeypatch.setattr(dummy_room, 'can_manage', lambda user, **kwargs: True)
     start = datetime.combine(date.today() + timedelta(days=1), time(10))
     result = Reservation.create_from_data(dummy_room, {
@@ -204,6 +236,112 @@ def test_br4_create_from_data_derives_direct_booking_and_internal_note(monkeypat
     assert result.state == ReservationState.accepted
     assert result.internal_note == 'internal'
     assert result.booked_for_user == dummy_user
+
+
+def test_br4_create_from_data_does_not_include_internal_note_when_feature_disabled(
+        monkeypatch, dummy_room, dummy_user):
+    from indico.modules.rb.models.reservations import RepeatFrequency, Reservation
+    import indico.modules.rb as rb_module
+    import indico.modules.rb.models.reservations as reservation_module
+
+    monkeypatch.setattr(reservation_module, 'notify_creation', lambda reservation: None)
+    monkeypatch.setattr(reservation_module.signals.rb.booking_created, 'send', lambda *a, **kw: None)
+    monkeypatch.setattr(rb_module.rb_settings, 'get', lambda key: False)
+    monkeypatch.setattr(dummy_room, 'can_manage', lambda user, **kwargs: True)
+    start = datetime.combine(date.today() + timedelta(days=1), time(10))
+    result = Reservation.create_from_data(dummy_room, {
+        'start_dt': start,
+        'end_dt': start + timedelta(hours=1),
+        'repeat_frequency': RepeatFrequency.NEVER,
+        'repeat_interval': 0,
+        'room_id': dummy_room.id,
+        'booking_reason': 'internal-note gate case',
+        'internal_note': 'must not be copied',
+    }, dummy_user, prebook=False)
+
+    assert result.internal_note == ''
+
+
+def test_br4_create_from_data_allows_direct_admin_override_by_default(
+        monkeypatch, dummy_room, create_user):
+    from indico.modules.rb.models.reservations import RepeatFrequency, Reservation, ReservationState
+    import indico.modules.rb.models.reservations as reservation_module
+
+    admin = create_user(133, rb_admin=True)
+    dummy_room.is_reservable = False
+    monkeypatch.setattr(reservation_module, 'notify_creation', lambda reservation: None)
+    monkeypatch.setattr(reservation_module.signals.rb.booking_created, 'send', lambda *a, **kw: None)
+    start = datetime.combine(date.today() + timedelta(days=1), time(10))
+    result = Reservation.create_from_data(dummy_room, {
+        'start_dt': start,
+        'end_dt': start + timedelta(hours=1),
+        'repeat_frequency': RepeatFrequency.NEVER,
+        'repeat_interval': 0,
+        'room_id': dummy_room.id,
+        'booking_reason': 'admin override case',
+    }, admin)
+
+    assert result.state == ReservationState.accepted
+
+
+def test_br4_create_from_data_ignores_admin_override_when_requested(
+        monkeypatch, dummy_room, create_user):
+    from indico.core.db.sqlalchemy.protection import ProtectionMode
+    from indico.modules.rb.models.reservations import RepeatFrequency, Reservation
+
+    admin = create_user(134, rb_admin=True)
+    dummy_room.is_reservable = False
+    dummy_room.protection_mode = ProtectionMode.public
+    dummy_room.reservations_need_confirmation = True
+    start = datetime.combine(date.today() + timedelta(days=1), time(10))
+
+    with pytest.raises(NoReportError, match='cannot book this room'):
+        Reservation.create_from_data(dummy_room, {
+            'start_dt': start,
+            'end_dt': start + timedelta(hours=1),
+            'repeat_frequency': RepeatFrequency.NEVER,
+        }, admin, prebook=None, ignore_admin=True)
+
+
+def test_br4_create_from_data_forwards_ignore_admin_to_room_checks(
+        monkeypatch, dummy_room, dummy_user):
+    from indico.modules.rb.models.reservations import RepeatFrequency, Reservation
+    import indico.modules.rb as rb_module
+    import indico.modules.rb.models.reservations as reservation_module
+
+    monkeypatch.setattr(reservation_module, 'notify_creation', lambda reservation: None)
+    monkeypatch.setattr(reservation_module.signals.rb.booking_created, 'send', lambda *a, **kw: None)
+    monkeypatch.setattr(rb_module.rb_settings, 'get', lambda key: key == 'internal_notes_enabled')
+    manage_admin_flags = []
+    advance_admin_flags = []
+    occurrence_admin_flags = []
+    monkeypatch.setattr(dummy_room, 'can_manage',
+                        lambda user, **kwargs: manage_admin_flags.append(kwargs['allow_admin']) or
+                        kwargs['allow_admin'])
+    monkeypatch.setattr(dummy_room, 'check_advance_days',
+                        lambda *args, **kwargs: advance_admin_flags.append(kwargs['allow_admin']))
+    create_occurrences = Reservation.create_occurrences
+
+    def create_occurrences_spy(self, *args, **kwargs):
+        occurrence_admin_flags.append(kwargs['allow_admin'])
+        return create_occurrences(self, *args, **kwargs)
+
+    monkeypatch.setattr(Reservation, 'create_occurrences', create_occurrences_spy)
+    start = datetime.combine(date.today() + timedelta(days=1), time(10))
+    result = Reservation.create_from_data(dummy_room, {
+        'start_dt': start,
+        'end_dt': start + timedelta(hours=1),
+        'repeat_frequency': RepeatFrequency.NEVER,
+        'repeat_interval': 0,
+        'room_id': dummy_room.id,
+        'booking_reason': 'ignore admin case',
+        'internal_note': 'must not be copied',
+    }, dummy_user, prebook=False, ignore_admin=True)
+
+    assert result.internal_note == ''
+    assert manage_admin_flags and set(manage_admin_flags) == {False}
+    assert advance_admin_flags == [False]
+    assert occurrence_admin_flags == [False]
 
 
 def test_br4_create_from_data_omits_optional_fields_when_absent(monkeypatch, dummy_room, dummy_user):
@@ -258,6 +396,65 @@ def test_br3_moderator_wrappers_accept_and_reject(monkeypatch):
     RHBookingStateActions.reject.__wrapped__(handler, reason='no')
     assert accepted == [(actor, 'ok')]
     assert rejected == [(actor, 'no')]
+
+
+@pytest.mark.parametrize(('link_type', 'link_id'), ((None, 1), ('event', None)))
+def test_br1_create_handler_ignores_incomplete_optional_link(monkeypatch, link_type, link_id):
+    handler = _create_handler(monkeypatch)
+    handler.args.update(link_type=link_type, link_id=link_id)
+    linked = []
+    handler._link_booking = lambda *args: linked.append(args)
+
+    handler._process()
+
+    assert linked == []
+
+
+@pytest.mark.parametrize(('admin_override', 'expected_ignore_admin'), ((False, True), (True, False)))
+def test_br1_create_handler_passes_admin_override_to_reservation(monkeypatch, admin_override, expected_ignore_admin):
+    handler = _create_handler(monkeypatch)
+    handler.args['admin_override_enabled'] = admin_override
+    calls = []
+    reservation = SimpleNamespace(occurrences=_OccurrenceList([SimpleNamespace(linked_object=None)]))
+    monkeypatch.setattr(backend.Reservation, 'create_from_data',
+                        lambda *args, **kwargs: (calls.append(kwargs) or reservation))
+
+    handler._process()
+
+    assert calls[0]['ignore_admin'] is expected_ignore_admin
+
+
+@pytest.mark.parametrize('repeat_frequency', (1, 2, 3))
+def test_br4_repeating_reservation_can_span_dates(monkeypatch, dummy_room, dummy_user, repeat_frequency):
+    from indico.modules.rb.models.reservations import RepeatFrequency, Reservation
+    import indico.modules.rb.models.reservations as reservation_module
+
+    assert repeat_frequency in (RepeatFrequency.DAY, RepeatFrequency.WEEK, RepeatFrequency.MONTH)
+    marker = RuntimeError('repeating booking reached occurrence creation')
+    monkeypatch.setattr(Reservation, 'create_occurrences', lambda *args, **kwargs: (_ for _ in ()).throw(marker))
+    start = datetime.combine(date.today() + timedelta(days=1), time(10))
+    data = {
+        'start_dt': start,
+        'end_dt': start + timedelta(days=2),
+        'repeat_frequency': repeat_frequency,
+        'repeat_interval': 1,
+        'room_id': dummy_room.id,
+    }
+
+    with pytest.raises(RuntimeError, match='reached occurrence creation'):
+        Reservation.create_from_data(dummy_room, data, dummy_user, prebook=False)
+
+
+def test_br4_single_booking_rejects_dates_in_reverse_order(monkeypatch, dummy_room, dummy_user):
+    from indico.modules.rb.models.reservations import RepeatFrequency, Reservation
+
+    marker = RuntimeError('invalid single-booking dates were accepted')
+    monkeypatch.setattr(Reservation, 'create_occurrences', lambda *args, **kwargs: (_ for _ in ()).throw(marker))
+    start = datetime.combine(date.today() + timedelta(days=2), time(10))
+    data = {'start_dt': start, 'end_dt': start - timedelta(days=1), 'repeat_frequency': RepeatFrequency.NEVER}
+
+    with pytest.raises(ValueError, match='end_dt != start_dt'):
+        Reservation.create_from_data(dummy_room, data, dummy_user, prebook=False)
 
 
 def test_br3_moderator_accept_collision_can_be_forced(monkeypatch):

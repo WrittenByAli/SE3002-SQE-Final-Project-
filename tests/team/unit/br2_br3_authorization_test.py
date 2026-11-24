@@ -88,6 +88,29 @@ def test_br3_can_reject_requires_a_user(dummy_reservation):
     assert dummy_reservation.can_reject(None) is False
 
 
+@pytest.mark.parametrize('permission_method', ('can_accept', 'can_reject'))
+def test_br2_br3_room_admin_moderation_is_allowed_by_default(
+        dummy_reservation, create_user, permission_method):
+    from indico.modules.rb.models.reservations import ReservationState
+
+    admin = create_user(134, rb_admin=True)
+    dummy_reservation.state = ReservationState.pending
+
+    assert getattr(dummy_reservation, permission_method)(admin) is True
+
+
+def test_br3_room_admin_can_cancel_pending_booking_by_default(create_reservation, create_user):
+    from indico.modules.rb.models.reservations import ReservationState
+
+    owner = create_user(135)
+    admin = create_user(136, rb_admin=True)
+    start = datetime.combine(datetime.today().date() + timedelta(days=1), datetime.min.time())
+    reservation = create_reservation(state=ReservationState.pending, start_dt=start, end_dt=start)
+    reservation.created_by_user = owner
+
+    assert reservation.can_cancel(admin) is True
+
+
 class _OccurrenceQuery:
     def __init__(self):
         self.filter_args = None
@@ -158,6 +181,7 @@ def test_br3_reject_state_change(monkeypatch, silent, reason):
     assert booking.state == ReservationState.rejected
     assert booking.rejection_reason == (reason or None)
     assert booking.occurrences.updated[0][rb_reservations.ReservationOccurrence.rejection_reason] == reason
+    assert booking.occurrences.filter_args == {'is_valid': True}
     assert bool(notifications) is (not silent)
     assert bool(booking.edit_logs) is (not silent)
 
@@ -182,4 +206,27 @@ def test_br3_cancel_state_change(monkeypatch, pending, reason, silent, notify):
     assert booking.rejection_reason == reason
     assert bool(notifications) is notify
     assert bool(booking.edit_logs) is notify
+    if reason is None and not silent:
+        assert booking.edit_logs[0].info == ['Reservation cancelled']
     assert len(booking.occurrences.filter_args) == (1 if pending else 2)
+
+
+def test_br3_cancel_and_reject_default_to_notifications_and_logs(monkeypatch):
+    import indico.modules.rb.models.reservations as rb_reservations
+    from indico.modules.rb.models.reservations import Reservation, ReservationState
+
+    actor = type('Actor', (), {'full_name': 'Booker'})()
+    notifications = []
+    monkeypatch.setattr(rb_reservations, 'notify_cancellation', lambda *_: notifications.append('cancel'))
+    monkeypatch.setattr(rb_reservations, 'notify_rejection', lambda *_: notifications.append('reject'))
+
+    cancelled = _StateChangeReservation(pending=True)
+    Reservation.cancel(cancelled, actor)
+    rejected = _StateChangeReservation()
+    Reservation.reject(rejected, actor, 'Rule check')
+
+    assert cancelled.state == ReservationState.cancelled
+    assert rejected.state == ReservationState.rejected
+    assert notifications == ['cancel', 'reject']
+    assert cancelled.edit_logs[0].info == ['Reservation cancelled']
+    assert rejected.edit_logs[0].info == ['Reservation rejected: Rule check']

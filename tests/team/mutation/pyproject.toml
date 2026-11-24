@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "sqe-indico-mutation-operators"
+version = "0.1.0"
+description = "Business-rule-specific Cosmic Ray operators for Indico Room Booking"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.entry-points."cosmic_ray.operator_providers"]
+sqe_room_booking = "sqe_indico_mutation.provider:Provider"
+
+[tool.setuptools.packages.find]
+where = ["."]

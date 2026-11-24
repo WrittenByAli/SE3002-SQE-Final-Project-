@@ -35,6 +35,7 @@ def test_br1_grace_period_accepts_exact_boundary(monkeypatch, freeze_time):
     monkeypatch.setattr(rb_settings, 'get', lambda key: 2)
 
     assert rb_util.is_booking_start_within_grace_period(start, user=object()) is True
+    assert rb_util.is_booking_start_within_grace_period(start + timedelta(minutes=1), user=object()) is True
 
 
 def test_br1_grace_period_rejects_start_before_boundary(monkeypatch, freeze_time):
@@ -73,6 +74,7 @@ def test_br1_grace_period_with_no_limit_uses_server_local_date(monkeypatch, free
     monkeypatch.setattr(rb_settings, 'get', lambda key: None)
 
     assert rb_util.is_booking_start_within_grace_period(start, user=object()) is True
+    assert rb_util.is_booking_start_within_grace_period(start + timedelta(days=1), user=object()) is True
     assert rb_util.is_booking_start_within_grace_period(datetime(2026, 11, 30, 23, 59), user=object()) is False
 
 
@@ -93,3 +95,46 @@ def test_br4_nonreservable_room_denies_regular_user(dummy_room, create_user, met
     user = create_user(129, rb_admin=(allow_admin is False))
 
     assert getattr(dummy_room, method)(user, allow_admin=allow_admin) is False
+
+
+@pytest.mark.parametrize(('is_admin', 'allow_admin'), ((False, True), (True, False)))
+def test_br4_prebooking_rejects_nonreservable_public_room(dummy_room, create_user, is_admin, allow_admin):
+    dummy_room.is_reservable = False
+    dummy_room.protection_mode = ProtectionMode.public
+    dummy_room.reservations_need_confirmation = True
+    user = create_user(130, rb_admin=is_admin)
+
+    assert dummy_room.can_prebook(user, allow_admin=allow_admin) is False
+
+
+@pytest.mark.parametrize(('method', 'confirmation'), (('can_book', False), ('can_prebook', True)))
+def test_br4_room_booking_default_admin_override(dummy_room, create_user, method, confirmation):
+    dummy_room.is_reservable = False
+    dummy_room.protection_mode = ProtectionMode.public
+    dummy_room.reservations_need_confirmation = confirmation
+    admin = create_user(131, rb_admin=True)
+
+    assert getattr(dummy_room, method)(admin) is True
+
+
+def test_br4_prebooking_admin_with_confirmation_uses_admin_permission(dummy_room, create_user):
+    dummy_room.is_reservable = True
+    dummy_room.protection_mode = ProtectionMode.protected
+    dummy_room.reservations_need_confirmation = True
+    admin = create_user(135, rb_admin=True)
+
+    assert dummy_room.can_prebook(admin) is True
+
+
+@pytest.mark.parametrize(('method', 'permission', 'confirmation'), (
+    ('can_book', 'book', True),
+    ('can_prebook', 'prebook', False),
+))
+def test_br4_room_or_location_permission_accepts_room_acl(dummy_room, create_user, method, permission, confirmation):
+    dummy_room.is_reservable = True
+    dummy_room.protection_mode = ProtectionMode.protected
+    dummy_room.reservations_need_confirmation = confirmation
+    user = create_user(132)
+    dummy_room.update_principal(user, permissions={permission})
+
+    assert getattr(dummy_room, method)(user) is True
