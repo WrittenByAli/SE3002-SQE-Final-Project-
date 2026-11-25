@@ -37,12 +37,24 @@ The independent BR1–BR4 unit gate remains stricter at 100% statements and
 branches on the confirmed rule surface. CI waits for the SonarQube quality-gate
 result, so a missing or failed server-side gate blocks `CI gate`.
 
+For GitHub Actions, set the repository variable `SONAR_HOST_URL` to the
+SonarQube server URL and the repository secret `SONAR_TOKEN` to a project
+analysis token. The URL must be reachable from GitHub-hosted runners; a local
+`localhost` URL is not reachable there. The workflow checks both values and
+the URL scheme before starting the scanner.
+
 ## Results
 
 | Run | Date | Generated | Killed | Survived | Equivalent survivors | Mutation score | Evidence |
 |---|---|---:|---:|---:|---:|---:|---|
 | Initial campaign, before survivor fixes | 2026-11-24 | 245 | 201 | 44 | Not yet classified | 82.04% | `docs/team/evidence/area1/mutation-report-initial.txt` |
+| Pre-fix GitHub PR #2 run #5 | 2026-11-24 | 245 | 202 | 43 | Not yet classified | 82.45% | [Actions run 45469106911](https://github.com/WrittenByAli/SE3002-SQE-Final-Project-/actions/runs/45469106911) |
 | Final campaign, after focused tests | 2026-11-24 | 245 | 241 | 4 | 4 | 98.37% | `docs/team/evidence/area1/mutation-report-final.txt`; `tests/team/mutation/survivor-triage.csv` |
+
+The GitHub pre-fix campaign killed one more mutant than the saved local initial
+campaign (202/245 vs. 201/245). Both results are below the 90% gate; preserve
+the CI run's score as the pull-request evidence and the local report as the
+separate reproducible local run.
 
 The final four survivors are equivalent for the defined input domain: changing 23:59 to 23:58 or 22:59 does not change the whole-day `timedelta.days` result; `RepeatFrequency.NEVER` is the minimum supported enum member, making `== NEVER` and `<= NEVER` equivalent; and `RepeatFrequency` members are enum singletons, making equality and identity equivalent for schema-validated inputs. All 40 other initial survivors were killed by focused regressions. The raw score does not count these four as kills.
 
