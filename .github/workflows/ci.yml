@@ -28,7 +28,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install host tools
-        run: pip install -r tests/team/requirements-host.txt
+        run: pip install --only-binary :all: -r tests/team/requirements-host.txt
       - name: Validate harness (front-matter, links, workflows, hook self-test, secrets, line endings)
         run: python tests/team/tools/check_harness.py
 
@@ -99,7 +99,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install report-gate dependency
-        run: pip install PyYAML==6.0.3
+        run: pip install --only-binary :all: PyYAML==6.0.3
       - name: Run all Area 1 unit tests and generate branch coverage
         run: bash tests/team/run.sh unit
       - name: Enforce the confirmed BR1–BR4 coverage thresholds
@@ -125,7 +125,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install report-gate dependency
-        run: pip install PyYAML==6.0.3
+        run: pip install --only-binary :all: PyYAML==6.0.3
       - name: Run Cosmic Ray and the custom BR1/BR3 operators
         run: bash tests/team/run.sh mutation run
       - name: Enforce mutation score and survivor-review gates
