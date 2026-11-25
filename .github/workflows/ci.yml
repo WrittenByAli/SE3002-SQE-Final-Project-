@@ -28,7 +28,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Install host tools
-        run: 'pip install --only-binary :all: -r tests/team/requirements-host.txt'
+        run: pip install -r tests/team/requirements-host.txt
       - name: Validate harness (front-matter, links, workflows, hook self-test, secrets, line endings)
         run: python tests/team/tools/check_harness.py
 
