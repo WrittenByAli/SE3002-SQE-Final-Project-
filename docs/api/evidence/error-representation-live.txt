@@ -1,0 +1,11 @@
+Sanitized live API evidence (2026-11-27). HTTP statuses and content types are exact. JSON response bodies are captured from the service; locally signed principal identifiers are redacted. HTML response bodies were Indico HTML pages; ephemeral CSRF values and CSP nonces are omitted.
+
+GET booking-not-found without X-Requested-With
+HTTP 404
+Content-Type: text/html; charset=utf-8
+Body shape: Indico HTML document; <title>Indico</title>.
+
+GET timeline missing required query without X-Requested-With
+HTTP 422
+Content-Type: text/html; charset=utf-8
+Body shape: Indico HTML document; <title>Indico</title>.

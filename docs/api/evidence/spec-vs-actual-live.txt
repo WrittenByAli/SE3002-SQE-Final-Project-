@@ -1,0 +1,511 @@
+﻿timeline-explicit-never
+GET /rooms/api/rooms/1/timeline?start_dt=2026-12-01T10%3A00%3A00&end_dt=2026-12-01T11%3A00%3A00&repeat_frequency=NEVER
+HTTP 200
+{
+  "availability": {
+    "all_days_available": true,
+    "blockings": {},
+    "bookings": {},
+    "cancellations": {},
+    "candidates": {
+      "2026-12-01": [
+        {
+          "end_dt": "2026-12-01T11:00:00",
+          "is_valid": false,
+          "link_id": null,
+          "rejection_reason": null,
+          "reservation": null,
+          "start_dt": "2026-12-01T10:00:00",
+          "state": null
+        }
+      ]
+    },
+    "concurrent_pre_bookings": {},
+    "conflicting_candidates": {},
+    "conflicts": {},
+    "nonbookable_periods": {},
+    "num_conflicts": 0,
+    "num_days_available": 1,
+    "overridable_blockings": {},
+    "pre_bookings": {},
+    "pre_conflicts": {},
+    "rejections": {},
+    "room_id": 1,
+    "unbookable_hours": {
+      "fri": [],
+      "mon": [],
+      "sat": [],
+      "sun": [],
+      "thu": [],
+      "tue": [],
+      "wed": []
+    }
+  },
+  "date_range": [
+    "2026-12-01"
+  ]
+}
+
+timeline-default-frequency
+GET /rooms/api/rooms/1/timeline?start_dt=2026-12-01T10%3A00%3A00&end_dt=2026-12-01T11%3A00%3A00
+HTTP 500
+{
+  "error": {
+    "error_uuid": "a5fbd031-5d44-4085-8fb7-6707fa1d4133",
+    "message": "Unexpected frequency NEVER",
+    "title": "Something went wrong"
+  }
+}
+
+timeline-rfc3339-z
+GET /rooms/api/rooms/1/timeline?start_dt=2026-12-01T10%3A00%3A00Z&end_dt=2026-12-01T11%3A00%3A00Z&repeat_frequency=NEVER
+HTTP 500
+{
+  "error": {
+    "error_uuid": "86538eb7-5d83-4e57-bb5a-dfd4bdc42139",
+    "message": "AssertionError: expected naive datetime",
+    "title": "Something went wrong"
+  }
+}
+
+multiroom-success
+POST /rooms/api/timeline?start_dt=2026-12-01T10%3A00%3A00&end_dt=2026-12-01T11%3A00%3A00&repeat_frequency=NEVER
+Request body: {"room_ids": [1]}
+HTTP 200
+{
+  "availability": [
+    [
+      1,
+      {
+        "all_days_available": true,
+        "blockings": {},
+        "bookings": {},
+        "cancellations": {},
+        "candidates": {
+          "2026-12-01": [
+            {
+              "end_dt": "2026-12-01T11:00:00",
+              "is_valid": false,
+              "link_id": null,
+              "rejection_reason": null,
+              "reservation": null,
+              "start_dt": "2026-12-01T10:00:00",
+              "state": null
+            }
+          ]
+        },
+        "concurrent_pre_bookings": {},
+        "conflicting_candidates": {},
+        "conflicts": {},
+        "nonbookable_periods": {},
+        "num_conflicts": 0,
+        "num_days_available": 1,
+        "overridable_blockings": {},
+        "pre_bookings": {},
+        "pre_conflicts": {},
+        "rejections": {},
+        "room_id": 1,
+        "unbookable_hours": {
+          "fri": [],
+          "mon": [],
+          "sat": [],
+          "sun": [],
+          "thu": [],
+          "tue": [],
+          "wed": []
+        }
+      }
+    ]
+  ],
+  "date_range": [
+    "2026-12-01"
+  ]
+}
+
+multiroom-missing-date-query
+POST /rooms/api/timeline
+Request body: {"room_ids": [1]}
+HTTP 422
+{
+  "webargs_errors": {
+    "end_dt": [
+      "Missing data for required field."
+    ],
+    "start_dt": [
+      "Missing data for required field."
+    ]
+  }
+}
+
+create-missing-fields
+POST /rooms/api/booking/create
+Request body: {}
+HTTP 422
+{
+  "webargs_errors": {
+    "end_dt": [
+      "Missing data for required field."
+    ],
+    "repeat_frequency": [
+      "Missing data for required field."
+    ],
+    "room_id": [
+      "Missing data for required field."
+    ],
+    "start_dt": [
+      "Missing data for required field."
+    ]
+  }
+}
+
+create-missing-reason
+POST /rooms/api/booking/create
+Request body: {"start_dt": "2026-12-01T10:00:00", "end_dt": "2026-12-01T11:00:00", "repeat_frequency": "NEVER", "room_id": 1, "is_prebooking": true}
+HTTP 422
+{
+  "webargs_errors": {
+    "reason": [
+      "Booking reason not specified"
+    ]
+  }
+}
+
+create-valid-prebooking-for-reject-probe
+POST /rooms/api/booking/create
+Request body: {"start_dt": "2026-12-01T10:00:00", "end_dt": "2026-12-01T11:00:00", "repeat_frequency": "NEVER", "room_id": 1, "is_prebooking": true, "reason": "OpenAPI runtime comparison"}
+HTTP 200
+{
+  "booking": {
+    "booked_for_user": {
+      "email": "user1@sqe.example.invalid",
+      "full_name": "Uma User",
+      "id": 2,
+      "identifier": "[redacted local signed principal identifier]",
+      "phone": ""
+    },
+    "booking_reason": "OpenAPI runtime comparison",
+    "created_by_user": {
+      "email": "user1@sqe.example.invalid",
+      "full_name": "Uma User",
+      "id": 2,
+      "identifier": "[redacted local signed principal identifier]"
+    },
+    "created_dt": "2026-11-27T08:44:52.934498+00:00",
+    "edit_logs": [],
+    "end_dt": "2026-12-01T11:00:00",
+    "external_details_url": "http://localhost:8081/rooms/booking/4",
+    "id": 4,
+    "is_accepted": false,
+    "is_cancelled": false,
+    "is_linked_to_objects": false,
+    "is_pending": true,
+    "is_rejected": false,
+    "permissions": {
+      "admin": null,
+      "user": {
+        "can_accept": false,
+        "can_cancel": true,
+        "can_delete": false,
+        "can_edit": true,
+        "can_reject": false
+      }
+    },
+    "recurrence_weekdays": null,
+    "rejection_reason": null,
+    "repetition": [
+      0,
+      0,
+      null
+    ],
+    "room_id": 1,
+    "start_dt": "2026-12-01T10:00:00",
+    "state": "pending"
+  },
+  "calendar_data": {
+    "pre_bookings": {
+      "2026-12-01": [
+        {
+          "end_dt": "2026-12-01T11:00:00",
+          "is_valid": true,
+          "link_id": null,
+          "rejection_reason": null,
+          "reservation": {
+            "booked_for_name": "Uma User",
+            "booking_reason": "OpenAPI runtime comparison",
+            "end_dt": "2026-12-01T11:00:00",
+            "id": 4,
+            "is_accepted": false,
+            "is_repeating": false,
+            "recurrence_weekdays": null,
+            "repeat_frequency": "NEVER",
+            "repeat_interval": 0,
+            "room_id": 1,
+            "start_dt": "2026-12-01T10:00:00"
+          },
+          "start_dt": "2026-12-01T10:00:00",
+          "state": "valid"
+        }
+      ]
+    }
+  },
+  "room_id": 1
+}
+
+booking-detail-readback
+GET /rooms/api/bookings/4
+HTTP 200
+{
+  "booked_for_user": {
+    "email": "user1@sqe.example.invalid",
+    "full_name": "Uma User",
+    "id": 2,
+    "identifier": "[redacted local signed principal identifier]",
+    "phone": ""
+  },
+  "booking_reason": "OpenAPI runtime comparison",
+  "created_by_user": {
+    "email": "user1@sqe.example.invalid",
+    "full_name": "Uma User",
+    "id": 2,
+    "identifier": "[redacted local signed principal identifier]"
+  },
+  "created_dt": "2026-11-27T08:44:52.934498+00:00",
+  "date_range": [
+    "2026-12-01"
+  ],
+  "edit_logs": [],
+  "end_dt": "2026-12-01T11:00:00",
+  "external_details_url": "http://localhost:8081/rooms/booking/4",
+  "id": 4,
+  "is_accepted": false,
+  "is_cancelled": false,
+  "is_linked_to_objects": false,
+  "is_pending": true,
+  "is_rejected": false,
+  "occurrences": {
+    "blockings": {},
+    "bookings": {
+      "2026-12-01": [
+        {
+          "end_dt": "2026-12-01T11:00:00",
+          "is_valid": true,
+          "link_id": null,
+          "permissions": {
+            "admin": null,
+            "user": {
+              "can_cancel": true,
+              "can_reject": false
+            }
+          },
+          "rejection_reason": null,
+          "reservation": {
+            "booked_for_name": "Uma User",
+            "booking_reason": "OpenAPI runtime comparison",
+            "end_dt": "2026-12-01T11:00:00",
+            "id": 4,
+            "is_accepted": false,
+            "is_repeating": false,
+            "recurrence_weekdays": null,
+            "repeat_frequency": "NEVER",
+            "repeat_interval": 0,
+            "room_id": 1,
+            "start_dt": "2026-12-01T10:00:00"
+          },
+          "start_dt": "2026-12-01T10:00:00",
+          "state": "valid"
+        }
+      ]
+    },
+    "cancellations": {},
+    "nonbookable_periods": {},
+    "other": {},
+    "overridable_blockings": {},
+    "rejections": {},
+    "unbookable_hours": {
+      "fri": [],
+      "mon": [],
+      "sat": [],
+      "sun": [],
+      "thu": [],
+      "tue": [],
+      "wed": []
+    }
+  },
+  "permissions": {
+    "admin": null,
+    "user": {
+      "can_accept": false,
+      "can_cancel": true,
+      "can_delete": false,
+      "can_edit": true,
+      "can_reject": false
+    }
+  },
+  "recurrence_weekdays": null,
+  "rejection_reason": null,
+  "repetition": [
+    0,
+    0,
+    null
+  ],
+  "room_id": 1,
+  "start_dt": "2026-12-01T10:00:00",
+  "state": "pending"
+}
+
+reject-empty-reason-probe
+POST /rooms/api/bookings/4/reject
+Request body: {"reason": ""}
+HTTP 500
+{
+  "error": {
+    "error_uuid": "8b98c614-7bbf-4f69-9458-8f0f37d9c2fa",
+    "message": "There was a database error while processing your request.",
+    "title": "Something went wrong"
+  }
+}
+
+reject-valid-reason-cleanup
+POST /rooms/api/bookings/4/reject
+Request body: {"reason": "OpenAPI runtime comparison cleanup"}
+HTTP 200
+{
+  "booking": {
+    "booked_for_user": {
+      "email": "user1@sqe.example.invalid",
+      "full_name": "Uma User",
+      "id": 2,
+      "identifier": "[redacted local signed principal identifier]",
+      "phone": ""
+    },
+    "booking_reason": "OpenAPI runtime comparison",
+    "created_by_user": {
+      "email": "user1@sqe.example.invalid",
+      "full_name": "Uma User",
+      "id": 2,
+      "identifier": "[redacted local signed principal identifier]"
+    },
+    "created_dt": "2026-11-27T08:44:52.934498+00:00",
+    "date_range": [
+      "2026-12-01"
+    ],
+    "edit_logs": [
+      {
+        "id": 4,
+        "info": [
+          "Reservation rejected: OpenAPI runtime comparison cleanup"
+        ],
+        "timestamp": "2026-11-27T08:45:04.242992+00:00",
+        "user_name": "Max Manager"
+      }
+    ],
+    "end_dt": "2026-12-01T11:00:00",
+    "external_details_url": "http://localhost:8081/rooms/booking/4",
+    "id": 4,
+    "is_accepted": false,
+    "is_cancelled": false,
+    "is_linked_to_objects": false,
+    "is_pending": false,
+    "is_rejected": true,
+    "occurrences": {
+      "blockings": {},
+      "bookings": {
+        "2026-12-01": []
+      },
+      "cancellations": {},
+      "nonbookable_periods": {},
+      "other": {},
+      "overridable_blockings": {},
+      "rejections": {
+        "2026-12-01": [
+          {
+            "end_dt": "2026-12-01T11:00:00",
+            "is_valid": false,
+            "link_id": null,
+            "permissions": {
+              "admin": null,
+              "user": {
+                "can_cancel": false,
+                "can_reject": false
+              }
+            },
+            "rejection_reason": "OpenAPI runtime comparison cleanup",
+            "reservation": {
+              "booked_for_name": "Uma User",
+              "booking_reason": "OpenAPI runtime comparison",
+              "end_dt": "2026-12-01T11:00:00",
+              "id": 4,
+              "is_accepted": false,
+              "is_repeating": false,
+              "recurrence_weekdays": null,
+              "repeat_frequency": "NEVER",
+              "repeat_interval": 0,
+              "room_id": 1,
+              "start_dt": "2026-12-01T10:00:00"
+            },
+            "start_dt": "2026-12-01T10:00:00",
+            "state": "rejected"
+          }
+        ]
+      },
+      "unbookable_hours": {
+        "fri": [],
+        "mon": [],
+        "sat": [],
+        "sun": [],
+        "thu": [],
+        "tue": [],
+        "wed": []
+      }
+    },
+    "permissions": {
+      "admin": null,
+      "user": {
+        "can_accept": false,
+        "can_cancel": false,
+        "can_delete": false,
+        "can_edit": false,
+        "can_reject": false
+      }
+    },
+    "recurrence_weekdays": null,
+    "rejection_reason": "OpenAPI runtime comparison cleanup",
+    "repetition": [
+      0,
+      0,
+      null
+    ],
+    "room_id": 1,
+    "start_dt": "2026-12-01T10:00:00",
+    "state": "rejected"
+  }
+}
+
+booking-not-found
+GET /rooms/api/bookings/999999
+HTTP 404
+{
+  "error": {
+    "error_uuid": "42dd1b16-4b79-4f24-af2c-df5ca208c98b",
+    "message": "The specified item could not be found.",
+    "title": "Not Found"
+  }
+}
+
+action-unsupported
+POST /rooms/api/bookings/4/archive
+Request body: {}
+HTTP 405
+{
+  "error": {
+    "error_uuid": "ebd43354-1de0-45fa-8675-e3958bad8126",
+    "message": "The method is not allowed for the requested URL.",
+    "title": "Method Not Allowed"
+  }
+}
+
+Additional read-only check: POST timeline default frequency
+POST /rooms/api/timeline?start_dt=2026-12-01T10%3A00%3A00&end_dt=2026-12-01T11%3A00%3A00
+Request body: {"room_ids":[1]}
+HTTP 500
+{"error":{"error_uuid":"934bbece-2a99-4dbd-9c14-20dd935bd94f","message":"Unexpected frequency NEVER","title":"Something went wrong"}}
