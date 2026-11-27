@@ -1,0 +1,13 @@
+Command: python -m openapi_spec_validator openapi/openapi.yaml
+Validator: openapi-spec-validator 0.9.0
+Output:
+openapi/openapi.yaml: OK
+
+Static path inventory check:
+OpenAPI version: 3.0.3
+Paths: 5
+/rooms/api/rooms/{room_id}/timeline get
+/rooms/api/timeline post
+/rooms/api/booking/create post
+/rooms/api/bookings/{booking_id} get
+/rooms/api/bookings/{booking_id}/{action} post
