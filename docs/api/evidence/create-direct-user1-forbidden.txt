@@ -1,0 +1,9 @@
+﻿HTTP/1.1 403 FORBIDDEN
+Server: nginx/1.26.3
+Date: Fri, 27 Nov 2026 06:52:11 GMT
+Content-Type: application/json
+Content-Length: 132
+Connection: keep-alive
+X-Indico-URL: /rooms/api/booking/create
+
+{"error":{"error_uuid":"e3a030bd-c1aa-481e-a9ca-e149887990c6","message":"Not authorized to book this room","title":"Access Denied"}}

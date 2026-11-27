@@ -1,0 +1,1029 @@
+openapi: 3.0.3
+info:
+  title: Indico Room Booking workflow API
+  version: 1.0.0
+  description: >-
+    Source-derived contract for the workflow operations inventoried in docs/api/inventory.md.
+    Field-level business rules are recorded with x-business-rule. The contract is deliberately
+    not rewritten to hide runtime differences; see docs/api/spec-vs-actual.md.
+servers:
+  - url: http://localhost:8081
+    description: Local Docker Compose environment
+tags:
+  - name: Room availability
+  - name: Bookings
+security:
+  - bearerAuth: []
+paths:
+  /rooms/api/rooms/{room_id}/timeline:
+    get:
+      tags: [Room availability]
+      operationId: getRoomTimeline
+      summary: Read availability for one room
+      description: >-
+        Reads room availability. Requires an authenticated Room Booking user with OAuth
+        read:everything or full:everything scope. A room moderator is not required to read
+        an otherwise visible room timeline.
+      parameters:
+        - $ref: '#/components/parameters/RoomId'
+        - $ref: '#/components/parameters/JsonErrorHeader'
+        - $ref: '#/components/parameters/StartDateTime'
+        - $ref: '#/components/parameters/EndDateTime'
+        - $ref: '#/components/parameters/TimelineRepeatFrequency'
+        - $ref: '#/components/parameters/TimelineRepeatInterval'
+        - $ref: '#/components/parameters/RecurrenceWeekdaysQuery'
+        - $ref: '#/components/parameters/SkipConflictsWith'
+        - $ref: '#/components/parameters/AdminOverrideQuery'
+      responses:
+        '200':
+          description: Room availability and selected date range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoomTimelineResponse'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /rooms/api/timeline:
+    post:
+      tags: [Room availability]
+      operationId: postMultiRoomTimeline
+      summary: Read availability for multiple rooms
+      description: >-
+        Reads availability for the room IDs in the JSON body. Requires an authenticated
+        Room Booking user with OAuth full:everything scope. This operation represents the
+        POST used by the Room Booking client; the inventory does not include the route's
+        separate GET method.
+      parameters:
+        - $ref: '#/components/parameters/JsonErrorHeader'
+        - $ref: '#/components/parameters/StartDateTime'
+        - $ref: '#/components/parameters/EndDateTime'
+        - $ref: '#/components/parameters/TimelineRepeatFrequency'
+        - $ref: '#/components/parameters/TimelineRepeatInterval'
+        - $ref: '#/components/parameters/RecurrenceWeekdaysQuery'
+        - $ref: '#/components/parameters/SkipConflictsWith'
+        - $ref: '#/components/parameters/AdminOverrideQuery'
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MultiRoomTimelineRequest'
+      responses:
+        '200':
+          description: Ordered room availability pairs and selected date range.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MultiRoomTimelineResponse'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /rooms/api/booking/create:
+    post:
+      tags: [Bookings]
+      operationId: createBooking
+      summary: Create a direct booking or prebooking
+      description: >-
+        Requires an authenticated Room Booking user with OAuth full:everything scope.
+        The caller must have direct-book permission when is_prebooking is false, or
+        prebook permission when it is true. A prebooking in a confirmation-required room
+        starts pending and requires moderation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBookingRequest'
+      responses:
+        '200':
+          description: Created reservation and calendar representation.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateBookingResponse'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '418':
+          $ref: '#/components/responses/ExpectedError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /rooms/api/bookings/{booking_id}:
+    get:
+      tags: [Bookings]
+      operationId: getBooking
+      summary: Read booking details
+      description: >-
+        Requires an authenticated Room Booking user with OAuth read:everything or
+        full:everything scope. Visibility of booking details may be restricted by the
+        Room Booking hide_booking_details setting and room permissions.
+      parameters:
+        - $ref: '#/components/parameters/BookingId'
+        - $ref: '#/components/parameters/JsonErrorHeader'
+      responses:
+        '200':
+          description: Booking details directly (not wrapped in a booking property).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingDetails'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+  /rooms/api/bookings/{booking_id}/{action}:
+    post:
+      tags: [Bookings]
+      operationId: changeBookingState
+      summary: Approve, reject, or cancel a booking
+      description: >-
+        Requires an authenticated Room Booking user with OAuth full:everything scope.
+        approve and reject require room moderation permission; cancel requires the booking
+        owner/booked-for user or a Room Booking administrator and is subject to state and
+        cancellation-time rules. The reject action requires a reason. The route action enum
+        limits this operation to approve, reject, or cancel.
+      parameters:
+        - $ref: '#/components/parameters/BookingId'
+        - $ref: '#/components/parameters/BookingAction'
+        - $ref: '#/components/parameters/JsonErrorHeader'
+      requestBody:
+        required: false
+        description: >-
+          approve accepts an optional reason and force flag; reject requires a reason;
+          cancel has no fields. The reject requirement depends on the action path parameter
+          and cannot be expressed conditionally in an OpenAPI 3.0 requestBody.
+        x-required-when: >-
+          action=reject requires a request body with reason; action=cancel may omit the body.
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: '#/components/schemas/ApproveBookingRequest'
+                - $ref: '#/components/schemas/RejectBookingRequest'
+                - $ref: '#/components/schemas/CancelBookingRequest'
+      responses:
+        '200':
+          description: Updated booking details wrapped in a booking property.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BookingActionResponse'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '418':
+          $ref: '#/components/responses/ExpectedError'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+        '500':
+          $ref: '#/components/responses/ServerError'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: Indico personal OAuth token
+      description: >-
+        GET requires read:everything or full:everything. Non-GET methods require
+        full:everything. A Room Booking user must also be authorized for the module.
+
+  parameters:
+    JsonErrorHeader:
+      name: X-Requested-With
+      in: header
+      required: false
+      description: Send XMLHttpRequest to receive structured JSON errors on GET requests and non-JSON requests.
+      schema:
+        type: string
+        enum: [XMLHttpRequest]
+        minLength: 14
+        maxLength: 14
+        pattern: '^XMLHttpRequest$'
+        x-input-required: false
+        x-unspecified-constraints:
+          minimum: Not applicable to string input.
+          maximum: Not applicable to string input.
+        x-business-rule: Selects the JSON error representation; it does not grant authentication or permissions.
+    RoomId:
+      name: room_id
+      in: path
+      required: true
+      description: Existing, non-deleted room ID.
+      schema:
+        type: integer
+        minimum: 0
+        x-input-required: true
+        x-unspecified-constraints:
+          maximum: No upper bound is declared by the route converter.
+          minLength: Not applicable to integer input.
+          maxLength: Not applicable to integer input.
+          enum: No enum is declared.
+          pattern: No pattern is declared.
+        x-business-rule: The ID must resolve to a non-deleted room; a missing room returns 404.
+    BookingId:
+      name: booking_id
+      in: path
+      required: true
+      description: Existing reservation ID whose room is not deleted.
+      schema:
+        type: integer
+        minimum: 0
+        x-input-required: true
+        x-unspecified-constraints:
+          maximum: No upper bound is declared by the route converter.
+          minLength: Not applicable to integer input.
+          maxLength: Not applicable to integer input.
+          enum: No enum is declared.
+          pattern: No pattern is declared.
+        x-business-rule: The ID must resolve to an existing reservation and non-deleted room; otherwise 404.
+    BookingAction:
+      name: action
+      in: path
+      required: true
+      description: Requested reservation state transition.
+      schema:
+        type: string
+        enum: [approve, reject, cancel]
+        minLength: 6
+        maxLength: 7
+        pattern: '^(approve|reject|cancel)$'
+        x-input-required: true
+        x-unspecified-constraints:
+          minimum: Not applicable to string input.
+          maximum: Not applicable to string input.
+        x-business-rule: >-
+          approve and reject require room moderation; cancel is limited to the owner/booked-for
+          user or a Room Booking administrator and is state/time guarded.
+    StartDateTime:
+      name: start_dt
+      in: query
+      required: true
+      description: Start of the availability query range; OpenAPI date-time format is RFC 3339.
+      schema:
+        type: string
+        format: date-time
+        x-input-required: true
+        x-unspecified-constraints:
+          minimum: Not applicable to string date-time input.
+          maximum: No date lower bound is declared by the query schema.
+          minLength: No length constraint is declared by the query schema.
+          maxLength: No length constraint is declared by the query schema.
+          pattern: No regex is declared by the query schema.
+        x-business-rule: Defines the start of the availability window; runtime uses server-local naive datetimes.
+    EndDateTime:
+      name: end_dt
+      in: query
+      required: true
+      description: End of the availability query range; OpenAPI date-time format is RFC 3339.
+      schema:
+        type: string
+        format: date-time
+        x-input-required: true
+        x-unspecified-constraints:
+          minimum: Not applicable to string date-time input.
+          maximum: No date upper bound is declared by the query schema.
+          minLength: No length constraint is declared by the query schema.
+          maxLength: No length constraint is declared by the query schema.
+          pattern: No regex is declared by the query schema.
+        x-business-rule: Defines the end of the availability window.
+    TimelineRepeatFrequency:
+      name: repeat_frequency
+      in: query
+      required: false
+      description: Recurrence frequency used to construct candidate availability.
+      schema:
+        type: string
+        enum: [NEVER, DAY, WEEK, MONTH]
+        default: NEVER
+        minLength: 3
+        maxLength: 5
+        pattern: '^(NEVER|DAY|WEEK|MONTH)$'
+        x-input-required: false
+        x-unspecified-constraints:
+          minimum: Not applicable to string enum input.
+          maximum: Not applicable to string enum input.
+        x-business-rule: The frequency selects the recurrence rule; NEVER is the default declared by source.
+    TimelineRepeatInterval:
+      name: repeat_interval
+      in: query
+      required: false
+      description: Recurrence interval used with repeat_frequency.
+      schema:
+        type: integer
+        default: 1
+        x-input-required: false
+        x-unspecified-constraints:
+          minimum: No field-level minimum is declared by this query schema.
+          maximum: No maximum is declared.
+          minLength: Not applicable to integer input.
+          maxLength: Not applicable to integer input.
+          enum: No enum is declared.
+          pattern: No pattern is declared.
+        x-business-rule: >-
+          Recurrence generation requires DAY interval 1, WEEK interval greater than 0, and
+          MONTH interval not equal to 0; the field parser itself declares no range.
+    RecurrenceWeekdaysQuery:
+      name: recurrence_weekdays
+      in: query
+      required: false
+      description: Weekday abbreviations used for weekly recurrence.
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: string
+          enum: [mon, tue, wed, thu, fri, sat, sun]
+          minLength: 3
+          maxLength: 3
+          pattern: '^(mon|tue|wed|thu|fri|sat|sun)$'
+          x-unspecified-constraints:
+            minimum: Not applicable to string input.
+            maximum: Not applicable to string input.
+        x-input-required: false
+        x-unspecified-constraints:
+          minimum: Not applicable to array input.
+          maximum: Not applicable to array input.
+          minItems: No minimum array length is declared.
+          maxItems: No maximum array length or uniqueness rule is declared for this query field.
+        x-business-rule: Used for WEEK recurrence; other frequencies ignore recurrence weekdays.
+    SkipConflictsWith:
+      name: skip_conflicts_with
+      in: query
+      required: false
+      description: Reservation IDs omitted from availability conflict checks.
+      style: form
+      explode: true
+      schema:
+        type: array
+        items:
+          type: integer
+          x-unspecified-constraints:
+            minimum: No item minimum is declared.
+            maximum: No item maximum is declared.
+            minLength: Not applicable to integer input.
+            maxLength: Not applicable to integer input.
+            enum: No enum is declared.
+            pattern: No pattern is declared.
+        x-input-required: false
+        x-unspecified-constraints:
+          minimum: Not applicable to array input.
+          maximum: Not applicable to array input.
+          minItems: No minimum array length is declared.
+          maxItems: No maximum array length is declared.
+        x-business-rule: Each supplied reservation ID is skipped when calculating conflicts.
+    AdminOverrideQuery:
+      name: admin_override_enabled
+      in: query
+      required: false
+      description: Requests administrator override behavior for applicable checks.
+      schema:
+        type: boolean
+        default: false
+        x-input-required: false
+        x-unspecified-constraints:
+          minimum: Not applicable to boolean input.
+          maximum: Not applicable to boolean input.
+          minLength: Not applicable to boolean input.
+          maxLength: Not applicable to boolean input.
+          enum: No enum is declared.
+          pattern: No pattern is declared.
+        x-business-rule: Does not grant administrator permission to a non-administrator.
+
+  schemas:
+    MultiRoomTimelineRequest:
+      type: object
+      description: Room IDs are in the JSON body; date and recurrence fields are query parameters.
+      properties:
+        room_ids:
+          type: array
+          default: []
+          items:
+            type: integer
+            x-unspecified-constraints:
+              minimum: No numeric minimum is declared.
+              maximum: No numeric maximum is declared.
+              minLength: Not applicable to integer input.
+              maxLength: Not applicable to integer input.
+              enum: No enum is declared.
+              pattern: No pattern is declared.
+          x-input-required: false
+          x-unspecified-constraints:
+            minimum: Not applicable to array input.
+            maximum: Not applicable to array input.
+            minItems: No minimum array length is declared; empty list is accepted.
+            maxItems: No maximum array length is declared.
+            minLength: Not applicable to array input.
+            maxLength: Not applicable to array input.
+            enum: No enum is declared.
+            pattern: No pattern is declared.
+          x-business-rule: Selects the rooms whose availability is read; supplied order is retained.
+      additionalProperties: true
+
+    CreateBookingRequest:
+      type: object
+      required: [start_dt, end_dt, repeat_frequency, room_id]
+      properties:
+        start_dt:
+          type: string
+          format: date-time
+          x-input-required: true
+          x-unspecified-constraints:
+            minimum: Not applicable to string date-time input.
+            maximum: No date lower bound is declared in the field schema.
+            minLength: No length constraint is declared.
+            maxLength: No length constraint is declared.
+            pattern: No regex is declared.
+          x-business-rule: Must precede end_dt and must not be in the past under the booking grace-period rule.
+        end_dt:
+          type: string
+          format: date-time
+          x-input-required: true
+          x-unspecified-constraints:
+            minimum: Not applicable to string date-time input.
+            maximum: No date upper bound is declared in the field schema.
+            minLength: No length constraint is declared.
+            maxLength: No length constraint is declared.
+            pattern: No regex is declared.
+          x-business-rule: >-
+            Must follow start_dt. Booking duration is limited by room/global booking_limit_days;
+            NEVER recurrence must start and end on the same calendar date.
+        repeat_frequency:
+          type: string
+          enum: [NEVER, DAY, WEEK, MONTH]
+          minLength: 3
+          maxLength: 5
+          pattern: '^(NEVER|DAY|WEEK|MONTH)$'
+          x-input-required: true
+          x-unspecified-constraints:
+            minimum: Not applicable to string enum input.
+            maximum: Not applicable to string enum input.
+          x-business-rule: Selects how reservation occurrences are generated.
+        repeat_interval:
+          type: integer
+          default: 0
+          minimum: 0
+          x-input-required: false
+          x-unspecified-constraints:
+            maximum: No maximum is declared by the request schema.
+            minLength: Not applicable to integer input.
+            maxLength: Not applicable to integer input.
+            enum: No enum is declared.
+            pattern: No pattern is declared.
+          x-business-rule: >-
+            Field accepts non-negative values; generation additionally requires DAY=1,
+            WEEK>0, and MONTH!=0. Unsupported combinations currently raise a server error.
+        recurrence_weekdays:
+          type: array
+          items:
+            type: string
+            enum: [mon, tue, wed, thu, fri, sat, sun]
+            minLength: 3
+            maxLength: 3
+            pattern: '^(mon|tue|wed|thu|fri|sat|sun)$'
+            x-unspecified-constraints:
+              minimum: Not applicable to string input.
+              maximum: Not applicable to string input.
+          uniqueItems: true
+          maxItems: 7
+          x-input-required: false
+          x-unspecified-constraints:
+            minimum: Not applicable to array input.
+            maximum: Not applicable to array input.
+            minItems: No minimum array length is declared; empty array is accepted.
+            minLength: Not applicable to array input.
+            maxLength: Not applicable to array input.
+            enum: No array-level enum is declared.
+            pattern: No array-level pattern is declared.
+          x-business-rule: Values are unique; weekday selection is retained only when frequency is WEEK.
+        room_id:
+          type: integer
+          x-input-required: true
+          x-unspecified-constraints:
+            minimum: No numeric minimum is declared by the body schema.
+            maximum: No numeric maximum is declared.
+            minLength: Not applicable to integer input.
+            maxLength: Not applicable to integer input.
+            enum: No enum is declared.
+            pattern: No pattern is declared.
+          x-business-rule: Must resolve to a non-deleted room the caller may book or prebook.
+        user:
+          type: string
+          format: principal-identifier
+          nullable: true
+          minLength: 1
+          pattern: '^(User:[0-9]+:.+|ExternalUser:.+)$'
+          x-input-required: false
+          x-unspecified-constraints:
+            minimum: Not applicable to string input.
+            maximum: Not applicable to string input.
+            maxLength: No length limit is declared.
+            enum: No enum is declared.
+          description: >-
+            Optional principal booked-for user; accepts a signed User:<id>:<signature>
+            identifier or cached ExternalUser:<opaque-id> identifier. Runtime verifies the
+            signature/cache entry and principal existence.
+          x-business-rule: >-
+            Optional principal booked-for user; omitted means the authenticated caller.
+            External-user principals are allowed by the source field.
+        reason:
+          type: string
+          default: ''
+          minLength: 0
+          x-input-required: false
+          x-unspecified-constraints:
+            minimum: Not applicable to string input.
+            maximum: Not applicable to string input.
+            maxLength: No maximum length is declared by the source field/model.
+            enum: No enum is declared.
+            pattern: No pattern is declared.
+          x-business-rule: >-
+            Room Booking booking_reason_required defaults to always, so the local seeded
+            service rejects an empty or omitted reason although this schema field is optional.
+        internal_note:
+          type: string
+          minLength: 0
+          x-input-required: false
+          x-unspecified-constraints:
+            minimum: Not applicable to string input.
+            maximum: Not applicable to string input.
+            maxLength: No length limit is declared.
+            enum: No enum is declared.
+            pattern: No pattern is declared.
+          x-business-rule: Persisted only when internal notes are enabled and caller has room-management permission.
+        is_prebooking:
+          type: boolean
+          default: false
+          x-input-required: false
+          x-unspecified-constraints:
+            minimum: Not applicable to boolean input.
+            maximum: Not applicable to boolean input.
+            minLength: Not applicable to boolean input.
+            maxLength: Not applicable to boolean input.
+            enum: No enum is declared.
+            pattern: No pattern is declared.
+          x-business-rule: >-
+            true uses prebook permission and normally creates a pending reservation;
+            false uses direct-book permission.
+        link_type:
+          type: string
+          enum: [category, event, contribution, subcontribution, session, session_block]
+          minLength: 5
+          maxLength: 15
+          pattern: '^(category|event|contribution|subcontribution|session|session_block)$'
+          x-input-required: false
+          x-unspecified-constraints:
+            minimum: Not applicable to string enum input.
+            maximum: Not applicable to string enum input.
+          x-business-rule: A link is processed only when link_type and link_id are both present.
+        link_id:
+          type: integer
+          x-input-required: false
+          x-unspecified-constraints:
+            minimum: No numeric minimum is declared.
+            maximum: No numeric maximum is declared.
+            minLength: Not applicable to integer input.
+            maxLength: Not applicable to integer input.
+            enum: No enum is declared.
+            pattern: No pattern is declared.
+          x-business-rule: Object identifier paired with link_type; incomplete pairs are not linked.
+        link_back:
+          type: boolean
+          default: false
+          x-input-required: false
+          x-unspecified-constraints:
+            minimum: Not applicable to boolean input.
+            maximum: Not applicable to boolean input.
+            minLength: Not applicable to boolean input.
+            maxLength: Not applicable to boolean input.
+            enum: No enum is declared.
+            pattern: No pattern is declared.
+          x-business-rule: When a permitted object link is created, requests linking the object's room back.
+        admin_override_enabled:
+          type: boolean
+          default: false
+          x-input-required: false
+          x-unspecified-constraints:
+            minimum: Not applicable to boolean input.
+            maximum: Not applicable to boolean input.
+            minLength: Not applicable to boolean input.
+            maxLength: Not applicable to boolean input.
+            enum: No enum is declared.
+            pattern: No pattern is declared.
+          x-business-rule: Enables applicable administrator overrides but does not grant admin rights.
+        extra_fields:
+          type: object
+          default: {}
+          additionalProperties: true
+          x-input-required: false
+          x-unspecified-constraints:
+            minimum: Not applicable to object input.
+            maximum: No object size limit is declared.
+            minLength: Not applicable to object input.
+            maxLength: No property-count limit is declared.
+            enum: No enum is declared.
+            pattern: No property-name pattern is declared.
+          x-business-rule: Carries additional configured form values; this schema declares no key/value rules.
+      additionalProperties: true
+
+    ApproveBookingRequest:
+      type: object
+      title: Approve request body
+      properties:
+        reason:
+          type: string
+          minLength: 0
+          x-input-required: false
+          x-unspecified-constraints:
+            minimum: Not applicable to string input.
+            maximum: Not applicable to string input.
+            maxLength: No maximum length is declared.
+            enum: No enum is declared.
+            pattern: No pattern is declared.
+          x-business-rule: Optional audit reason included in the acceptance log when non-empty.
+        force:
+          type: boolean
+          default: false
+          x-input-required: false
+          x-unspecified-constraints:
+            minimum: Not applicable to boolean input.
+            maximum: Not applicable to boolean input.
+            minLength: Not applicable to boolean input.
+            maxLength: Not applicable to boolean input.
+            enum: No enum is declared.
+            pattern: No pattern is declared.
+          x-business-rule: When true, skips the prebooking-collision check before approval.
+      additionalProperties: true
+
+    RejectBookingRequest:
+      type: object
+      title: Reject request body
+      required: [reason]
+      properties:
+        reason:
+          type: string
+          minLength: 1
+          x-input-required: true
+          x-unspecified-constraints:
+            minimum: Not applicable to string input.
+            maximum: Not applicable to string input.
+            maxLength: No maximum length is declared.
+            enum: No enum is declared.
+            pattern: No pattern is declared.
+          x-business-rule: A rejection needs a non-empty reason, stored on the reservation and occurrence.
+      additionalProperties: true
+
+    CancelBookingRequest:
+      type: object
+      title: Cancel request body
+      description: The cancel action consumes no request body fields.
+      properties: {}
+      additionalProperties: true
+
+    RoomTimelineResponse:
+      type: object
+      required: [availability, date_range]
+      properties:
+        availability:
+          $ref: '#/components/schemas/Availability'
+        date_range:
+          $ref: '#/components/schemas/DateRange'
+      additionalProperties: true
+
+    MultiRoomTimelineResponse:
+      type: object
+      required: [availability, date_range]
+      properties:
+        availability:
+          type: array
+          description: Ordered pairs whose first element is room ID and second is availability.
+          items:
+            type: array
+            minItems: 2
+            maxItems: 2
+            items:
+              oneOf:
+                - type: integer
+                - $ref: '#/components/schemas/Availability'
+        date_range:
+          $ref: '#/components/schemas/DateRange'
+      additionalProperties: true
+
+    DateRange:
+      type: array
+      items:
+        type: string
+        format: date
+        minLength: 10
+        maxLength: 10
+        pattern: '^\d{4}-\d{2}-\d{2}$'
+
+    Availability:
+      type: object
+      required: [room_id]
+      properties:
+        room_id:
+          type: integer
+        all_days_available:
+          type: boolean
+        num_days_available:
+          type: integer
+          minimum: 0
+        num_conflicts:
+          type: integer
+          minimum: 0
+        candidates:
+          $ref: '#/components/schemas/OccurrenceMap'
+        conflicting_candidates:
+          $ref: '#/components/schemas/OccurrenceMap'
+        pre_bookings:
+          $ref: '#/components/schemas/OccurrenceMap'
+        bookings:
+          $ref: '#/components/schemas/OccurrenceMap'
+        pre_conflicts:
+          $ref: '#/components/schemas/OccurrenceMap'
+        conflicts:
+          $ref: '#/components/schemas/OccurrenceMap'
+        rejections:
+          $ref: '#/components/schemas/OccurrenceMap'
+        cancellations:
+          $ref: '#/components/schemas/OccurrenceMap'
+        concurrent_pre_bookings:
+          $ref: '#/components/schemas/OccurrenceMap'
+        blockings:
+          type: object
+          additionalProperties: true
+        overridable_blockings:
+          type: object
+          additionalProperties: true
+        nonbookable_periods:
+          type: object
+          additionalProperties: true
+        unbookable_hours:
+          type: object
+          additionalProperties:
+            type: array
+            items: {}
+      additionalProperties: true
+
+    OccurrenceMap:
+      type: object
+      description: Map from ISO date to occurrence arrays.
+      additionalProperties:
+        type: array
+        items:
+          $ref: '#/components/schemas/AvailabilityOccurrence'
+
+    AvailabilityOccurrence:
+      type: object
+      properties:
+        start_dt:
+          type: string
+          format: date-time
+        end_dt:
+          type: string
+          format: date-time
+        is_valid:
+          type: boolean
+        link_id:
+          type: integer
+          nullable: true
+        state:
+          type: string
+          nullable: true
+        rejection_reason:
+          type: string
+          nullable: true
+        reservation:
+          $ref: '#/components/schemas/ReservationSummary'
+      additionalProperties: true
+
+    ReservationSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        room_id:
+          type: integer
+        start_dt:
+          type: string
+          format: date-time
+        end_dt:
+          type: string
+          format: date-time
+        repeat_frequency:
+          type: string
+          enum: [NEVER, DAY, WEEK, MONTH]
+        repeat_interval:
+          type: integer
+        recurrence_weekdays:
+          type: array
+          nullable: true
+          items:
+            type: string
+            enum: [mon, tue, wed, thu, fri, sat, sun]
+        booking_reason:
+          type: string
+        booked_for_name:
+          type: string
+        is_accepted:
+          type: boolean
+        is_repeating:
+          type: boolean
+      additionalProperties: true
+
+    BookingDetails:
+      allOf:
+        - $ref: '#/components/schemas/ReservationSummary'
+        - type: object
+          properties:
+            created_dt:
+              type: string
+              format: date-time
+            is_pending:
+              type: boolean
+            is_cancelled:
+              type: boolean
+            is_rejected:
+              type: boolean
+            state:
+              type: string
+              enum: [pending, accepted, cancelled, rejected]
+            date_range:
+              $ref: '#/components/schemas/DateRange'
+            occurrences:
+              type: object
+              additionalProperties: true
+            permissions:
+              type: object
+              additionalProperties: true
+            rejection_reason:
+              type: string
+              nullable: true
+      description: Direct serialized reservation detail object with grouped occurrence data.
+
+    CreateBookingResponse:
+      type: object
+      required: [room_id, booking, calendar_data]
+      properties:
+        room_id:
+          type: integer
+        booking:
+          $ref: '#/components/schemas/BookingDetails'
+        calendar_data:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/OccurrenceMap'
+      additionalProperties: true
+
+    BookingActionResponse:
+      type: object
+      required: [booking]
+      properties:
+        booking:
+          $ref: '#/components/schemas/BookingDetails'
+      additionalProperties: true
+
+    ErrorEnvelope:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          required: [title, message, error_uuid]
+          properties:
+            title:
+              type: string
+            message:
+              type: string
+            error_uuid:
+              type: string
+              nullable: true
+              minLength: 36
+              maxLength: 36
+              pattern: '^[0-9a-fA-F-]{36}$'
+          additionalProperties: true
+      additionalProperties: true
+
+    HtmlErrorPage:
+      type: string
+      description: HTML error page returned when the request does not select Indico's JSON error representation.
+
+    ValidationError:
+      type: object
+      required: [webargs_errors]
+      properties:
+        webargs_errors:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+      additionalProperties: true
+
+    ExpectedError:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+          minLength: 1
+        data:
+          description: Optional additional collision or transition data.
+          oneOf:
+            - type: object
+              additionalProperties: true
+            - type: array
+              items: {}
+      additionalProperties: true
+
+  responses:
+    Forbidden:
+      description: >-
+        Caller is unauthenticated, lacks Room Booking access, or lacks the required room role.
+        JSON requests and X-Requested-With requests receive JSON; other requests may receive HTML.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+        text/html:
+          schema:
+            $ref: '#/components/schemas/HtmlErrorPage'
+    NotFound:
+      description: >-
+        Room or booking does not exist, or the room has been deleted. JSON requests and
+        X-Requested-With requests receive JSON; other requests may receive HTML.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+        text/html:
+          schema:
+            $ref: '#/components/schemas/HtmlErrorPage'
+    MethodNotAllowed:
+      description: >-
+        Method/action does not match a supported route. JSON requests and X-Requested-With
+        requests receive JSON; other requests may receive HTML.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+        text/html:
+          schema:
+            $ref: '#/components/schemas/HtmlErrorPage'
+    ValidationError:
+      description: >-
+        Request field parsing or schema validation failed. JSON requests and
+        X-Requested-With requests receive JSON; other requests may receive HTML.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ValidationError'
+        text/html:
+          schema:
+            $ref: '#/components/schemas/HtmlErrorPage'
+    ExpectedError:
+      description: >-
+        Expected state or business-rule rejection; Indico uses HTTP 418. JSON requests and
+        X-Requested-With requests receive JSON; other requests may receive HTML.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ExpectedError'
+        text/html:
+          schema:
+            $ref: '#/components/schemas/HtmlErrorPage'
+    ServerError:
+      description: >-
+        Unexpected application failure. JSON requests and X-Requested-With requests receive
+        JSON; other requests may receive HTML. Runtime evidence includes timeline
+        serialization/default failures.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorEnvelope'
+        text/html:
+          schema:
+            $ref: '#/components/schemas/HtmlErrorPage'

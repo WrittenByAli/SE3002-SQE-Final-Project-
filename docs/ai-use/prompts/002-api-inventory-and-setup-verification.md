@@ -1,0 +1,7 @@
+# Prompt 002 — setup verification and API inventory
+
+Received 2026-11-27.
+
+```text
+I have started Docker Desktop (docker version shows Client and Server), created infra/indico-containers/indico-prod/.env with PGPASSWORD and INDICO_SECRET_KEY set, and re-authenticated gh. Please re-run the verification now: start the app with the documented commands, find out what is needed to seed data and create an admin and a second test user, and how to reset it. Run each command, show me real output, and record only verified commands in docs/api/setup.md. If something needs a step I must do manually (for example a browser setup page or a command that touches files outside the repo), tell me exactly what to type. Make sure .env is in .gitignore and never committed. prompt # 1 Using docs/api/context.md, inventory every HTTP endpoint used by the two workflows. Read the source code (routes, controllers, validators, models) and also call each endpoint against the running local app. For each endpoint record: method, path, required auth/role, every request field with type, required/optional, min/max, length, enum, format; response status codes seen (success and rejections) and body shape; which shared records it reads or changes; and the business rule each field or check enforces, with the source file and line. Write docs/api/inventory.md. Mark clearly any expected behaviour that is my assumption rather than from documentation, so it can go in the test basis. Include real curl outputs as evidence.
+```

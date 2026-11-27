@@ -1,0 +1,9 @@
+﻿HTTP/1.1 500 INTERNAL SERVER ERROR
+Server: nginx/1.26.3
+Date: Fri, 27 Nov 2026 06:53:24 GMT
+Content-Type: application/json
+Content-Length: 133
+Connection: keep-alive
+X-Indico-URL: /rooms/api/rooms/1/timeline?start_dt=2026-11-30T10%3A00%3A00&end_dt=2026-11-30T11%3A00%3A00
+
+{"error":{"error_uuid":"7f461865-9997-4201-b2ad-b3c1e6cc9ac4","message":"Unexpected frequency NEVER","title":"Something went wrong"}}

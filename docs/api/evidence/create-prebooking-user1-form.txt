@@ -1,0 +1,9 @@
+﻿HTTP/1.1 200 OK
+Server: nginx/1.26.3
+Date: Thu, 26 Nov 2026 19:43:39 GMT
+Content-Type: application/json
+Content-Length: 1341
+Connection: keep-alive
+X-Indico-URL: /rooms/api/booking/create
+
+{"booking":{"booked_for_user":{"email":"user1@sqe.example.invalid","full_name":"Uma User","id":2,"identifier":"User:2:Mg.Alv_qkLtuRd-PNNUN6dEiRgwGVs","phone":""},"booking_reason":"Inventory","created_by_user":{"email":"user1@sqe.example.invalid","full_name":"Uma User","id":2,"identifier":"User:2:Mg.Alv_qkLtuRd-PNNUN6dEiRgwGVs"},"created_dt":"2026-11-26T19:43:37.923837+00:00","edit_logs":[],"end_dt":"2026-11-30T11:00:00","external_details_url":"http://localhost:8081/rooms/booking/1","id":1,"is_accepted":false,"is_cancelled":false,"is_linked_to_objects":false,"is_pending":true,"is_rejected":false,"permissions":{"admin":null,"user":{"can_accept":false,"can_cancel":true,"can_delete":false,"can_edit":true,"can_reject":false}},"recurrence_weekdays":null,"rejection_reason":null,"repetition":[0,0,null],"room_id":1,"start_dt":"2026-11-30T10:00:00","state":"pending"},"calendar_data":{"pre_bookings":{"2026-11-30":[{"end_dt":"2026-11-30T11:00:00","is_valid":true,"link_id":null,"rejection_reason":null,"reservation":{"booked_for_name":"Uma User","booking_reason":"Inventory","end_dt":"2026-11-30T11:00:00","id":1,"is_accepted":false,"is_repeating":false,"recurrence_weekdays":null,"repeat_frequency":"NEVER","repeat_interval":0,"room_id":1,"start_dt":"2026-11-30T10:00:00"},"start_dt":"2026-11-30T10:00:00","state":"valid"}]}},"room_id":1}

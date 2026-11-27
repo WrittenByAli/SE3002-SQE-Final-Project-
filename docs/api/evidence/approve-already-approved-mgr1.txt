@@ -1,0 +1,9 @@
+﻿HTTP/1.1 418 I'M A TEAPOT
+Server: nginx/1.26.3
+Date: Fri, 27 Nov 2026 06:51:33 GMT
+Content-Type: application/json
+Content-Length: 65
+Connection: keep-alive
+X-Indico-URL: /rooms/api/bookings/2/approve
+
+{"message":"This booking has already been approved or rejected."}
