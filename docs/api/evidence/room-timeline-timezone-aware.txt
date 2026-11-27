@@ -1,0 +1,9 @@
+﻿HTTP/1.1 500 INTERNAL SERVER ERROR
+Server: nginx/1.26.3
+Date: Fri, 27 Nov 2026 06:53:36 GMT
+Content-Type: application/json
+Content-Length: 146
+Connection: keep-alive
+X-Indico-URL: /rooms/api/rooms/1/timeline?start_dt=2026-11-30T10%3A00%3A00Z&end_dt=2026-11-30T11%3A00%3A00Z&repeat_frequency=NEVER
+
+{"error":{"error_uuid":"c2d724fd-29f2-45bc-8aa5-e806da37a55d","message":"AssertionError: expected naive datetime","title":"Something went wrong"}}

@@ -1,0 +1,9 @@
+﻿HTTP/1.1 403 FORBIDDEN
+Server: nginx/1.26.3
+Date: Fri, 27 Nov 2026 06:49:43 GMT
+Content-Type: application/json
+Content-Length: 140
+Connection: keep-alive
+X-Indico-URL: /rooms/api/bookings/2/approve
+
+{"error":{"error_uuid":"86820e0e-f905-4b32-98f5-135582066ce6","message":"You are not allowed to access this page.","title":"Access Denied"}}
