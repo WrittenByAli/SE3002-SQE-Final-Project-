@@ -1,0 +1,4 @@
+# Reuse the pinned host-side pytest and requests dependencies for the API suite.
+pytest==9.1.1
+pytest-timeout==2.4.0
+requests==2.34.2
