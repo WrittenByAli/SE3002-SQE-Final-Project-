@@ -1,0 +1,2 @@
+Wrote 284 API cases to D:\SQE\finalproject\SE3002-SQE-Final-Project-\tools\testgen\out\cases.json
+Wrote 80 decision cases to D:\SQE\finalproject\SE3002-SQE-Final-Project-\tools\testgen\out\decision_cases.json

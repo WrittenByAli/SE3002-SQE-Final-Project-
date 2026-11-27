@@ -1,0 +1,184 @@
+# Decision tables translate the documented/source-derived business rules into cases.
+# Any unverified precedence and fixed-role assumptions are identified in each basis.
+rules:
+  - id: BR1
+    endpoint: /rooms/api/booking/create
+    method: POST
+    basis: Source-derived from indico/modules/rb/controllers/backend/bookings.py:200-213; valid dates, room, role, and permissions are assumed except for the listed conditions.
+    conditions:
+      start_not_in_past: [false, true]
+      within_booking_limit: [false, true]
+    outcomes:
+      - when: {start_not_in_past: false}
+        expected_outcome: reject_past_start
+        expected_status: 418
+        expected_valid: false
+      - when: {start_not_in_past: true, within_booking_limit: false}
+        expected_outcome: reject_booking_limit
+        expected_status: 418
+        expected_valid: false
+      - when: {start_not_in_past: true, within_booking_limit: true}
+        expected_outcome: allow_creation_checks_to_continue
+        expected_status: 200
+        expected_valid: true
+
+  - id: BR2
+    endpoint: /rooms/api/bookings/{booking_id}/{action}
+    method: POST
+    basis: Source-derived from indico/modules/rb/models/reservations.py:439-442 and indico/modules/rb/controllers/backend/bookings.py:257-273; valid booking ID and approve body are assumed.
+    conditions:
+      is_pending: [false, true]
+      can_moderate: [false, true]
+    outcomes:
+      - when: {is_pending: false}
+        expected_outcome: reject_non_pending_booking
+        expected_status: 418
+        expected_valid: false
+      - when: {is_pending: true, can_moderate: false}
+        expected_outcome: reject_missing_moderation_permission
+        expected_status: 403
+        expected_valid: false
+      - when: {is_pending: true, can_moderate: true}
+        expected_outcome: approve_booking
+        expected_status: 200
+        expected_valid: true
+
+  - id: BR3_REJECT
+    endpoint: /rooms/api/bookings/{booking_id}/{action}
+    method: POST
+    basis: Source-derived from indico/modules/rb/models/reservations.py:444-449 and indico/modules/rb/controllers/backend/bookings.py:257-279. Permission-versus-body-validation precedence is a test-basis assumption.
+    conditions:
+      is_terminal_state: [false, true]
+      can_moderate: [false, true]
+      reason_present: [false, true]
+    outcomes:
+      - when: {is_terminal_state: true}
+        expected_outcome: reject_terminal_booking
+        expected_status: 418
+        expected_valid: false
+      - when: {is_terminal_state: false, can_moderate: false}
+        expected_outcome: reject_missing_moderation_permission
+        expected_status: 403
+        expected_valid: false
+      - when: {is_terminal_state: false, can_moderate: true, reason_present: false}
+        expected_outcome: reject_missing_reason
+        expected_status: 422
+        expected_valid: false
+      - when: {is_terminal_state: false, can_moderate: true, reason_present: true}
+        expected_outcome: reject_booking
+        expected_status: 200
+        expected_valid: true
+
+  - id: BR3_CANCEL
+    endpoint: /rooms/api/bookings/{booking_id}/{action}
+    method: POST
+    basis: Source-derived from indico/modules/rb/models/reservations.py:451-461 and indico/modules/rb/controllers/backend/bookings.py:257-273. Accepted-booking grace, ownership, and administrator combinations need additional live verification.
+    preconditions: User is authenticated; booking ID resolves; booking is not archived; no unrelated conflict blocks the action.
+    conditions:
+      state: [pending, accepted, rejected, cancelled]
+      is_booker_or_booked_for: [false, true]
+      is_rb_admin: [false, true]
+      within_cancel_grace_period: [false, true]
+    outcomes:
+      - when: {state: rejected}
+        expected_outcome: reject_terminal_booking
+        expected_status: 418
+        expected_valid: false
+      - when: {state: cancelled}
+        expected_outcome: reject_terminal_booking
+        expected_status: 418
+        expected_valid: false
+      - when: {state: pending, is_booker_or_booked_for: true}
+        expected_outcome: cancel_pending_booking
+        expected_status: 200
+        expected_valid: true
+      - when: {state: pending, is_booker_or_booked_for: false, is_rb_admin: true}
+        expected_outcome: administrator_cancels_pending_booking
+        expected_status: 200
+        expected_valid: true
+      - when: {state: pending, is_booker_or_booked_for: false, is_rb_admin: false}
+        expected_outcome: reject_actor_not_authorized
+        expected_status: 403
+        expected_valid: false
+      - when: {state: accepted, within_cancel_grace_period: false}
+        expected_outcome: reject_outside_cancel_grace_period
+        expected_status: 403
+        expected_valid: false
+      - when: {state: accepted, within_cancel_grace_period: true, is_booker_or_booked_for: true}
+        expected_outcome: cancel_accepted_booking
+        expected_status: 200
+        expected_valid: true
+      - when: {state: accepted, within_cancel_grace_period: true, is_booker_or_booked_for: false, is_rb_admin: true}
+        expected_outcome: administrator_cancels_accepted_booking
+        expected_status: 200
+        expected_valid: true
+      - when: {state: accepted, within_cancel_grace_period: true, is_booker_or_booked_for: false, is_rb_admin: false}
+        expected_outcome: reject_actor_not_authorized
+        expected_status: 403
+        expected_valid: false
+
+  - id: BR4_DIRECT
+    endpoint: /rooms/api/booking/create
+    method: POST
+    basis: Source-derived from indico/modules/rb/models/rooms.py:621-632. Assumes an ordinary authenticated user, valid booking data, and no administrator override.
+    conditions:
+      is_reservable: [false, true]
+      is_public: [false, true]
+      needs_confirmation: [false, true]
+      has_explicit_book_right: [false, true]
+    outcomes:
+      - when: {is_reservable: false}
+        expected_outcome: reject_room_not_reservable
+        expected_status: 403
+        expected_valid: false
+      - when: {is_reservable: true, has_explicit_book_right: true}
+        expected_outcome: allow_direct_booking
+        expected_status: 200
+        expected_valid: true
+      - when: {is_reservable: true, is_public: true, needs_confirmation: false, has_explicit_book_right: false}
+        expected_outcome: allow_public_direct_booking
+        expected_status: 200
+        expected_valid: true
+      - when: {is_reservable: true, is_public: false, has_explicit_book_right: false}
+        expected_outcome: reject_missing_book_permission
+        expected_status: 403
+        expected_valid: false
+      - when: {is_reservable: true, is_public: true, needs_confirmation: true, has_explicit_book_right: false}
+        expected_outcome: reject_confirmation_required_without_permission
+        expected_status: 403
+        expected_valid: false
+
+  - id: BR4_PREBOOK
+    endpoint: /rooms/api/booking/create
+    method: POST
+    basis: Source-derived from indico/modules/rb/models/rooms.py:634-648. Assumes an ordinary authenticated user, valid booking data, and no administrator override.
+    conditions:
+      is_reservable: [false, true]
+      is_public: [false, true]
+      needs_confirmation: [false, true]
+      has_explicit_prebook_right: [false, true]
+    outcomes:
+      - when: {is_reservable: false}
+        expected_outcome: reject_room_not_reservable
+        expected_status: 403
+        expected_valid: false
+      - when: {is_reservable: true, is_public: true, needs_confirmation: true}
+        expected_outcome: allow_public_prebooking
+        expected_status: 200
+        expected_valid: true
+      - when: {is_reservable: true, is_public: false, has_explicit_prebook_right: true}
+        expected_outcome: allow_explicitly_permitted_prebooking
+        expected_status: 200
+        expected_valid: true
+      - when: {is_reservable: true, is_public: true, needs_confirmation: false, has_explicit_prebook_right: true}
+        expected_outcome: allow_explicitly_permitted_prebooking
+        expected_status: 200
+        expected_valid: true
+      - when: {is_reservable: true, is_public: false, has_explicit_prebook_right: false}
+        expected_outcome: reject_missing_prebook_permission
+        expected_status: 403
+        expected_valid: false
+      - when: {is_reservable: true, is_public: true, needs_confirmation: false, has_explicit_prebook_right: false}
+        expected_outcome: reject_missing_prebook_permission
+        expected_status: 403
+        expected_valid: false
