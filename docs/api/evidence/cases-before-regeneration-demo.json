@@ -1,0 +1,3265 @@
+[
+  {
+    "id": "API-0001",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "room_id",
+    "technique": "EP",
+    "class_or_point": "valid:number",
+    "value": {
+      "$fixture": "room_id"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0002",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "room_id",
+    "technique": "EP",
+    "class_or_point": "invalid:required",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0003",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "room_id",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0004",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "room_id",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-integer",
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0005",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "room_id",
+    "technique": "EP",
+    "class_or_point": "invalid:minimum",
+    "value": -1,
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0006",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "room_id",
+    "technique": "BVA",
+    "class_or_point": "below_minimum",
+    "value": -1,
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0007",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "room_id",
+    "technique": "BVA",
+    "class_or_point": "at_minimum",
+    "value": 0,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0008",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "room_id",
+    "technique": "BVA",
+    "class_or_point": "above_minimum",
+    "value": 1,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0009",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "valid:enum=XMLHttpRequest",
+    "value": "XMLHttpRequest",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0010",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0011",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0012",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0013",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "invalid:enum",
+    "value": "not-in-enum",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0014",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "valid:format",
+    "value": {
+      "$fixture": "free_slot.start_rfc3339"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0015",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:required",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0016",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0017",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0018",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:format",
+    "value": "not-a-date",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0019",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "valid:format",
+    "value": {
+      "$fixture": "free_slot.end_rfc3339"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0020",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:required",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0021",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0022",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0023",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:format",
+    "value": "not-a-date",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0024",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "valid:enum=NEVER",
+    "value": "NEVER",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0025",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "valid:enum=DAY",
+    "value": "DAY",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0026",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "valid:enum=WEEK",
+    "value": "WEEK",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0027",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "valid:enum=MONTH",
+    "value": "MONTH",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0028",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0029",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0030",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0031",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "invalid:enum",
+    "value": "not-in-enum",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0032",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "repeat_interval",
+    "technique": "EP",
+    "class_or_point": "valid:number",
+    "value": 1,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0033",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "repeat_interval",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0034",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "repeat_interval",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0035",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "repeat_interval",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-integer",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0036",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "valid:empty_array",
+    "value": [],
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0037",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "valid:nonempty_array",
+    "value": [
+      "mon"
+    ],
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0038",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0039",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0040",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-array",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0041",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=mon",
+    "value": "mon",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0042",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=tue",
+    "value": "tue",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0043",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=wed",
+    "value": "wed",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0044",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=thu",
+    "value": "thu",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0045",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=fri",
+    "value": "fri",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0046",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=sat",
+    "value": "sat",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0047",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=sun",
+    "value": "sun",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0048",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0049",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0050",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "invalid:enum",
+    "value": "not-in-enum",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0051",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "skip_conflicts_with",
+    "technique": "EP",
+    "class_or_point": "valid:empty_array",
+    "value": [],
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0052",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "skip_conflicts_with",
+    "technique": "EP",
+    "class_or_point": "valid:nonempty_array",
+    "value": [
+      {
+        "$fixture": "booking_id"
+      }
+    ],
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0053",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "skip_conflicts_with",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0054",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "skip_conflicts_with",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0055",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "skip_conflicts_with",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-array",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0056",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "skip_conflicts_with[]",
+    "technique": "EP",
+    "class_or_point": "valid:number",
+    "value": 1,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0057",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "skip_conflicts_with[]",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0058",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "skip_conflicts_with[]",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-integer",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0059",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "valid:boolean=false",
+    "value": false,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0060",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "valid:boolean=true",
+    "value": true,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0061",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0062",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0063",
+    "endpoint": "/rooms/api/rooms/{room_id}/timeline",
+    "method": "GET",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-a-boolean",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0064",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "valid:enum=XMLHttpRequest",
+    "value": "XMLHttpRequest",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0065",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0066",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0067",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0068",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "invalid:enum",
+    "value": "not-in-enum",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0069",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "valid:format",
+    "value": {
+      "$fixture": "free_slot.start_rfc3339"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0070",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:required",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0071",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0072",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0073",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:format",
+    "value": "not-a-date",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0074",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "valid:format",
+    "value": {
+      "$fixture": "free_slot.end_rfc3339"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0075",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:required",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0076",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0077",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0078",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:format",
+    "value": "not-a-date",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0079",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "valid:enum=NEVER",
+    "value": "NEVER",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0080",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "valid:enum=DAY",
+    "value": "DAY",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0081",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "valid:enum=WEEK",
+    "value": "WEEK",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0082",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "valid:enum=MONTH",
+    "value": "MONTH",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0083",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0084",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0085",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0086",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "invalid:enum",
+    "value": "not-in-enum",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0087",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "repeat_interval",
+    "technique": "EP",
+    "class_or_point": "valid:number",
+    "value": 1,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0088",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "repeat_interval",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0089",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "repeat_interval",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0090",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "repeat_interval",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-integer",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0091",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "valid:empty_array",
+    "value": [],
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0092",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "valid:nonempty_array",
+    "value": [
+      "mon"
+    ],
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0093",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0094",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0095",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-array",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0096",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=mon",
+    "value": "mon",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0097",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=tue",
+    "value": "tue",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0098",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=wed",
+    "value": "wed",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0099",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=thu",
+    "value": "thu",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0100",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=fri",
+    "value": "fri",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0101",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=sat",
+    "value": "sat",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0102",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=sun",
+    "value": "sun",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0103",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0104",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0105",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "invalid:enum",
+    "value": "not-in-enum",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0106",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "skip_conflicts_with",
+    "technique": "EP",
+    "class_or_point": "valid:empty_array",
+    "value": [],
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0107",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "skip_conflicts_with",
+    "technique": "EP",
+    "class_or_point": "valid:nonempty_array",
+    "value": [
+      {
+        "$fixture": "booking_id"
+      }
+    ],
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0108",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "skip_conflicts_with",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0109",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "skip_conflicts_with",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0110",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "skip_conflicts_with",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-array",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0111",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "skip_conflicts_with[]",
+    "technique": "EP",
+    "class_or_point": "valid:number",
+    "value": 1,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0112",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "skip_conflicts_with[]",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0113",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "skip_conflicts_with[]",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-integer",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0114",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "valid:boolean=false",
+    "value": false,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0115",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "valid:boolean=true",
+    "value": true,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0116",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0117",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0118",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-a-boolean",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0119",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "$body",
+    "technique": "EP",
+    "class_or_point": "valid:object_fixture",
+    "value": {
+      "$fixture": "valid_request_body"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0120",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "$body",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0121",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "$body",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0122",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "$body",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": [],
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0123",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "room_ids",
+    "technique": "EP",
+    "class_or_point": "valid:empty_array",
+    "value": [],
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0124",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "room_ids",
+    "technique": "EP",
+    "class_or_point": "valid:nonempty_array",
+    "value": [
+      {
+        "$fixture": "room_id"
+      }
+    ],
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0125",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "room_ids",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0126",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "room_ids",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0127",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "room_ids",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-array",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0128",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "room_ids[]",
+    "technique": "EP",
+    "class_or_point": "valid:number",
+    "value": 1,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0129",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "room_ids[]",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0130",
+    "endpoint": "/rooms/api/timeline",
+    "method": "POST",
+    "field": "room_ids[]",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-integer",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0131",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "$body",
+    "technique": "EP",
+    "class_or_point": "valid:object_fixture",
+    "value": {
+      "$fixture": "valid_request_body"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0132",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "$body",
+    "technique": "EP",
+    "class_or_point": "invalid:required",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0133",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "$body",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0134",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "$body",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": [],
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0135",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "valid:format",
+    "value": {
+      "$fixture": "free_slot.start_rfc3339"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0136",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:required",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0137",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0138",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0139",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "start_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:format",
+    "value": "not-a-date",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0140",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "valid:format",
+    "value": {
+      "$fixture": "free_slot.end_rfc3339"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0141",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:required",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0142",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0143",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0144",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "end_dt",
+    "technique": "EP",
+    "class_or_point": "invalid:format",
+    "value": "not-a-date",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0145",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "valid:enum=NEVER",
+    "value": "NEVER",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0146",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "valid:enum=DAY",
+    "value": "DAY",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0147",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "valid:enum=WEEK",
+    "value": "WEEK",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0148",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "valid:enum=MONTH",
+    "value": "MONTH",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0149",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "invalid:required",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0150",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0151",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0152",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_frequency",
+    "technique": "EP",
+    "class_or_point": "invalid:enum",
+    "value": "not-in-enum",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0153",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_interval",
+    "technique": "EP",
+    "class_or_point": "valid:number",
+    "value": 0,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0154",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_interval",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0155",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_interval",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0156",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_interval",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-integer",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0157",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_interval",
+    "technique": "EP",
+    "class_or_point": "invalid:minimum",
+    "value": -1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0158",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_interval",
+    "technique": "BVA",
+    "class_or_point": "below_minimum",
+    "value": -1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0159",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_interval",
+    "technique": "BVA",
+    "class_or_point": "at_minimum",
+    "value": 0,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0160",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "repeat_interval",
+    "technique": "BVA",
+    "class_or_point": "above_minimum",
+    "value": 1,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0161",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "valid:empty_array",
+    "value": [],
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0162",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "valid:nonempty_array",
+    "value": [
+      "mon"
+    ],
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0163",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0164",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0165",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-array",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0166",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays",
+    "technique": "EP",
+    "class_or_point": "invalid:uniqueItems",
+    "value": [
+      "mon",
+      "mon"
+    ],
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0167",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=mon",
+    "value": "mon",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0168",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=tue",
+    "value": "tue",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0169",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=wed",
+    "value": "wed",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0170",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=thu",
+    "value": "thu",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0171",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=fri",
+    "value": "fri",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0172",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=sat",
+    "value": "sat",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0173",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "valid:enum=sun",
+    "value": "sun",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0174",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0175",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0176",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "recurrence_weekdays[]",
+    "technique": "EP",
+    "class_or_point": "invalid:enum",
+    "value": "not-in-enum",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0177",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "room_id",
+    "technique": "EP",
+    "class_or_point": "valid:number",
+    "value": {
+      "$fixture": "room_id"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0178",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "room_id",
+    "technique": "EP",
+    "class_or_point": "invalid:required",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0179",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "room_id",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0180",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "room_id",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-integer",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0181",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "user",
+    "technique": "EP",
+    "class_or_point": "valid:format",
+    "value": {
+      "$fixture": "booked_for_user_identifier"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0182",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "user",
+    "technique": "EP",
+    "class_or_point": "valid:null",
+    "value": null,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0183",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "user",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0184",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "user",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0185",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "user",
+    "technique": "EP",
+    "class_or_point": "invalid:format",
+    "value": "not-a-date",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0186",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "reason",
+    "technique": "EP",
+    "class_or_point": "valid:empty",
+    "value": "",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0187",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "reason",
+    "technique": "EP",
+    "class_or_point": "valid:nonempty",
+    "value": "valid",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0188",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "reason",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0189",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "reason",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0190",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "reason",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0191",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "internal_note",
+    "technique": "EP",
+    "class_or_point": "valid:empty",
+    "value": "",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0192",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "internal_note",
+    "technique": "EP",
+    "class_or_point": "valid:nonempty",
+    "value": "valid",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0193",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "internal_note",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0194",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "internal_note",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0195",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "internal_note",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0196",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "is_prebooking",
+    "technique": "EP",
+    "class_or_point": "valid:boolean=false",
+    "value": false,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0197",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "is_prebooking",
+    "technique": "EP",
+    "class_or_point": "valid:boolean=true",
+    "value": true,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0198",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "is_prebooking",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0199",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "is_prebooking",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0200",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "is_prebooking",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-a-boolean",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0201",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_type",
+    "technique": "EP",
+    "class_or_point": "valid:enum=category",
+    "value": "category",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0202",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_type",
+    "technique": "EP",
+    "class_or_point": "valid:enum=event",
+    "value": "event",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0203",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_type",
+    "technique": "EP",
+    "class_or_point": "valid:enum=contribution",
+    "value": "contribution",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0204",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_type",
+    "technique": "EP",
+    "class_or_point": "valid:enum=subcontribution",
+    "value": "subcontribution",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0205",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_type",
+    "technique": "EP",
+    "class_or_point": "valid:enum=session",
+    "value": "session",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0206",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_type",
+    "technique": "EP",
+    "class_or_point": "valid:enum=session_block",
+    "value": "session_block",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0207",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_type",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0208",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_type",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0209",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_type",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0210",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_type",
+    "technique": "EP",
+    "class_or_point": "invalid:enum",
+    "value": "not-in-enum",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0211",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_id",
+    "technique": "EP",
+    "class_or_point": "valid:number",
+    "value": 1,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0212",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_id",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0213",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_id",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0214",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_id",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-integer",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0215",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_back",
+    "technique": "EP",
+    "class_or_point": "valid:boolean=false",
+    "value": false,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0216",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_back",
+    "technique": "EP",
+    "class_or_point": "valid:boolean=true",
+    "value": true,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0217",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_back",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0218",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_back",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0219",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "link_back",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-a-boolean",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0220",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "valid:boolean=false",
+    "value": false,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0221",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "valid:boolean=true",
+    "value": true,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0222",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0223",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0224",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "admin_override_enabled",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-a-boolean",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0225",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "extra_fields",
+    "technique": "EP",
+    "class_or_point": "valid:empty_object",
+    "value": {},
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0226",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "extra_fields",
+    "technique": "EP",
+    "class_or_point": "valid:nonempty_object",
+    "value": {
+      "sample": "value"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0227",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "extra_fields",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0228",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "extra_fields",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0229",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "extra_fields",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": [],
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0230",
+    "endpoint": "/rooms/api/bookings/{booking_id}",
+    "method": "GET",
+    "field": "booking_id",
+    "technique": "EP",
+    "class_or_point": "valid:number",
+    "value": {
+      "$fixture": "booking_id"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0231",
+    "endpoint": "/rooms/api/bookings/{booking_id}",
+    "method": "GET",
+    "field": "booking_id",
+    "technique": "EP",
+    "class_or_point": "invalid:required",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0232",
+    "endpoint": "/rooms/api/bookings/{booking_id}",
+    "method": "GET",
+    "field": "booking_id",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0233",
+    "endpoint": "/rooms/api/bookings/{booking_id}",
+    "method": "GET",
+    "field": "booking_id",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-integer",
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0234",
+    "endpoint": "/rooms/api/bookings/{booking_id}",
+    "method": "GET",
+    "field": "booking_id",
+    "technique": "EP",
+    "class_or_point": "invalid:minimum",
+    "value": -1,
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0235",
+    "endpoint": "/rooms/api/bookings/{booking_id}",
+    "method": "GET",
+    "field": "booking_id",
+    "technique": "BVA",
+    "class_or_point": "below_minimum",
+    "value": -1,
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0236",
+    "endpoint": "/rooms/api/bookings/{booking_id}",
+    "method": "GET",
+    "field": "booking_id",
+    "technique": "BVA",
+    "class_or_point": "at_minimum",
+    "value": 0,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0237",
+    "endpoint": "/rooms/api/bookings/{booking_id}",
+    "method": "GET",
+    "field": "booking_id",
+    "technique": "BVA",
+    "class_or_point": "above_minimum",
+    "value": 1,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0238",
+    "endpoint": "/rooms/api/bookings/{booking_id}",
+    "method": "GET",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "valid:enum=XMLHttpRequest",
+    "value": "XMLHttpRequest",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0239",
+    "endpoint": "/rooms/api/bookings/{booking_id}",
+    "method": "GET",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0240",
+    "endpoint": "/rooms/api/bookings/{booking_id}",
+    "method": "GET",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0241",
+    "endpoint": "/rooms/api/bookings/{booking_id}",
+    "method": "GET",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0242",
+    "endpoint": "/rooms/api/bookings/{booking_id}",
+    "method": "GET",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "invalid:enum",
+    "value": "not-in-enum",
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0243",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "booking_id",
+    "technique": "EP",
+    "class_or_point": "valid:number",
+    "value": {
+      "$fixture": "booking_id"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0244",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "booking_id",
+    "technique": "EP",
+    "class_or_point": "invalid:required",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0245",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "booking_id",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0246",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "booking_id",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-an-integer",
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0247",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "booking_id",
+    "technique": "EP",
+    "class_or_point": "invalid:minimum",
+    "value": -1,
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0248",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "booking_id",
+    "technique": "BVA",
+    "class_or_point": "below_minimum",
+    "value": -1,
+    "expected_status": 404,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0249",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "booking_id",
+    "technique": "BVA",
+    "class_or_point": "at_minimum",
+    "value": 0,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0250",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "booking_id",
+    "technique": "BVA",
+    "class_or_point": "above_minimum",
+    "value": 1,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0251",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "action",
+    "technique": "EP",
+    "class_or_point": "valid:enum=approve",
+    "value": "approve",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0252",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "action",
+    "technique": "EP",
+    "class_or_point": "valid:enum=reject",
+    "value": "reject",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0253",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "action",
+    "technique": "EP",
+    "class_or_point": "valid:enum=cancel",
+    "value": "cancel",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0254",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "action",
+    "technique": "EP",
+    "class_or_point": "invalid:required",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 405,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0255",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "action",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 405,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0256",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "action",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 405,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0257",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "action",
+    "technique": "EP",
+    "class_or_point": "invalid:enum",
+    "value": "not-in-enum",
+    "expected_status": 405,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0258",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "valid:enum=XMLHttpRequest",
+    "value": "XMLHttpRequest",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0259",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0260",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0261",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0262",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "X-Requested-With",
+    "technique": "EP",
+    "class_or_point": "invalid:enum",
+    "value": "not-in-enum",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0263",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "$body",
+    "technique": "EP",
+    "class_or_point": "valid:object_fixture",
+    "value": {
+      "$fixture": "valid_request_body"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0264",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "$body",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0265",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "$body",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0266",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "$body",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": [],
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0267",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "reason[action=approve]",
+    "technique": "EP",
+    "class_or_point": "valid:empty",
+    "value": "",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0268",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "reason[action=approve]",
+    "technique": "EP",
+    "class_or_point": "valid:nonempty",
+    "value": "valid",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0269",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "reason[action=approve]",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0270",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "reason[action=approve]",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0271",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "reason[action=approve]",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0272",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "force[action=approve]",
+    "technique": "EP",
+    "class_or_point": "valid:boolean=false",
+    "value": false,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0273",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "force[action=approve]",
+    "technique": "EP",
+    "class_or_point": "valid:boolean=true",
+    "value": true,
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0274",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "force[action=approve]",
+    "technique": "EP",
+    "class_or_point": "valid:omitted",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0275",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "force[action=approve]",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0276",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "force[action=approve]",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": "not-a-boolean",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0277",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "reason[action=reject]",
+    "technique": "EP",
+    "class_or_point": "valid:string",
+    "value": "valid",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0278",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "reason[action=reject]",
+    "technique": "EP",
+    "class_or_point": "invalid:required",
+    "value": {
+      "$missing": true
+    },
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0279",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "reason[action=reject]",
+    "technique": "EP",
+    "class_or_point": "invalid:null",
+    "value": null,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0280",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "reason[action=reject]",
+    "technique": "EP",
+    "class_or_point": "invalid:type",
+    "value": 1,
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0281",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "reason[action=reject]",
+    "technique": "EP",
+    "class_or_point": "invalid:minLength",
+    "value": "",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0282",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "reason[action=reject]",
+    "technique": "BVA",
+    "class_or_point": "below_minLength",
+    "value": "",
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "API-0283",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "reason[action=reject]",
+    "technique": "BVA",
+    "class_or_point": "at_minLength",
+    "value": "x",
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "API-0284",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "reason[action=reject]",
+    "technique": "BVA",
+    "class_or_point": "above_minLength",
+    "value": "xx",
+    "expected_status": 200,
+    "expected_valid": true
+  }
+]

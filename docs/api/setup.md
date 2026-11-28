@@ -60,3 +60,23 @@ The same command is the verified reset-and-reseed procedure:
 ```
 
 It is destructive to this Compose project's database, Redis, and file volumes. A successful run recreates the demo records and overwrites `tests/team/.env.test` with newly generated tokens. It has been run successfully as shown above.
+
+## API pytest setup
+
+Install the pinned API test dependencies from the repository root:
+
+```powershell
+python -m pip install -r tests/team/api/requirements.txt
+```
+
+`tests/team/api/conftest.py` reads `INDICO_BASE_URL` from the process environment, falling back to the value written in the ignored `tests/team/.env.test`. Its module-scoped autouse fixture runs the documented reset-and-seed script before **each test module**, then reloads the fresh room ID and tokens. This resets the database, Redis, and file volumes each time; build the images once using the commands above before running pytest.
+
+The shared runner checks for `tests/team/.env.test` before starting pytest. Create it once before the first runner invocation by running the documented reset command above. The module fixture then resets and reseeds again before every test module.
+
+From the repository root, start the focused API run with:
+
+```powershell
+& 'C:\Program Files\Git\bin\bash.exe' tests/team/run.sh api
+```
+
+On Linux or macOS, use `bash tests/team/run.sh api`. The test helpers read cases from `tools/testgen/out/cases.json`; a pytest parameter's visible name is the generated case ID. `$fixture` markers in the case value are resolved from pytest fixtures such as the seeded `room_id` or a dynamically selected `free_slot`.

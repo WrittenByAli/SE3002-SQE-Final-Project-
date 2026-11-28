@@ -1,0 +1,3 @@
+# Prompt 008 — OpenAPI regeneration demo
+
+Prepare the spec-change demo. Save a copy of the current cases.json. Pick two constraints in openapi/openapi.yaml that match business rules (for example, one maximum and one minLength), change them, rerun the generator, and produce a readable diff of old vs new cases. Rerun the API tests and report which cases changed and which tests now fail and why. Record the real before/after in docs/api/regeneration-demo.md. Revert the constraints in a separate commit. Then write docs/api/viva-cheatsheet.md with the exact commands to change a spec constraint, regenerate and run the tests in under 5 minutes.
