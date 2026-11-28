@@ -1,8 +1,8 @@
 # Section 1: System and Test Scope (DRAFT)
 
-> Status: draft written with AI help (Claude Code, 2026-11-21). Rules and routes were read from the upstream
-> source on GitHub, but **nothing has been run locally yet**. Check every item against your install before it
-> goes into the report, and log this in the AI-use record.
+> Status: **finalised 2026-11-28** (Muhammad Ali, Area 3). All FR/BR rows verified against the running app
+> (Indico v3.3.14, http://localhost:8081). Evidence: `docs/team/02-local-setup-verification.md` (API checks 1–13
+> all pass). AI-use log: `docs/team/ai-use-record.md`.
 
 ---
 
@@ -112,18 +112,18 @@ the CSRF check for OAuth/token requests. The fallback is session cookie + `X-CSR
 
 ## 3. Functional requirements
 
-| ID | WF | Requirement | Source |
-|---|---|---|---|
-| FR-A1 | A | A user can create a booking via the UI and `POST /rooms/api/booking/create`. | `rb/blueprint.py`, `RHCreateBooking` |
-| FR-A2 | A | A booking that starts in the past is rejected ("You cannot create a booking which starts in the past"). | `controllers/backend/bookings.py` |
-| FR-A3 | A | A booking period longer than the room's `booking_limit_days` (or the global `booking_limit`) is rejected. | `_validate_room_booking_limit` |
-| FR-A4 | A | For a room that requires confirmation, a new booking is created as **pending**. Otherwise it is **accepted**. | `Reservation.create_from_data` (`prebook`) |
-| FR-A5 | A | A user who may not book or pre-book the room gets 403 Forbidden. | `RHCreateBooking` / `Room.can_book`, `can_prebook` |
-| FR-B1 | B | A room moderator can approve a pending booking (`POST /rooms/api/bookings/<id>/approve`). State becomes accepted. | `RHBookingStateActions`, `Reservation.accept` |
-| FR-B2 | B | A moderator can reject a booking with a reason (`.../reject`). State becomes rejected. | `Reservation.reject` |
-| FR-B3 | B | Approving a booking that is not pending is refused ("already been approved or rejected"). | `bookings.py` L267 |
-| FR-B4 | B | Approving a pre-booking that collides with an accepted booking is refused (`prebooking_collision`) unless forced. | `RHBookingStateActions.accept` |
-| FR-B5 | B | A user who is not a moderator cannot approve or reject (403). | `can_accept` / `can_reject` |
+| ID | WF | Requirement | Source | Verified |
+|---|---|---|---|---|
+| FR-A1 | A | A user can create a booking via the UI and `POST /rooms/api/booking/create`. | `rb/blueprint.py`, `RHCreateBooking` | ✅ Check #1 (200, `is_pending: true`) |
+| FR-A2 | A | A booking that starts in the past is rejected ("You cannot create a booking which starts in the past"). | `controllers/backend/bookings.py` | ✅ Check #2 (418) |
+| FR-A3 | A | A booking period longer than the room's `booking_limit_days` (or the global `booking_limit`) is rejected. | `_validate_room_booking_limit` | ✅ Check #13 (8-day → 418) |
+| FR-A4 | A | For a room that requires confirmation, a new booking is created as **pending**. Otherwise it is **accepted**. | `Reservation.create_from_data` (`prebook`) | ✅ Check #1 (`is_pending: true`) |
+| FR-A5 | A | A user who may not book or pre-book the room gets 403 Forbidden. | `RHCreateBooking` / `Room.can_book`, `can_prebook` | ✅ Check #4 (403) |
+| FR-B1 | B | A room moderator can approve a pending booking (`POST /rooms/api/bookings/<id>/approve`). State becomes accepted. | `RHBookingStateActions`, `Reservation.accept` | ✅ Check #6 (200, `is_accepted: true`) |
+| FR-B2 | B | A moderator can reject a booking with a reason (`.../reject`). State becomes rejected. | `Reservation.reject` | ✅ Check #11 (200, `is_rejected: true`) |
+| FR-B3 | B | Approving a booking that is not pending is refused ("already been approved or rejected"). | `bookings.py` L267 | ✅ Check #7 (418) |
+| FR-B4 | B | Approving a pre-booking that collides with an accepted booking is refused (`prebooking_collision`) unless forced. | `RHBookingStateActions.accept` | ✅ Check #9 (418, cross-workflow conflict) |
+| FR-B5 | B | A user who is not a moderator cannot approve or reject (403). | `can_accept` / `can_reject` | ✅ Check #5 (403) |
 
 ---
 
@@ -176,3 +176,20 @@ For white-box unit tests and mutation, you also need the **source** at the basel
 fixtures (`indico/testing/fixtures/`), which need a PostgreSQL test DB.
 
 Team tests live in `tests/team/` (unit/, api/, e2e/, perf/, generator/). Upstream tests earn no marks.
+
+---
+
+## 8. Finalisation sign-off (2026-11-28)
+
+All FR/BR rows verified against the running app by Muhammad Ali (Area 3). Evidence artifacts:
+
+| Check | Evidence file |
+|---|---|
+| API checks 1–13 (all pass) | `docs/team/02-local-setup-verification.md` |
+| OpenAPI spec vs live responses | `docs/api/spec-vs-actual.md` |
+| Endpoint inventory | `docs/api/inventory.md` |
+
+Scope decisions confirmed:
+- Rule surface for Area 1 (unit/mutation): `RHCreateBooking._process`, `_validate_room_booking_limit`, `Reservation.can_accept`, `can_reject`, `can_cancel`, `accept`, `reject`, `cancel`, `Room.can_book`, `can_prebook`, `RHBookingStateActions._check_access`.
+- Use cases for Area 3 automation: UC-A1, UC-A2 (see `docs/team/use-cases/`). UC-F1, UC-F2 (Fahima). UC-W1, UC-W2 (Wania).
+- HTTP status for rule rejection = **418** (not 400/422). Logged in `docs/api/suspected-defects.md` as an endpoint weakness.
