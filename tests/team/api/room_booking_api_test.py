@@ -420,8 +420,11 @@ def _build_api_request(case: dict, request, room_id: int, anchor_id: int):
     return actor, method, path, params, payload, raw_body, headers, booking_target
 
 
-def _send(client: ApiClient, method: str, path: str, params, payload, raw_body: bool, headers):
+def _send(client: ApiClient, method: str, path: str, params, payload, raw_body: bool, headers,
+          coverage_case_id: str | None = None):
     kwargs = {"params": params, "headers": headers}
+    if coverage_case_id is not None:
+        kwargs["_coverage_case_id"] = coverage_case_id
     if raw_body:
         if payload is None:
             kwargs["data"] = "null"
@@ -481,7 +484,7 @@ def test_generated_ep_and_bva_cases(case, request, room_id, user1, mgr1, anchor_
     watch_before = _record_signature(read_back(user1, watch_id))
 
     try:
-        response = _send(actor, method, path, params, payload, raw_body, headers)
+        response = _send(actor, method, path, params, payload, raw_body, headers, case["id"])
     finally:
         if case["endpoint"] == CREATE and payload and isinstance(payload, dict) and payload.get("is_prebooking", False) is False:
             _set_room(request.getfixturevalue("app_control"), room_id, confirmation=True)
@@ -828,3 +831,67 @@ def test_lower_privileged_role_cannot_direct_book_confirmation_room(request, use
     assert response.status_code == 403, f"expected direct-book denial; got {response.status_code}: {response.text[:900]}"
     assert _error_body_is_shaped(response)
     _assert_unchanged(user1, anchor_booking, before)
+
+
+@pytest.mark.timeout(900)
+def test_create_nonexistent_room_documents_not_found(request, user1, anchor_booking):
+    """Exercise create's 404 with a generated in-range room ID that has no record."""
+    room_case = next(
+        case for case in load_cases(
+            endpoint=SINGLE_TIMELINE, field="room_id", technique="BVA", expected_valid=True
+        )
+        if case["class_or_point"] == "at_minimum"
+    )
+    body = _create_payload(request)
+    body["room_id"] = case_value(room_case, request)
+    before = _record_signature(read_back(user1, anchor_booking))
+
+    response = user1.post(CREATE, json=body)
+    request_description = _safe_request_description("POST", CREATE, body)
+    _assert_status(response, 404, request_description, "create-nonexistent-room")
+    _assert_unchanged(user1, anchor_booking, before)
+
+
+def _insufficient_scope_cases():
+    """Choose one valid generated request for each read scope denial endpoint."""
+    selected = []
+    for endpoint, field, marker in (
+        (SINGLE_TIMELINE, "room_id", {"$fixture": "room_id"}),
+        (MULTI_TIMELINE, "$body", {"$fixture": "valid_request_body"}),
+        (BOOKING_DETAILS, "booking_id", {"$fixture": "booking_id"}),
+    ):
+        case = next(
+            case for case in load_cases(endpoint=endpoint, field=field, technique="EP", expected_valid=True)
+            if case["value"] == marker
+        )
+        selected.append(pytest.param(case, id=case["id"]))
+    return selected
+
+
+@pytest.mark.parametrize("case", _insufficient_scope_cases())
+@pytest.mark.timeout(900)
+def test_insufficient_oauth_scope_documents_forbidden(
+    case, request, room_id, base_url, admin_client, app_control, anchor_booking
+):
+    """Use an authenticated low-scope token to sample documented permission rejections."""
+    scopes = ["read:everything"] if case["method"] == "POST" else []
+    token = app_control.call("scoped_token", name=case["id"], scopes=scopes)
+    session = requests.Session()
+    session.headers["Authorization"] = f"Bearer {token}"
+    actor = ApiClient(session, base_url)
+    _, method, path, params, payload, raw_body, _, target_id = _build_api_request(
+        case, request, room_id, anchor_booking
+    )
+    if case["endpoint"] == BOOKING_DETAILS:
+        target_id = int(path.rsplit("/", 1)[-1])
+    else:
+        target_id = anchor_booking
+    before = _record_signature(read_back(admin_client, target_id))
+    try:
+        # Omit X-Requested-With and record the error representation chosen by the live API.
+        response = _send(actor, method, path, params, payload, raw_body, {}, case["id"])
+        request_description = _safe_request_description(method, path, payload, params)
+        _assert_status(response, 403, request_description, case["id"])
+        _assert_unchanged(admin_client, target_id, before)
+    finally:
+        session.close()

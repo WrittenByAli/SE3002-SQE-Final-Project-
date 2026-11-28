@@ -22,27 +22,28 @@ The 31 EP and four BVA failures in this breakdown are counted by case IDs in the
 
 ### (b) Traceability fragment
 
-`docs/team/tasks/area2-fahima.md` lists checklist requirements but does not assign FR identifiers. The business-rule IDs below are the IDs actually defined in `docs/api/context.md` and `tools/testgen/rules.yaml`. Do not invent FR numbers in the final report.
+`docs/team/01-scope-draft.md` defines functional requirements `FR-A1` through `FR-B5`; it is explicitly marked as a draft, so the team should confirm those IDs and wording before submission. The mapping below uses those IDs alongside the business-rule IDs defined in `docs/api/context.md` and `tools/testgen/rules.yaml`.
 
 | Test ID(s) | Requirement in project docs | Evidence/result in latest full run |
 |---|---|---|
-| `API-0001`–`API-0063` | Area 2 checklist: EP/BVA for every input; API coverage criteria. Single-room timeline method and input cases. | 63 generated cases; results included in EP/BVA rows. |
-| `API-0064`–`API-0130` | Area 2 checklist: EP/BVA for every input; API coverage criteria. Multi-room timeline method and input cases. | 67 generated cases; results included in EP/BVA rows. |
-| `API-0131`–`API-0229` | Area 2 checklist: EP/BVA for every input; `BR1` booking-time/booking-limit rule; `BR4_DIRECT` and `BR4_PREBOOK` permission conditions. | 99 generated cases; results included in EP/BVA rows. Case failures include explicit-null booked-for user, non-string principal, and empty/omitted reason under the seeded `booking_reason_required=always` setting. |
-| `API-0230`–`API-0242` | Area 2 checklist: EP/BVA for every input and endpoint/method/status coverage. Booking detail read. | 13 generated cases; malformed booking identifiers returned 404 with `{}`. |
-| `API-0243`–`API-0284` | Area 2 checklist: EP/BVA, role checks, state transitions; `BR2`, `BR3_REJECT`, `BR3_CANCEL`. | 42 generated cases; failures include malformed ID status mismatch, the error-format header assumption, and empty reject reason returning 500. |
-| `BR1-001`–`BR1-004` | `BR1`: start not in past and within booking limit. | 4 decision combinations; passed. |
-| `BR2-001`–`BR2-004` | `BR2`: approval requires pending state and moderator permission. | 4 decision combinations; passed. |
+| `API-0001`–`API-0063` | Area 2 checklist: EP/BVA for every input and coverage criteria; Workflow A timeline query inputs. | 63 generated cases; results included in EP/BVA rows. |
+| `API-0064`–`API-0130` | Area 2 checklist: EP/BVA for every input and coverage criteria; Workflow A multi-room timeline query inputs. | 67 generated cases; results included in EP/BVA rows. |
+| `API-0131`–`API-0229` | `FR-A1` create booking, `FR-A2` reject past start, `FR-A3` booking limit, `FR-A4` pending/accepted outcome, `FR-A5` access; rules `BR1`, `BR4_DIRECT`, `BR4_PREBOOK`. | 99 generated cases; failures include explicit-null booked-for user, non-string principal, and empty/omitted reason under seeded `booking_reason_required=always`. |
+| `API-0230`–`API-0242` | Workflow A shared-record/read-back and Area 2 EP/BVA/coverage criteria. | 13 generated cases; malformed booking identifiers returned 404 with `{}`. |
+| `API-0243`–`API-0284` | `FR-B1` approval, `FR-B2` rejection, `FR-B3` nonpending approval refusal, `FR-B5` role denial; rules `BR2`, `BR3_REJECT`, `BR3_CANCEL`. | 42 generated cases; failures include malformed ID status mismatch, error-format header assumption, and empty reject reason returning 500. |
+| `BR1-001`–`BR1-004` | `FR-A2`/`FR-A3`; `BR1`: start not in past and within booking limit. | 4 decision combinations; passed. |
+| `BR2-001`–`BR2-004` | `FR-B1`/`FR-B3`/`FR-B5`; `BR2`: approval requires pending state and moderator permission. | 4 decision combinations; passed. |
 | `BR3_REJECT-001`–`BR3_REJECT-008` | `BR3_REJECT`: terminal state, moderator permission, and reason presence. | 8 decision combinations; passed. |
 | `BR3_CANCEL-001`–`BR3_CANCEL-032` | `BR3_CANCEL`: state, ownership/admin role, and cancellation grace period. | 32 decision combinations; passed. The docs flag some combinations as needing further live verification. |
-| `BR4_DIRECT-001`–`BR4_DIRECT-016` | `BR4`: direct-book access by room reservability, visibility, confirmation setting and explicit permission. | 16 decision combinations; passed. |
-| `BR4_PREBOOK-001`–`BR4_PREBOOK-016` | `BR4`: prebook access by room reservability, visibility, confirmation setting and explicit permission. | 16 decision combinations; passed. |
+| `BR4_DIRECT-001`–`BR4_DIRECT-016` | `FR-A5`; `BR4`: direct-book access by room reservability, visibility, confirmation setting and explicit permission. | 16 decision combinations; passed. |
+| `BR4_PREBOOK-001`–`BR4_PREBOOK-016` | `FR-A4`/`FR-A5`; `BR4`: prebook access by room reservability, visibility, confirmation setting and explicit permission. | 16 decision combinations; passed. |
 | `pending-to-accepted-approve`; `pending-to-rejected-reject`; `accepted-to-rejected-reject`; `pending-to-cancelled-cancel`; `accepted-to-cancelled-cancel`; `pending-to-denied-approve`; `accepted-to-denied-approve`; `rejected-to-denied-cancel`; `cancelled-to-denied-approve` | Area 2 checklist: every allowed transition plus a disallowed transition from each state; `BR2` and `BR3`. | 9 state-transition scenarios; passed. |
 | `test_repeated_booking_requests_do_not_create_duplicates`; `test_rapid_concurrent_booking_requests_do_not_create_duplicates` | Area 2 checklist: repeated requests / no duplicate records. | Both failed; sequential IDs 161/162 and concurrent IDs 163/164 were distinct. Idempotency intent remains a test-basis assumption. |
+| No separately named case identified | `FR-B4`: approving a colliding pre-booking is refused unless forced. | The reviewed test ID inventory does not show a dedicated collision scenario. Confirm and add one if this draft requirement remains in scope. |
 | `test_workflow_b_reads_and_changes_workflow_a_record` | Shared record / cross-workflow visibility in Area 2 tasks and `docs/api/context.md`. | Passed; workflow B observed and changed the reservation created by workflow A. |
 | `test_lower_privileged_role_cannot_moderate`; `test_lower_privileged_role_cannot_direct_book_confirmation_room` | `BR2`, `BR4`; Area 2 role checks. | Both passed. |
 
-Generated ID ranges above describe the current baseline `cases.json`. They are generator IDs, not permanent requirement numbers; regeneration can shift later IDs. `docs/team/tasks/area2-fahima.md` asks for traceability but contains no FR catalogue, so the table maps to its checklist labels and the actual BR identifiers instead.
+Generated ID ranges above describe the current baseline `cases.json`. They are generator IDs, not permanent requirement numbers; regeneration can shift later IDs. Functional requirement mappings come from the draft scope in `docs/team/01-scope-draft.md`; confirm that draft with the group before treating it as the final requirement catalogue.
 
 ### (c) Total and results by technique
 
@@ -97,6 +98,6 @@ The canonical detailed log is [`docs/ai-use/fahima-ai-log.md`](../ai-use/fahima-
 4. **Confirm expected versus actual rule basis:** BR1–BR4 are based on the scope draft; some decision-table combinations in `rules.yaml` explicitly need more live verification.
 5. **Confirm duplicate prevention is an intended requirement** with the team/product owner. Upstream docs/source did not establish an idempotency guarantee.
 6. **Confirm the seeded configuration** for `booking_reason_required=always` before describing empty create-reason rejection as a defect.
-7. **Confirm no FR identifiers exist elsewhere in the final group report.** This fragment uses the actual BR IDs and checklist labels because the reviewed Area 2 task file does not define FR IDs.
+7. **Confirm the draft FR catalogue with the team** and specifically verify that `FR-B4` collision rejection has a dedicated live API test if it remains in scope.
 8. **Confirm the finalized AI log is acceptable to the instructor** and that the prompt files and shared team AI-use record requirements are both met. This workspace contains the Fahima-specific log and prompt archive under `docs/ai-use/`.
 9. **Check whether each weakness has a GitHub issue** if your final report claims defects were formally logged. `docs/api/weaknesses.md` contains paste-ready issue text; those drafts are not themselves GitHub issues.

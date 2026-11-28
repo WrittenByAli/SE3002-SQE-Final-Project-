@@ -9,11 +9,15 @@ from __future__ import annotations
 import json
 import os
 import random
+import re
 import shutil
 import subprocess
+import threading
+import time
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from urllib.parse import parse_qsl, urlsplit
 
 import pytest
 import requests
@@ -24,7 +28,155 @@ CASE_FILE = REPO_ROOT / "tools" / "testgen" / "out" / "cases.json"
 SEED_ENV_FILE = REPO_ROOT / "tests" / "team" / ".env.test"
 RESET_SCRIPT = REPO_ROOT / "tests" / "team" / "seed" / "reset.sh"
 APP_COMPOSE_DIR = REPO_ROOT / "infra" / "indico-containers" / "indico-prod"
+DEFAULT_TRAFFIC_LOG = REPO_ROOT / "tests" / "team" / "reports" / "api" / "http-traffic.jsonl"
 MISSING = object()
+_TRAFFIC_LOG_PATH: Path | None = None
+_CURRENT_TEST_ID: str | None = None
+_TRAFFIC_LOG_LOCK = threading.Lock()
+_CURRENT_TEST_LOCK = threading.Lock()
+_SIGNED_PRINCIPAL = re.compile(r"(User:\d+:)[A-Za-z0-9._-]+")
+_BEARER_VALUE = re.compile(r"(?i)(Bearer\s+)[A-Za-z0-9._~-]+")
+_CSRF_META_VALUE = re.compile(
+    r"(?i)(<meta[^>]*(?:name|id)=[\"']csrf-token[\"'][^>]*content=[\"'])([^\"']+)([\"'])"
+)
+
+
+def _safe_traffic_value(value, key: str = ""):
+    """Remove credentials and signed principal tokens before writing HTTP evidence."""
+    if isinstance(value, dict):
+        safe = {}
+        for item_key, item_value in value.items():
+            normalized_key = str(item_key).lower()
+            if any(secret in normalized_key for secret in ("authorization", "cookie", "token", "password", "secret")):
+                safe[item_key] = "[REDACTED]"
+            else:
+                safe[item_key] = _safe_traffic_value(item_value, str(item_key))
+        return safe
+    if isinstance(value, (list, tuple)):
+        return [_safe_traffic_value(item, key) for item in value]
+    if isinstance(value, str):
+        value = _SIGNED_PRINCIPAL.sub(r"\1[REDACTED]", value)
+        value = _BEARER_VALUE.sub(r"\1[REDACTED]", value)
+        return _CSRF_META_VALUE.sub(r"\1[REDACTED]\3", value)
+    return value
+
+
+def _log_http_exchange(method: str, url: str, kwargs: dict, response: requests.Response | None,
+                       elapsed_ms: float, error: Exception | None = None) -> None:
+    """Append one sanitized request/response pair for coverage analysis."""
+    if _TRAFFIC_LOG_PATH is None:
+        raise RuntimeError("API traffic logger fixture was not initialized")
+
+    prepared_request = response.request if response is not None else None
+    if prepared_request is not None:
+        method = prepared_request.method or method
+        url = prepared_request.url
+    parsed_url = urlsplit(url)
+    query = {}
+    for key, value in parse_qsl(parsed_url.query, keep_blank_values=True):
+        if key in query:
+            if not isinstance(query[key], list):
+                query[key] = [query[key]]
+            query[key].append(value)
+        else:
+            query[key] = value
+
+    request_body = prepared_request.body if prepared_request is not None else kwargs.get("json", MISSING)
+    if prepared_request is None and request_body is MISSING:
+        request_body = kwargs.get("data")
+    if isinstance(request_body, bytes):
+        request_body = request_body.decode("utf-8", errors="replace")
+    if isinstance(request_body, str):
+        content_type = ""
+        if prepared_request is not None:
+            content_type = prepared_request.headers.get("Content-Type", "")
+        else:
+            content_type = kwargs.get("headers", {}).get("Content-Type", "")
+        if "json" in content_type.lower():
+            try:
+                request_body = json.loads(request_body)
+            except json.JSONDecodeError:
+                pass
+
+    request_headers = {}
+    if response is not None:
+        for key, value in response.request.headers.items():
+            if key.lower() in {"accept", "content-type", "x-requested-with"}:
+                request_headers[key] = value
+    else:
+        for key, value in kwargs.get("headers", {}).items():
+            if key.lower() in {"accept", "content-type", "x-requested-with"}:
+                request_headers[key] = value
+
+    request_info = {
+        "method": method.upper(),
+        "path": parsed_url.path,
+        "query": query,
+        "headers": request_headers,
+        "body": None if request_body is MISSING else request_body,
+    }
+    response_info = None
+    if response is not None:
+        try:
+            response_body = response.json()
+        except requests.exceptions.JSONDecodeError:
+            response_body = response.text
+        response_info = {
+            "status": response.status_code,
+            "headers": {
+                key: value for key, value in response.headers.items()
+                if key.lower() in {"content-type", "location"}
+            },
+            "body": response_body,
+        }
+    elif error is not None:
+        response_info = {"error": type(error).__name__, "message": str(error)}
+
+    with _CURRENT_TEST_LOCK:
+        test_id = _CURRENT_TEST_ID
+    record = {
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "test_id": test_id,
+        "case_id": kwargs.get("_coverage_case_id"),
+        "elapsed_ms": round(elapsed_ms, 3),
+        "request": _safe_traffic_value(request_info),
+        "response": _safe_traffic_value(response_info),
+    }
+    with _TRAFFIC_LOG_LOCK:
+        with _TRAFFIC_LOG_PATH.open("a", encoding="utf-8", newline="\n") as stream:
+            stream.write(json.dumps(record, sort_keys=True, separators=(",", ":"), default=str) + "\n")
+
+
+@pytest.fixture(scope="session", autouse=True)
+def api_traffic_log():
+    """Log every ApiClient exchange to an ignored JSONL file for coverage analysis.
+
+    Set SQE_API_TRAFFIC_LOG to choose a different file. Set
+    SQE_API_TRAFFIC_LOG_APPEND=1 to append a targeted run to an existing log.
+    Credentials and signed principal signatures are redacted.
+    """
+    global _TRAFFIC_LOG_PATH
+    configured_path = os.environ.get("SQE_API_TRAFFIC_LOG")
+    _TRAFFIC_LOG_PATH = Path(configured_path).resolve() if configured_path else DEFAULT_TRAFFIC_LOG
+    _TRAFFIC_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
+    append = os.environ.get("SQE_API_TRAFFIC_LOG_APPEND") == "1"
+    with _TRAFFIC_LOG_PATH.open("a" if append else "w", encoding="utf-8"):
+        pass
+    yield _TRAFFIC_LOG_PATH
+    _TRAFFIC_LOG_PATH = None
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_call(item):
+    """Attach the pytest node ID to every HTTP exchange, including worker threads."""
+    global _CURRENT_TEST_ID
+    with _CURRENT_TEST_LOCK:
+        _CURRENT_TEST_ID = item.nodeid
+    try:
+        yield
+    finally:
+        with _CURRENT_TEST_LOCK:
+            _CURRENT_TEST_ID = None
 
 
 def _read_seed_environment() -> dict[str, str]:
@@ -114,7 +266,30 @@ class ApiClient:
 
     def request(self, method: str, path: str, **kwargs) -> requests.Response:
         kwargs.setdefault("timeout", 30)
-        return self.session.request(method, self._url(path), **kwargs)
+        coverage_case_id = kwargs.pop("_coverage_case_id", None)
+        log_kwargs = dict(kwargs)
+        log_kwargs["_coverage_case_id"] = coverage_case_id
+        url = self._url(path)
+        started = time.perf_counter()
+        try:
+            response = self.session.request(method, url, **kwargs)
+        except Exception as error:
+            _log_http_exchange(method, url, log_kwargs, None, (time.perf_counter() - started) * 1000, error)
+            raise
+        elapsed_ms = (time.perf_counter() - started) * 1000
+        exchanges = [*response.history, response]
+        for index, exchange in enumerate(exchanges):
+            exchange_kwargs = log_kwargs
+            if index:
+                exchange_kwargs = dict(log_kwargs, _coverage_case_id=None)
+            _log_http_exchange(
+                exchange.request.method,
+                exchange.request.url,
+                exchange_kwargs,
+                exchange,
+                elapsed_ms,
+            )
+        return response
 
     def get(self, path: str, **kwargs) -> requests.Response:
         return self.request("GET", path, **kwargs)
@@ -246,6 +421,14 @@ for line in sys.stdin:
         elif operation == 'admin_token':
             user = Identity.query.filter_by(provider='indico', identifier='admin').one().user
             token = PersonalToken(user=user, name='sqe-api-tests-admin', scopes={'full:everything'})
+            db.session.add(token)
+            value = token.generate_token()
+            db.session.commit()
+            result = {'ok': True, 'value': value}
+        elif operation == 'scoped_token':
+            user = Identity.query.filter_by(provider='indico', identifier='user1').one().user
+            token = PersonalToken(user=user, name=f"sqe-api-tests-{command['name']}",
+                                  scopes=set(command['scopes']))
             db.session.add(token)
             value = token.generate_token()
             db.session.commit()
