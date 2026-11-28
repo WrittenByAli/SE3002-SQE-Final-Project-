@@ -1,4 +1,4 @@
-# Area 1: Muhammad Ali: Static analysis, white-box, mutation, CI (29 marks + leads)
+# Area 1: Wania: Static analysis, white-box, mutation, CI (29 marks + leads)
 
 Skills: `sqe-sonar`, `sqe-whitebox`, `sqe-mutation`, `sqe-ci-gate`. Agents: `mutant-analyst`, `rubric-auditor`, `viva-examiner`.
 Commands: `bash tests/team/run.sh unit | mutation` (Linux runner: Python 3.12 + PostgreSQL + mutmut 3.8.1, ready to use).
@@ -52,10 +52,11 @@ You create: `tests/team/rule_surface.yml` (the business-rule functions in scope;
 
 ## Your 2 use cases
 
-- [ ] UC-A1 Moderator approves a pending booking, UC-A2 Moderator rejects a booking. Write them with the template and automate
-      every flow in `tests/team/e2e/use-cases/` (see `area3-wania.md` for the framework).
+- [ ] UC-W1 Moderator approves a pending booking, UC-W2 Moderator rejects a booking. Write them with the template and automate
+      every flow in `tests/team/e2e/use-cases/` (see `area3-muhammad-ali.md` for the framework).
 
 ## Viva prep
 
 - [ ] Rerun one of your unit tests live and explain each assertion; explain MCC vs MC/DC for `can_cancel`;
       live task drill: "booking_limit_days is now exclusive (`<`)": predict the BR1 BVA test + mutation gate outcome.
+
