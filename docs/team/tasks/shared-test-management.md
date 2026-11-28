@@ -6,9 +6,9 @@ Skill: `sqe-test-management`, `sqe-defect`. Agent: `rubric-auditor` (run weekly)
 |---|---|---|---|
 | System & scope (5) | `docs/team/01-scope-draft.md` (final) | Ali | verify FR/BR in your area against the app |
 | Test plan, estimation, traceability (7) | `test-plan.md`, `estimation.md`, `traceability.md` | Ali (plan, estimation), Fahima (traceability) | own-area approach, 3-point estimates, actual hours weekly |
-| Risk register & exit criteria (5) | `risk-register.md` | Wania | risks from your area, technique + depth per risk |
+| Risk register & exit criteria (5) | `risk-register.md` | Ali | risks from your area, technique + depth per risk |
 | Defect management & RCA (7) | GitHub Issues + `defects.md` | Fahima | log every defect you find as an Issue the same day |
-| Monitoring & completion (5) | `weekly/YYYY-MM-DD.md`, `test-completion-report.md` | Fahima (weekly), Wania (completion) | weekly status lines + metrics for your area |
+| Monitoring & completion (5) | `weekly/YYYY-MM-DD.md`, `test-completion-report.md` | Fahima (weekly), Ali (completion) | weekly status lines + metrics for your area |
 
 ## Checklist (assignment §2 "Test plan and test management")
 
