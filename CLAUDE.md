@@ -29,10 +29,10 @@ in which every member must explain their own work. These rules exist so that AI 
 
 | Member | GitHub | Area (examined on it in the viva) | Task file |
 |---|---|---|---|
-| Wania | _(add GitHub username)_ | **Area 1: Static analysis, white-box, mutation, and CI**: SonarQube metrics, hand-calculated complexity, unit tests, 100% scoped statement/branch target, MCC/MC/DC, decision/state tests, two custom mutation operators, survivor analysis, GitHub Actions quality gates | `docs/team/tasks/wania-unit-mutation.md` |
-| Fahima | `Fahima-sohail` | **Area 2: API testing and data generation**: API/integration, OpenAPI, generated EP/BVA data, API coverage criteria, rule rejections/transitions/repeats, shared-record verification, endpoint weaknesses | `docs/team/tasks/fahima-api-quality.md` |
-| Muhammad Ali | `WrittenByAli` | **Area 3: Use cases, usability, accessibility, security, and performance**: shared Playwright framework, two use cases per member, Lighthouse/axe/keyboard, role access checks, ZAP passive scan, dependency audit, k6 and recovery | `docs/team/tasks/muhammad-ali-browser-security.md` |
-| All three | | **Shared test management**: plan, estimation, risk register, traceability, defects + RCA, weekly reports, completion report | `docs/team/tasks/shared-test-management.md` |
+| Muhammad Ali | `WrittenByAli` | **Area 3**: use cases + Playwright automation, usability and accessibility (Lighthouse, axe, keyboard), defensive security (access matrix, ZAP passive, pip-audit), performance (k6) + recovery | `docs/team/tasks/area3-muhammad-ali.md` |
+| Fahima | `Fahima-sohail` | **Area 2**: API and integration testing (EP, 3-point BVA, decision tables, state transitions, read-back), OpenAPI spec + test-data generator | `docs/team/tasks/area2-fahima.md` |
+| Wania | _(add GitHub username)_ | **Area 1**: SonarQube + cyclomatic complexity, white-box unit tests (100% stmt/branch, MCC, MC/DC), mutation testing, CI quality gate | `docs/team/tasks/area1-wania.md` |
+| All three | | **Test management**: plan, estimation, risk register, traceability, defects + RCA, weekly reports, completion report | `docs/team/tasks/shared-test-management.md` |
 
 When a member starts a session, ask who they are if it is unclear, then load their task file and work from its checklist.
 
