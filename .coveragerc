@@ -1,6 +1,7 @@
 [run]
 branch = true
 source = indico
+relative_files = True
 omit =
     indico/legacy/*
     indico/migrations/*

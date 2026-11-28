@@ -3,7 +3,7 @@ name: sqe-openapi-generator
 description: "Write the OpenAPI 3.0 spec for the Room Booking endpoints and build/extend the generator that reads it and emits EP classes and 3-point BVA values for API tests; change two constraints and regenerate. Use for \"OpenAPI\", \"spec\", \"generator\", \"regenerate\", \"test data generation\", \"changed constraint\"."
 ---
 
-# OpenAPI spec + test-data generator (Area 2, 7 marks)
+# OpenAPI spec + test-data generator (Fahima owns, 7 marks)
 
 Files: spec `openapi/rb.yaml` · generator `tests/team/generator/generate.py` · output `tests/team/generator/out/cases.json`
 (committed so the diff after a spec change is visible) · loader `tests/team/generator/cases.py`.

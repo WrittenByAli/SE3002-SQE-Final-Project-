@@ -3,7 +3,7 @@ name: sqe-use-cases
 description: "Write use cases (preconditions, main flow, >=2 alternative and >=2 exception flows, postconditions) for the Indico Room Booking workflows and automate every flow with Playwright (Chromium), asserting the shown result and the postconditions. Use for \"use case\", \"alternative flow\", \"exception flow\", \"Playwright test\", \"e2e\"."
 ---
 
-# Use cases + Playwright automation (Area 3 owns; every member writes and automates 2)
+# Use cases + Playwright automation (Ali owns the shared framework; every member writes and automates 2)
 
 Template: `docs/team/templates/use-case.md` → one file per UC in `docs/team/use-cases/UC-<ID>.md`.
 Split (from `docs/team/tasks/README.md`): Ali UC-A1/A2 (moderator approve/reject), Fahima UC-F1/F2 (request/cancel),

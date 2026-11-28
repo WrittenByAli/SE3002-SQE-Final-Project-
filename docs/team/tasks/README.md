@@ -1,9 +1,8 @@
-# Task division: who does what
+# Team task division
 
-Assignment: 120 marks. Each member is **examined individually** on their area in the viva (20 marks: owned area,
-live task, AI-use record). Any component you cannot explain can be set to zero, so own your area end to end.
+This is the agreed division by testing area. **BR1–BR4 are shared requirements, not exclusive assignments:** each person tests the relevant rules through their own testing type, and all resulting tests map back to the same frozen Indico baseline. Every member owns two use cases and participates in shared test management.
 
-## Ownership (assignment §6: one area per member; test management shared)
+## Area ownership
 
 | Member | Area | Rubric components owned | Marks | Leads (shared) | Task file |
 |---|---|---|---|---|---|
@@ -12,9 +11,9 @@ live task, AI-use record). Any component you cannot explain can be set to zero, 
 | **Wania** (_GitHub: TBD_) | 1: Static analysis, white-box, mutation, CI | Static analysis & metrics (5), White-box unit testing (16), Mutation & CI gate (8) | 29 | Test plan + estimation, System & scope | [area1-wania.md](area1-wania.md) |
 | **All three** | Test management | System & scope (5), Test plan/estimation/traceability (7), Risk register & exit criteria (5), Defects & RCA (7), Monitoring & completion (5) | 29 | the lead owns the document, everyone contributes | [shared-test-management.md](shared-test-management.md) |
 
-Area 2 has fewer rubric marks, so Fahima leads three of the shared management components. That keeps the workload balanced.
+The team records three-point estimates and actual effort weekly. Rebalance supporting tasks if the estimates show a material workload difference.
 
-## Everyone, individually (do not skip)
+## Rubric components
 
 - **Two use cases per member** (assignment §2, "Two use cases per member"), each with ≥2 alternative and ≥2 exception
   flows, **automated in Playwright by the member who wrote them**. Muhammad Ali owns the framework and the template. Suggested split:
@@ -29,7 +28,7 @@ Area 2 has fewer rubric marks, so Fahima leads three of the shared management co
 - Prepare for the **live task**: a business-rule change or an updated API spec. Predict which tests and which CI gate
   fail, make the change, show the result (practise with the `sqe-viva-prep` skill and the `viva-examiner` agent).
 
-## Timeline (set real dates once the deadline is known)
+## BR1–BR4 across test types
 
 | Week | Goal (exit condition) | Ali (Area 3) | Fahima (Area 2) | Wania (Area 1) |
 |---|---|---|---|---|
@@ -39,10 +38,8 @@ Area 2 has fewer rubric marks, so Fahima leads three of the shared management co
 | W4 | **Hardening** | a11y fix before/after, k6 runs, recovery test | 2 constraint changes + regeneration, endpoint weaknesses report | custom mutation operators, kill survivors, gates at final values, fix PR + blocked PR |
 | W5 | **Report + viva prep** | completion report, risk residuals | traceability/defects/Pareto final | final metrics, CI evidence |
 
-Weekly: Friday progress report (Fahima leads) using `docs/team/templates/weekly-report.md`.
+Adjust dates to the course deadline. The sequence is a guide; the shared baseline and scope remain the same for all members.
 
-## How to work together
+## Working together
 
-Read [the GitHub workflow](../harness/github-workflow.md): one task = one issue = one branch = one PR; `main` is protected;
-every PR needs one approving review from another member (rotation: Ali → Fahima → Wania → Ali) and a green `CI gate`.
-Map of the whole harness: [docs/team/harness/README.md](../harness/README.md). Templates: [docs/team/templates/](../templates/README.md).
+Read [the GitHub workflow](../harness/github-workflow.md): one task = one issue = one branch = one PR; `main` is protected and each PR requires a review and green `CI gate`. See the [harness map](../harness/README.md) and [templates](../templates/README.md).

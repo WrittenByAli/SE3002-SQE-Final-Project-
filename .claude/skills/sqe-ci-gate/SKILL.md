@@ -3,7 +3,7 @@ name: sqe-ci-gate
 description: "GitHub Actions CI/CD quality gate for the SQE project: jobs, thresholds, branch protection, the documented fix PR (fails before, passes after) and the blocked PR. Use for \"CI failing\", \"add a job\", \"raise a threshold\", \"branch protection\", \"blocked PR\", \"fix PR\", \"deploy job\"."
 ---
 
-# CI quality gate (Area 1, part of 8 marks)
+# CI quality gate (Wania owns the workflow and gates; each area owner supplies a stable test command)
 
 Workflow: `.github/workflows/ci.yml` (PRs to `main` + pushes to `main`).
 | Job | Status | Gate |
@@ -12,11 +12,13 @@ Workflow: `.github/workflows/ci.yml` (PRs to `main` + pushes to `main`).
 | `runner` | ✅ exists | Linux test-runner image builds (Py3.12, pinned Indico deps, mutmut) and Indico imports in it |
 | `app-smoke` | ✅ exists | app stack builds, boots, seeds; the API answers with the seeded tokens (environment check, not a test deliverable) |
 | `CI gate` | ✅ exists | aggregates the jobs above. **Branch protection requires this one check** |
-| `unit` | ➕ Area 1 adds | team unit tests pass + rule-surface coverage ≥ thresholds |
-| `mutation` | ➕ Area 1 adds | mutation score ≥ threshold (mutmut + custom operators) |
-| `sonarqube` | ➕ Area 1 adds | SonarQube Community in a service container; quality gate must be OK |
-| `api` / `e2e` | ➕ Area 1 wires the Area 2/3 suites | API tests, Playwright E2E (+ axe) against the booted stack |
-| `deploy` | ➕ Area 1 adds | only on `main` after `CI gate`, e.g. publish reports to GitHub Pages (blocked by any failure) |
+| `unit` | ➕ Wania adds | team unit tests pass + rule-surface coverage ≥ thresholds |
+| `mutation` | ➕ Wania adds | mutation score ≥ threshold (mutmut + two custom operators) |
+| `sonarqube` | ➕ Wania adds | SonarQube metrics and justified quality gate |
+| `api` | ➕ Wania integrates Fahima's suite | API tests against the booted stack |
+| `e2e` / accessibility / security | ➕ Wania integrates Ali's suite | Playwright, axe, and security checks against the booted stack |
+| `performance` | ➕ Wania integrates Ali's k6/recovery commands | Performance and recovery criteria meet documented thresholds |
+| `deploy` | ➕ Wania adds | only on `main` after `CI gate`, e.g. publish reports to GitHub Pages (blocked by any failure) |
 Add every new job to `needs:` of `CI gate`. Thresholds belong in `tests/team/quality-gates.yml` (ratchet: raise in the PR that earns it).
 
 ## Rules

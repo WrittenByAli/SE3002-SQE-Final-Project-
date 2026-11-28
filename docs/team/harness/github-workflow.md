@@ -17,7 +17,7 @@ Repo: https://github.com/WrittenByAli/SE3002-SQE-Final-Project-. Commit history 
 
 | Kind | Pattern | Example |
 |---|---|---|
-| Test work | `test/<area>-<topic>` | `test/a1-br3-can-cancel-mcc`, `test/a2-bva-create`, `test/a3-uc-w1` |
+| Test work | `test/<owner-or-topic>` | `test/wania-br3-can-cancel-mcc`, `test/fahima-bva-create`, `test/ali-uc-a1` |
 | Documents | `docs/<topic>` | `docs/risk-register` |
 | Defect fix (the documented fix PR) | `fix/<issue>-<slug>` | `fix/14-repeat-interval-500` |
 | CI / tooling | `ci/<topic>` | `ci/mutation-gate` |
@@ -27,11 +27,11 @@ Repo: https://github.com/WrittenByAli/SE3002-SQE-Final-Project-. Commit history 
 
 ```bash
 git switch main && git pull                       # start from the latest main
-git switch -c test/a2-bva-create                  # new branch for ONE task (issue #12)
+git switch -c test/fahima-bva-create              # new branch for ONE task (issue #12)
 # ... work, run the relevant suite locally: bash tests/team/run.sh <target> ...
 git add -p                                        # stage deliberately; never `git add .env*`
 git commit -m "Add BVA tests for booking/create end_dt (#12)"
-git push -u origin test/a2-bva-create
+git push -u origin test/fahima-bva-create
 gh pr create --fill --base main                   # the PR template opens; fill every section
 ```
 Then: request a reviewer (CODEOWNERS adds the area owner automatically), wait for `CI gate`, address comments with new commits
@@ -44,9 +44,9 @@ Keeping your branch up to date: `git switch main && git pull && git switch - && 
 
 | Author | Reviewer | Why |
 |---|---|---|
-| Muhammad Ali (Area 1) | Fahima | API tests depend on the same rules Ali tests at unit level |
-| Fahima (Area 2) | Wania | Wania's E2E/security tests use the same endpoints |
-| Wania (Area 3) | Muhammad Ali | Ali wires every suite into CI |
+| Wania (Area 1: static analysis/white-box/mutation/CI) | Fahima | API and unit tests must agree on expected business-rule behavior |
+| Fahima (Area 2: API/data generation) | Muhammad Ali | Browser flows and API cases exercise the same workflows |
+| Muhammad Ali (Area 3: browser/UX/security/performance) | Wania | Unit and rule tests verify the behaviors used in UI/security flows |
 | Shared documents | the two non-authors (≥1 approval required) | everyone is examined on test management |
 If the default reviewer is unavailable for 24 h, any other member may review.
 
@@ -74,4 +74,4 @@ Use GitHub's "Request changes" when something must change, "Approve" when it is 
 | `runner` | the Linux test runner image builds and Indico imports in it |
 | `app-smoke` | the app stack builds, boots and seeds; the API answers with the seeded tokens |
 | `CI gate` | all of the above passed. **The only check branch protection requires** |
-Area 1 adds the test gates (unit + coverage, mutation, SonarQube, API, E2E) to `CI gate` as the project grows (`sqe-ci-gate` skill).
+Wania integrates the test gates (unit + coverage, mutation, SonarQube, API, E2E, accessibility/security, and performance) into `CI gate` as the project grows (`sqe-ci-gate` skill), using stable commands from Fahima and Ali.

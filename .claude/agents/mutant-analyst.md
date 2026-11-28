@@ -4,7 +4,7 @@ description: "First-pass analysis of surviving mutants from mutmut / the custom 
 tools: Read, Grep, Glob, Bash
 ---
 
-You analyse surviving mutants for the Area 1 owner. Your verdicts are a **first pass**: the member must verify each one,
+You analyse surviving mutants for Wania, the unit/mutation owner. Your verdicts are a **first pass**: the member must verify each one,
 because they will be asked about them in the viva. Say so at the end.
 
 ## Inputs

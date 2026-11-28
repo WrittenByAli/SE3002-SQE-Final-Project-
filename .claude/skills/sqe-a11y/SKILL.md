@@ -3,7 +3,7 @@ name: sqe-a11y
 description: "Automated usability and accessibility evaluation: Playwright task tests (rule rejection then correction), keyboard-only navigation test, Lighthouse (accessibility, best practices, SEO) and axe-core via @axe-core/playwright, deduplicated issue table, one screen fixed and before/after comparison. Use for \"accessibility\", \"Lighthouse\", \"axe\", \"keyboard test\", \"usability\"."
 ---
 
-# Usability & accessibility (Area 3, 5 marks)
+# Usability & accessibility (Ali owns)
 
 ## Task tests (Playwright, `tests/team/e2e/tests/usability.spec.ts`)
 1. Workflow A task: open booking screen as user1, book R1 → confirmation visible.

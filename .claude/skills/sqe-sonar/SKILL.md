@@ -3,9 +3,9 @@ name: sqe-sonar
 description: "Run SonarQube Community on the SQE repo, read and explain the metrics (complexity, duplication, smells, bugs, vulnerabilities, coverage, debt, ratings), and compare hand-calculated cyclomatic complexity with Sonar. Use for \"sonar\", \"static analysis\", \"code smells\", \"technical debt\", \"cyclomatic complexity vs sonar\"."
 ---
 
-# SonarQube (Area 1, 5 marks)
+# SonarQube and hand-calculated complexity (Wania owns, Area 1)
 
-Area 1 adds a `sonarqube` CI job (SonarQube Community as a service container, so no external account is needed) and a
+Wania adds a `sonarqube` CI job (SonarQube Community as a service container, so no external account is needed) and a
 `sonar-project.properties` (suggested: sources = `indico/modules/rb` + `tests/team`, Python coverage from
 `tests/team/reports/unit/coverage.xml`, which `bash tests/team/run.sh unit` already produces).
 

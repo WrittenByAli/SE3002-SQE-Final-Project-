@@ -4,7 +4,7 @@
 #   bash tests/team/run.sh env-up        start the Indico app stack (http://localhost:8081)
 #   bash tests/team/run.sh env-reset     wipe + reseed the app (writes tests/team/.env.test)
 #   bash tests/team/run.sh unit          tests/team/unit + coverage reports      (Linux container: Py3.12 + Postgres)
-#   bash tests/team/run.sh mutation ...  mutmut, args passed through (default: run) (Linux container)
+#   bash tests/team/run.sh mutation ...  Cosmic Ray, args passed through (default: run) (Linux container)
 #   bash tests/team/run.sh api           tests/team/api against the running app  (host Python)
 #   bash tests/team/run.sh e2e           tests/team/e2e Playwright (Chromium) against the running app (Node)
 #   bash tests/team/run.sh perf <x.js>   k6 script from tests/team/perf/          (Docker grafana/k6)
@@ -43,7 +43,10 @@ case "$target" in
       --junitxml=tests/team/reports/unit/junit.xml -q $*" ;;
   mutation)
     mkdir -p "$REPORTS/mutation"
-    in_runner "mutmut ${*:-run}" ;;
+    "${RUNNER[@]}" build runner
+    in_runner "uv pip install --no-deps -e /repo/tests/team/mutation && \\
+      python -m pytest tests/team/mutation/test_operators.py -q && \\
+      bash tests/team/mutation/run.sh ${*:-run}" ;;
   api)
     mkdir -p "$REPORTS/api"
     [[ -f "$ROOT/tests/team/.env.test" ]] || { echo "Run: bash tests/team/run.sh env-reset"; exit 1; }

@@ -1,0 +1,27 @@
+Area 1 BR1–BR4 statement and branch coverage
+Run date: 2026-11-23
+Command: bash tests/team/run.sh unit
+Result: 102 passed in 15.64s
+Coverage options: pytest-cov JSON, XML, HTML; branch measurement enabled
+Scope: all 17 functions listed in tests/team/rule_surface.yml (confirmed scope)
+
+Rule  Statements covered / total  Branches covered / total
+BR1   39 / 39 (100%)              12 / 12 (100%)
+BR2    3 /  3 (100%)               2 /  2 (100%)
+BR3   65 / 65 (100%)              36 / 36 (100%)
+BR4   48 / 48 (100%)              28 / 28 (100%)
+Total 155 / 155 (100%)             78 / 78 (100%)
+
+Uncovered statements in confirmed scope: 0
+Uncovered branches in confirmed scope: 0
+Justifications for uncovered code: none required in the confirmed scope.
+
+The result applies only to the 17 selected server-side functions implementing
+the four business rules in the confirmed room-booking workflows. It is not a
+claim of 100% coverage for the full Indico repository. The generated raw
+coverage JSON/XML/HTML reports are under tests/team/reports/unit/ after the run.
+
+Evidence note: this is a rollup transcribed from a successful run and its
+coverage JSON. The final terminal screenshot at
+unit-test-pass-2026-11-23-final.png independently shows 102 passed in 16.63s
+and that coverage HTML/XML/JSON reports were generated.

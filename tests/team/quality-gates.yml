@@ -1,0 +1,23 @@
+schema_version: 1
+scope: tests/team/rule_surface.yml
+coverage:
+  statements_percent: 100
+  branches_percent: 100
+mutation:
+  tool: Cosmic Ray
+  minimum_score_percent: 90
+  timeout_seconds: 60
+  minimum_survivors_reviewed: 15
+  require_complete_campaign: true
+  fail_on_incompetent_mutants: true
+sonarqube:
+  require_quality_gate: true
+  new_code:
+    coverage_minimum_percent: 80
+    bugs_maximum: 0
+    vulnerabilities_maximum: 0
+    reliability_rating_maximum: 1
+    security_rating_maximum: 1
+    maintainability_rating_maximum: 1
+    duplicated_lines_density_maximum_percent: 3
+    security_hotspots_reviewed_minimum_percent: 100

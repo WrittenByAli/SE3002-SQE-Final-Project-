@@ -36,7 +36,7 @@ target scoped to the room-booking (`rb`) logic you test, and justify that scope 
 | Requirement | Indico Room Booking | Status |
 |---|---|---|
 | HTTP API for both workflows | JSON endpoints for create, approve, reject and cancel (§1a); Bearer-token auth skips CSRF | ✅ in source; prove with curl |
-| Not simple CRUD: 4 rules incl. boundary, ≥2-condition decision, state change | `booking_limit_days` + past-start check; `can_accept = is_pending AND can_moderate`; `Room.can_book`/`can_prebook` (3+ conditions); pending/accepted/rejected/cancelled transitions with guards | ✅ |
+| Not simple CRUD: 4 rules incl. boundary, ≥2-condition decision, state change | booking-limit + start-grace checks; `can_accept` user/pending/moderator guards; `Room.can_book`/`can_prebook` permissions; pending/accepted/rejected/cancelled transitions with guards | ✅ |
 | Data dependency between workflows | A creates the `Reservation` (pending) and reads slot conflicts; B changes its state, which changes slot availability / prebooking collisions | ✅ |
 | Local run, seed, reset | Needs PostgreSQL + Redis (+ Node for the UI build). Upstream ships pytest DB fixtures (`indico/testing/fixtures/database.py`, `database_docker.py`) and room/reservation factories (`rb.py`); reset = drop/recreate DB + `indico db prepare` + seed | ⚠️ heaviest risk; do the install first |
 | CI feasible | Upstream `ci.yml` already runs pytest on `ubuntu-22.04` with a `postgres:14` service + apt redis. Reuse that pattern | ✅ |
@@ -45,10 +45,10 @@ target scoped to the room-booking (`rb`) logic you test, and justify that scope 
 | Raw backend source | Full source, MIT | ✅ |
 
 **Scoping decisions to write in the test plan:**
-- "All server-side business logic" = the rule functions in `indico/modules/rb` used by the two workflows
-  (`RHCreateBooking._process` + `_validate_room_booking_limit`, `RHBookingStateActions`, `Reservation.can_accept/can_reject/can_cancel/accept/reject/cancel`,
-  `Room.can_book/can_prebook`). Everything else is out of scope, with justification.
+- Proposed unit/coverage surface = the functions in `tests/team/rule_surface.yml`: booking-start grace and limit validation; booking creation authorization/processing; reservation creation and approval/rejection/cancellation rules; moderator action guards; and room book/pre-book permissions. Wania should review the list with Fahima and Ali before freezing it. Everything outside the selected two workflows needs an explicit scope justification.
 - Run mutmut on those files only. A mutation run over the whole of Indico would be far too slow for CI.
+
+**Business-rule labels:** BR1–BR4 are project IDs for traceability, not names built into Indico. These definitions are based on the pinned v3.3.14 source and still require confirmation against the running app before the scope is frozen.
 
 ---
 
@@ -131,16 +131,27 @@ the CSRF check for OAuth/token requests. The fallback is session cookie + `X-CSR
 
 | ID | Rule | Kind | Technique |
 |---|---|---|---|
-| **BR1** | Booking length (days) must be **≤ booking_limit_days** (room value, or global `booking_limit` if unset), and the start must not be in the past. | **Boundary / limit** | BVA with limit 7: 6 / 7 / 8 days. Start time: just before now / now / just after now |
-| **BR2** | Approve is allowed **only if** `is_pending` **AND** `room.can_moderate(user)` (`Reservation.can_accept`). | **Decision, 2 Boolean conditions** | Decision table (4 combinations) + MCC → MC/DC |
-| **BR3** | States: `pending → accepted`, `pending → rejected`, `pending → cancelled`, `accepted → cancelled` (by the booker, or an RB admin, only while an occurrence is within the cancel grace period), `accepted → rejected` (moderator; confirmed in `can_reject`). `rejected` and `cancelled` are terminal. | **Change of state** | State transitions: every allowed one + one disallowed from each state (e.g. approve an accepted one, approve a rejected one, cancel a cancelled one) |
-| BR4 | Booking permission: a user may book directly only if the room `is_reservable` **AND** (public **AND** no confirmation needed, or the user has explicit book rights). Otherwise pre-book only, if allowed. | **Decision, ≥3 conditions** (critical module candidate) | Decision table + MCC/MC/DC on `Room.can_book` / `can_prebook` |
+| **BR1** | A booking start must pass `is_booking_start_within_grace_period` (past starts are rejected unless the applicable admin override permits them). Its selected calendar-day period must be **≤** the room's `booking_limit_days`, or the global `booking_limit` when no room limit is set. The handler computes this period from start-date midnight to end-date 23:59. | **Boundary / limit** | Three-point BVA on the handler's computed period (limit−1 / limit / limit+1); derive start/end dates from that calculation. Separately test start-grace boundaries and the applicable override case. |
+| **BR2** | `Reservation.can_accept(user)` returns true only when `user` is not `None`, the reservation is pending, and `room.can_moderate(user)` is true (subject to the function's `allow_admin` setting). | **Permission decision** | Unit/API cases for user presence, pending state, and moderator authorization; include denied combinations |
+| **BR3** | State-action guards govern transitions: approval requires a pending reservation and `can_accept`; rejection is refused for rejected/cancelled reservations and requires `can_reject`; cancellation is refused for rejected/cancelled/archived reservations, and a non-pending reservation also needs an occurrence in the cancellation grace period. Cancellation then requires the owner/booked-for user or an allowed RB admin. Reservation states are pending, accepted, cancelled, and rejected. | **State transition + guarded decision** | In the selected create/moderate workflows, test pending→accepted/rejected/cancelled and accepted→rejected/cancelled, plus disallowed actions from each state. Include ownership/admin and grace-period conditions for cancellation. The accepted→pending reset triggered by editing a booking is outside the selected workflows and must be recorded as an explicit scope exclusion. |
+| **BR4** | `Room.can_book` and `Room.can_prebook` require a user and a reservable room, except for the applicable room-admin bypass. Direct booking is allowed for public rooms that do not require confirmation, or users with book permission at the room/location. Pre-booking is allowed for public rooms that require confirmation, or users with the applicable pre-book permission. | **Permission decision** | Decision tables for both functions, covering public/confirmation settings, room reservability, permissions, user presence, and admin behavior |
 
-> Checked in the v3.3.14 source (`rb/models/reservations.py`): `can_reject` blocks only rejected/cancelled; `can_cancel` allows only the
-> owner/booked-for user or an RB admin, never a plain moderator. Confirm on the running app before finalising
-> BR3. If the code allows a transition the docs say it should not, log that as a defect.
+> Source review in v3.3.14 (`rb/models/reservations.py`): `can_reject` blocks rejected/cancelled reservations. `can_cancel` also blocks archived reservations; accepted reservations need an occurrence in the cancellation grace period, and the caller must be the owner/booked-for user or an allowed RB admin (not an ordinary room moderator). Confirm these behaviors on the running app before finalising BR3; log a discrepancy as a defect.
 
 ---
+
+### Business rules across test types
+
+BR1–BR4 are shared requirements, not exclusive assignments. Members own testing techniques and apply them to every relevant rule in the frozen baseline:
+
+| Rule | Unit / white-box (Wania) | API / generated data (Fahima) | Browser / quality checks (Ali) |
+|---|---|---|---|
+| BR1 booking start and limit | Boundary and rule-function unit cases | Generated EP/BVA request cases | Rejected-input/corrected-booking flow; usability/accessibility on the booking screen |
+| BR2 approval eligibility | Decision cases for pending state and moderator permission | API role/state decisions and status/read-back | Moderator approval flow; access decision and usability/accessibility checks |
+| BR3 guarded transitions and cancellation | State/guard unit cases; MCC/MC/DC target `Reservation.can_cancel` | Approve/reject/cancel API transitions, invalid transitions, repeats, and read-back | Browser approve/reject/cancel actions and role checks |
+| BR4 direct-book / pre-book permissions | Unit cases for room settings, permissions, and admin behavior | Generated permission/API cases | User/manager access matrix and browser permission checks |
+
+Performance/recovery applies to the operation the team selects (Area 3, Ali); it is not a separate exclusive BR assignment. All three members contribute to test management and traceability.
 
 ## 5. User roles
 

@@ -1,5 +1,5 @@
 # Linux test runner for team unit tests, coverage and mutation testing.
-# Why: Indico needs Python 3.12 + PostgreSQL + redis-server, and mutmut does not run on native Windows.
+# Why: Indico needs Python 3.12 + PostgreSQL + redis-server, and Cosmic Ray mutates source in place.
 # Same toolchain as .github/workflows/ci.yml so local results match CI.
 FROM python:3.12-bookworm
 

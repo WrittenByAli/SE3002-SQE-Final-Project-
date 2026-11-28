@@ -1,9 +1,9 @@
 ---
 name: sqe-whitebox
-description: "White-box unit testing for the Indico rule surface. 100% statement+branch coverage, decision tables, state transitions, complete MCC table and MC/DC pairs for the critical module (Reservation.can_cancel), CFG + hand-calculated cyclomatic complexity. Use for unit tests, coverage gaps, MCC, MC/DC, CFG, \"why is this branch uncovered\"."
+description: "Wania's white-box unit testing for the Indico rule surface. 100% statement+branch coverage, decision tables, state transitions, complete MCC table and MC/DC pairs for the critical function (Reservation.can_cancel). Use for unit tests, coverage gaps, MCC, MC/DC, and \"why is this branch uncovered\"."
 ---
 
-# White-box unit testing (Area 1, 16 marks + 5 for CC)
+# White-box unit testing (Wania owns; 16 marks)
 
 Scope = the business-rule functions you list in `tests/team/rule_surface.yml` (candidates in `CLAUDE.md`). Run:
 `bash tests/team/run.sh unit` → `tests/team/reports/unit/coverage.{json,xml}` + `htmlcov/`. Coverage.py reports per **file**,
@@ -35,9 +35,7 @@ Atomic conditions (v3.3.14):
 Template: `docs/team/templates/mcc-mcdc.md`. Deliverable: `docs/team/unit-testing.md`.
 
 ## CFG + cyclomatic complexity
-Draw the CFG of `can_cancel` (nodes = basic blocks; each `if` and each `and`/`or` operand is a decision for Sonar).
-Compute V(G) = E − N + 2P, cross-check with decisions + 1. Compare with Sonar's function complexity (`sqe-sonar`).
-Sonar's *cognitive* complexity is a different metric, so don't mix them up.
+Wania owns the CFG and hand calculation. Draw the graph of the selected business-rule function (nodes = basic blocks; split compound boolean conditions as decisions for comparison with Sonar), compute V(G) = E − N + 2P, and compare with Sonar's function complexity. Cognitive complexity is a separate metric.
 
 ## Done when
 Coverage gate at 100/100 for the rule surface, every uncovered line justified, all 4 rules + all decision tables + all state

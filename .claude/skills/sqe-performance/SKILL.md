@@ -3,7 +3,7 @@ name: sqe-performance
 description: "Performance and recovery testing with Grafana k6 OSS (1 VU and >=5 VUs, each twice, >=60s steady state, p95/req-s/error-rate vs pre-set limits) and an automated failure-and-recovery test for a state-changing operation with no duplicate records. Use for \"k6\", \"load test\", \"p95\", \"throughput\", \"recovery test\", \"failure injection\"."
 ---
 
-# Performance & recovery (Area 3, 5 marks)
+# Performance & recovery (Ali owns, Area 3)
 
 ## Before testing: set limits (write them down first, with reasons)
 e.g. `POST booking/create`: p95 ≤ 800 ms and < 1% unexpected failures at 1 VU; p95 ≤ 1500 ms and < 1% at 5 VUs.

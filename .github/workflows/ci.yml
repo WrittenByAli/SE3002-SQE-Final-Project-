@@ -1,7 +1,6 @@
-# SQE CI: runs on every PR to main and on every push to main.
-# Branch protection requires ONE check: "CI gate". Every job must be listed in ci-gate.needs (check_harness.py enforces it).
-# Rules (assignment §2): no continue-on-error, no `|| true`, no --exit-zero, no skipped gates. Area 1 adds the test gates
-# (unit + coverage, mutation, SonarQube, API, E2E) as new jobs and appends them to ci-gate.needs. See .claude/skills/sqe-ci-gate.
+# SQE CI: runs on every PR to main and every push to main.
+# Branch protection requires ONE check: "CI gate"; it depends on every required job below.
+# No continue-on-error, `|| true`, --exit-zero, or optional test gates.
 name: CI
 
 on:
@@ -40,7 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-buildx-action@v3
-      - name: Build Linux test runner (Py3.12 + pinned Indico deps + mutmut)
+      - name: Build Linux test runner (Py3.12 + pinned Indico deps + Cosmic Ray)
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -52,7 +51,7 @@ jobs:
       - name: Indico + tooling import inside the runner
         run: |
           docker run --rm -v "$PWD:/repo" sqe-test-runner:ci \
-            python -c "import indico, mutmut, pytest, coverage; print('indico', indico.__version__)"
+            python -c "import cosmic_ray, indico, pytest, coverage; print('indico', indico.__version__)"
 
   app-smoke:
     name: app-smoke
@@ -90,11 +89,99 @@ jobs:
         working-directory: infra/indico-containers/indico-prod
         run: docker compose logs --tail 200
 
+  unit-coverage:
+    name: unit-coverage
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install report-gate dependency
+        run: 'pip install --only-binary :all: PyYAML==6.0.3'
+      - name: Run all Area 1 unit tests and generate branch coverage
+        run: bash tests/team/run.sh unit
+      - name: Enforce the confirmed BR1–BR4 coverage thresholds
+        run: python3 tests/team/tools/check_coverage_gate.py
+      - name: Preserve unit and coverage reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: area1-unit-coverage
+          path: |
+            tests/team/reports/unit/coverage.xml
+            tests/team/reports/unit/coverage.json
+            tests/team/reports/unit/junit.xml
+            tests/team/reports/unit/htmlcov/
+
+  mutation:
+    name: mutation
+    runs-on: ubuntu-24.04
+    timeout-minutes: 360
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install report-gate dependency
+        run: 'pip install --only-binary :all: PyYAML==6.0.3'
+      - name: Run Cosmic Ray and the custom BR1/BR3 operators
+        run: bash tests/team/run.sh mutation run
+      - name: Enforce mutation score and survivor-review gates
+        run: python3 tests/team/tools/check_mutation_gate.py
+      - name: Preserve mutation reports
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: area1-mutation
+          path: tests/team/reports/mutation/
+
+  sonarqube:
+    name: sonarqube
+    needs: [unit-coverage]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download coverage report for SonarQube analysis
+        uses: actions/download-artifact@v4
+        with:
+          name: area1-unit-coverage
+          path: tests/team/reports/unit/
+      - name: Validate SonarQube Cloud configuration
+        env:
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          if [[ -z "$SONAR_HOST_URL" ]]; then
+            echo "::error::Set the repository Actions variable SONAR_HOST_URL to https://sonarcloud.io."
+            exit 1
+          fi
+          if [[ ! "$SONAR_HOST_URL" =~ ^https?:// ]]; then
+            echo "::error::SONAR_HOST_URL must start with http:// or https://."
+            exit 1
+          fi
+          if [[ -z "$SONAR_TOKEN" ]]; then
+            echo "::error::Set the repository Actions secret SONAR_TOKEN to a SonarQube analysis token."
+            exit 1
+          fi
+      - name: Analyze with SonarQube Cloud and wait for its quality gate
+        uses: SonarSource/sonarqube-scan-action@59202af334b4ba7b5db01b701b8e79f8b3bef0f4 # v8.5.0
+        env:
+          SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.qualitygate.wait=true
+
   ci-gate:
     name: CI gate
     # always() so a failed/cancelled/skipped dependency produces a RED gate instead of a skipped (= silently passing) one.
     if: ${{ always() }}
-    needs: [harness, runner, app-smoke]
+    needs: [harness, runner, app-smoke, unit-coverage, mutation, sonarqube]
     runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:

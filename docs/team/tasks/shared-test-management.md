@@ -1,8 +1,8 @@
-# Shared: Test management (29 marks, everyone contributes, the lead is accountable)
+# Shared: Test management (29 marks, all three own the work)
 
 Skill: `sqe-test-management`, `sqe-defect`. Agent: `rubric-auditor` (run weekly). Templates: `docs/team/templates/`.
 
-| Component (marks) | Deliverable | Lead | Everyone's input |
+| Component (marks) | Deliverable | Owners | Everyone's input |
 |---|---|---|---|
 | System & scope (5) | `docs/team/01-scope-draft.md` (final) | Ali | verify FR/BR in your area against the app |
 | Test plan, estimation, traceability (7) | `test-plan.md`, `estimation.md`, `traceability.md` | Ali (plan, estimation), Fahima (traceability) | own-area approach, 3-point estimates, actual hours weekly |

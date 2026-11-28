@@ -1,0 +1,738 @@
+[job-id] d6cee6953e0c4bc8b9d8f8bc84f3f985
+indico/modules/rb/models/reservations.py sqe_room_booking/BR3CancellationGraceGuard 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f2e8bdd675af451dbf26ae324c7557ac
+indico/modules/rb/models/reservations.py core/ReplaceBinaryOperator_Mul_Add 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 83ef57d19e164c7eaf9cdd48a59d7a22
+indico/modules/rb/models/reservations.py core/ReplaceBinaryOperator_Mul_Sub 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 23c305063e04412aa396c954622fb22e
+indico/modules/rb/models/reservations.py core/ReplaceBinaryOperator_Mul_Div 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] f144c26d60494221a1baf102e747dec6
+indico/modules/rb/models/reservations.py core/ReplaceBinaryOperator_Mul_FloorDiv 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] be294762a3bc459d9361687687981f9d
+indico/modules/rb/models/reservations.py core/ReplaceBinaryOperator_Mul_Mod 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] d1dfb3600e1548579d125fc995ddf43b
+indico/modules/rb/models/reservations.py core/ReplaceBinaryOperator_Mul_Pow 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 3a04cf41c22345ae95b6b23c05dc632b
+indico/modules/rb/models/reservations.py core/ReplaceBinaryOperator_Mul_RShift 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 1a262ede49294900a8a9e62435992dc3
+indico/modules/rb/models/reservations.py core/ReplaceBinaryOperator_Mul_LShift 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] cc6baecf905b4cd7996620767a499764
+indico/modules/rb/models/reservations.py core/ReplaceBinaryOperator_Mul_BitOr 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 182092d40c7e46c7b7c541eeb60c41f3
+indico/modules/rb/models/reservations.py core/ReplaceBinaryOperator_Mul_BitAnd 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 7e015f2d85224e7181351c20665994c0
+indico/modules/rb/models/reservations.py core/ReplaceBinaryOperator_Mul_BitXor 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 81f4ef8947524eeb80fc90e6be3b89c2
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_Eq_NotEq 10
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] aaea222490e84a01b70e98dfa0360ef0
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_Eq_Lt 10
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 555db3bdd45f47729c2626dbc497da4b
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_Eq_LtE 10
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 3d3d8f7043c34f4c9eeaefcd79233dfc
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_Eq_Gt 10
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 34d9aa1949614349821b10e8fc4c3014
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_Eq_GtE 10
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] f0eca15104964f5580ad1bce6469d4f6
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_Eq_Is 8
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] c34643618e7245c69e7a4b0a47dba047
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_Eq_IsNot 8
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] ae76ccf94ee848b4bd689a1005893370
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_NotEq_Eq 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 1ecf9eb14f7b42eb98fb45c5683322a8
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_NotEq_Lt 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 4f70c8080ba94ef68c079ffa156b87d9
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_NotEq_LtE 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 1749a90b193444d388c2f415382238dc
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_NotEq_Gt 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] aaab327760a74c07b6b6a79e91263a35
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_NotEq_GtE 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 48c296212c2545db8942a69914c7d53e
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_NotEq_Is 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] fdb3785c3fc64ec69c6b2b32cc5276c2
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_NotEq_IsNot 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 62ee0029635d4f5ba11b32cb9682cab7
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_Is_IsNot 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] d93fb0cc68a7429cb3511f16b4bfde8e
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_Is_IsNot 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 02906b0a7b8f468cb1d694e478de331d
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_Is_IsNot 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 42b38bf2af7249c9b1b79f51936c873d
+indico/modules/rb/models/reservations.py core/ReplaceComparisonOperator_Is_IsNot 3
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 8854d1f1b884428bb4588dc29bf2111b
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_USub_UAdd 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] ef6167f469aa487c86e31edf8de37bda
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_USub_Invert 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] feb43c4e248148699d7d30502e6ebeed
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_USub_Not 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 0fffd24f74e14d2b8b624bbd6152a1d8
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_Delete_USub 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 39596436a6f54ffcb9cc2ff5fe200612
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_Delete_Not 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] c181f1d2b04b48db89bd444d0d4c2b18
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_Delete_Not 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] e86673cc4e5943fca03ecaa8e8b70bea
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_Delete_Not 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f297a1b01a2f49339df5ac9abb7b2aa5
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_Delete_Not 3
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] aeb0a2aab0b94189af606a9cb162a4b6
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_Delete_Not 4
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 5e457dcdac1d42ed85baba9635f8e879
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_Delete_Not 5
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 272f1f581fee4f699158c4a91b21e746
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_Delete_Not 6
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 2e3f14acf34f4b46ab9fff2c4a201b20
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_Delete_Not 7
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f766d6a58e194adcba7cc2e54f5849e6
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_Delete_Not 9
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f54458fab94442be9afd118b14fbf665
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_Delete_Not 10
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] c9bd12c993a24c4db05f7208ddf9af50
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_Delete_Not 11
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 4f28f5f441c6409f8de7b3b55071e273
+indico/modules/rb/models/reservations.py core/ReplaceUnaryOperator_Delete_Not 12
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 45334459b80c4fa2904b6b9c56d914de
+indico/modules/rb/models/reservations.py core/AddNot 6
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] e5d17e6592e148fc839e2a6530e60686
+indico/modules/rb/models/reservations.py core/AddNot 7
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 78a4bec57f7c4d43b8553eb0fdc6cbfb
+indico/modules/rb/models/reservations.py core/AddNot 8
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 1e897c1ba10a4b399a16414f575b023e
+indico/modules/rb/models/reservations.py core/AddNot 9
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 253b32f6dc0e457c883b3f07096d3a3e
+indico/modules/rb/models/reservations.py core/AddNot 10
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 6a325d4577c04d86990c573724ec8589
+indico/modules/rb/models/reservations.py core/AddNot 11
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] e33b83de68b44cb7a29fb19e6cdc42c8
+indico/modules/rb/models/reservations.py core/AddNot 12
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 4054feb41137456392b5756c073806c5
+indico/modules/rb/models/reservations.py core/AddNot 21
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 116cd4b6eb404450bb9f03c8d32f4a26
+indico/modules/rb/models/reservations.py core/AddNot 22
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f46e06541b1344d3af561d0499f005bf
+indico/modules/rb/models/reservations.py core/AddNot 23
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 11a54d47c30745fbb4a59d87a7e5eceb
+indico/modules/rb/models/reservations.py core/AddNot 24
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 13405f03fa1a4e3b81ca89611d44c473
+indico/modules/rb/models/reservations.py core/AddNot 25
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 54cffe90be704c6d8856b6d14b6b0e49
+indico/modules/rb/models/reservations.py core/AddNot 26
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 2ff487c672714b6db3a4e3312dbd45c6
+indico/modules/rb/models/reservations.py core/AddNot 27
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 97d4a29c6df74b829c9432e467c06b0c
+indico/modules/rb/models/reservations.py core/AddNot 28
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 8feff9bb3bd84b319db663d7f3efcca3
+indico/modules/rb/models/reservations.py core/AddNot 29
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] fb94538c364048b7bd81a8bfb725c924
+indico/modules/rb/models/reservations.py core/AddNot 30
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 61677d5a9cbb472ca574c9f70f5a4adc
+indico/modules/rb/models/reservations.py core/AddNot 31
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f873fae8b4ef4117814c1fd5c77ec2c3
+indico/modules/rb/models/reservations.py core/ReplaceTrueWithFalse 11
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 6767d56f05f6495bafa0224be8e22d1f
+indico/modules/rb/models/reservations.py core/ReplaceTrueWithFalse 12
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 0cad2b47b98b4fc08653410c81519d6f
+indico/modules/rb/models/reservations.py core/ReplaceTrueWithFalse 13
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] cd59916efcb1424fb0ff7aa39dcdb23b
+indico/modules/rb/models/reservations.py core/ReplaceTrueWithFalse 14
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] b7c7b68b1f7a46f3bff6a64a70ee3852
+indico/modules/rb/models/reservations.py core/ReplaceTrueWithFalse 15
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 555ef47b30db4388b623f0a99c17b43b
+indico/modules/rb/models/reservations.py core/ReplaceFalseWithTrue 14
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 2282d9334cdb45e48a99daa0aa01ad19
+indico/modules/rb/models/reservations.py core/ReplaceFalseWithTrue 15
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] ce64a5acaea941788fedcaac8464a045
+indico/modules/rb/models/reservations.py core/ReplaceFalseWithTrue 17
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 6f170477a06d4d5d9bc7f33bfeaa1644
+indico/modules/rb/models/reservations.py core/ReplaceFalseWithTrue 18
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 97c636c9819d4dcaa44287c93c3572b1
+indico/modules/rb/models/reservations.py core/ReplaceFalseWithTrue 19
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] cca3614ebef14256844f106551b7341b
+indico/modules/rb/models/reservations.py core/ReplaceFalseWithTrue 20
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] de9cd936dff4409fabcc1448e3a36b17
+indico/modules/rb/models/reservations.py core/ReplaceFalseWithTrue 21
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] a64c9dcfcb7c4b76a577a68dc3567986
+indico/modules/rb/models/reservations.py core/ReplaceFalseWithTrue 22
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] edb52f9fa5834c2c8237e550b184a91a
+indico/modules/rb/models/reservations.py core/ReplaceFalseWithTrue 23
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 3565ce97cdf94e9ca992e45ceae38c8b
+indico/modules/rb/models/reservations.py core/ReplaceFalseWithTrue 24
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] ea0a754cae494c699e95fce807e87f0a
+indico/modules/rb/models/reservations.py core/ReplaceAndWithOr 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f4c97dd69f6c4feeb16af4d278cfad6f
+indico/modules/rb/models/reservations.py core/ReplaceAndWithOr 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 0082e3b836f046cc895e3cb5e7eb0151
+indico/modules/rb/models/reservations.py core/ReplaceAndWithOr 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] a430d04e70524eed8f7cb558e1c16d42
+indico/modules/rb/models/reservations.py core/ReplaceAndWithOr 4
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] a50c2db519144c2599c874a60e887b89
+indico/modules/rb/models/reservations.py core/ReplaceAndWithOr 5
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] beab71b117134a4496d13713203623cd
+indico/modules/rb/models/reservations.py core/ReplaceAndWithOr 6
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] ce2781d7fa7a4edab6e768226bf2414f
+indico/modules/rb/models/reservations.py core/ReplaceOrWithAnd 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 0aeeba9184b1486e8b9679112d34475e
+indico/modules/rb/models/reservations.py core/ReplaceOrWithAnd 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 9a5b79b8a8f44517bcf2c70ed0339204
+indico/modules/rb/models/reservations.py core/ReplaceOrWithAnd 3
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f9696f7a56284d6cb209ed089b717f9d
+indico/modules/rb/models/reservations.py core/ReplaceOrWithAnd 4
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] ddbae8b5d32143aeba6fdb94af4489a9
+indico/modules/rb/models/reservations.py core/ReplaceOrWithAnd 5
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 35689da0b00c4ee59497728324994ed6
+indico/modules/rb/models/reservations.py core/ReplaceOrWithAnd 6
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 822895e101d74e4899e2bd712b278345
+indico/modules/rb/models/reservations.py core/ReplaceOrWithAnd 7
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] acb1ef3ea4f648729a12bb205343c663
+indico/modules/rb/models/reservations.py core/ReplaceOrWithAnd 8
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 9b8ade7ef0c94b58bf38b88948889dc3
+indico/modules/rb/models/reservations.py core/ReplaceOrWithAnd 9
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 3c4972af20734e6685a8064a5fd29c4b
+indico/modules/rb/models/reservations.py core/NumberReplacer 46
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 0ab119c900c4482295be734d6637f3d5
+indico/modules/rb/models/reservations.py core/NumberReplacer 47
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 79315f3e01414103b6c7a169109e51d5
+indico/modules/rb/models/reservations.py core/NumberReplacer 48
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f0de55c9b9d447afaf0fe4fac50fb4e3
+indico/modules/rb/models/reservations.py core/NumberReplacer 49
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] ded9e149699f47ed8db44093170cf540
+indico/modules/rb/models/reservations.py core/ZeroIterationForLoop 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] a6ef3679857c4e40a96f7fc33187017d
+indico/modules/rb/models/reservations.py core/ZeroIterationForLoop 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 4c3cabd9ec824600a8c63575126cc9ef
+indico/modules/rb/util.py core/ReplaceBinaryOperator_Sub_Add 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 46fed386a79c4efb8ad8deac00456ecb
+indico/modules/rb/util.py core/ReplaceBinaryOperator_Sub_Mul 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 8f73dfd656d644179b835e980b099db5
+indico/modules/rb/util.py core/ReplaceBinaryOperator_Sub_Div 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 94957c224596486d8ddb0eea62c6a3dd
+indico/modules/rb/util.py core/ReplaceBinaryOperator_Sub_FloorDiv 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 4d029ac9b04144d09f66459d34ab89e4
+indico/modules/rb/util.py core/ReplaceBinaryOperator_Sub_Mod 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] efdf3cd3c1d240288e32fabc3b8e01b2
+indico/modules/rb/util.py core/ReplaceBinaryOperator_Sub_Pow 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 1608a41586c94ee3b78dab616bf1c30b
+indico/modules/rb/util.py core/ReplaceBinaryOperator_Sub_RShift 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] ff2da83d7d8d4109aaa0d2f20bd7a7aa
+indico/modules/rb/util.py core/ReplaceBinaryOperator_Sub_LShift 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 35f250ed466a43a88b3d7da4a9f979d0
+indico/modules/rb/util.py core/ReplaceBinaryOperator_Sub_BitOr 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] dd0fac321bf74b259221016d6a371f52
+indico/modules/rb/util.py core/ReplaceBinaryOperator_Sub_BitAnd 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 40f5111b776244edad0645387fbd9c29
+indico/modules/rb/util.py core/ReplaceBinaryOperator_Sub_BitXor 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] b0b5d84d34b24147857a7e0deef420e9
+indico/modules/rb/util.py core/ReplaceComparisonOperator_GtE_Eq 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 2ec7271da9f3440c8ff76630596ca5f4
+indico/modules/rb/util.py core/ReplaceComparisonOperator_GtE_Eq 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] a2b16a6dff4c4f9290118c3b7ce34efe
+indico/modules/rb/util.py core/ReplaceComparisonOperator_GtE_NotEq 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 38ece360d5c440cbbfbf2d79eaca9e79
+indico/modules/rb/util.py core/ReplaceComparisonOperator_GtE_NotEq 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f0b1a739b4be4085bba647a34bd2534c
+indico/modules/rb/util.py core/ReplaceComparisonOperator_GtE_Lt 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] d5550bb54f54429ea577e755814b1590
+indico/modules/rb/util.py core/ReplaceComparisonOperator_GtE_Lt 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f139864307114adda727e0ecc013c26d
+indico/modules/rb/util.py core/ReplaceComparisonOperator_GtE_LtE 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] d7a2591de70b4fa994bde982b8df7c0d
+indico/modules/rb/util.py core/ReplaceComparisonOperator_GtE_LtE 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 7ffb872aa8914347bc45291355b86f75
+indico/modules/rb/util.py core/ReplaceComparisonOperator_GtE_Gt 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] b64ebe106bb447c69c5b0a7f6024581c
+indico/modules/rb/util.py core/ReplaceComparisonOperator_GtE_Gt 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] cdac89d70b7f4810b8b585bfd8a3ed13
+indico/modules/rb/util.py core/ReplaceComparisonOperator_GtE_Is 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 0b13c23f389540818742576634a9529f
+indico/modules/rb/util.py core/ReplaceComparisonOperator_GtE_Is 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 05d77d982aae40dc9a43206064ff00f6
+indico/modules/rb/util.py core/ReplaceComparisonOperator_GtE_IsNot 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] fd3fed0917cc4b2ebe61d5f20d58d95a
+indico/modules/rb/util.py core/ReplaceComparisonOperator_GtE_IsNot 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 0e3f84c0471c4d668a777e7c7a4e6c66
+indico/modules/rb/util.py core/ReplaceComparisonOperator_Is_IsNot 4
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f060fb2aeb674d3492c8695ca568806f
+indico/modules/rb/util.py core/AddNot 11
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 21bf2c241b244836873008b95882c8ff
+indico/modules/rb/util.py core/AddNot 12
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f7945020d65442ccaa4ece2b42684867
+indico/modules/rb/util.py core/ReplaceTrueWithFalse 5
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] e649d5ad03694ad3a0940ae8ec74b9f2
+indico/modules/rb/util.py core/ReplaceFalseWithTrue 5
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] dcf355eedb1749158df072e2e030aa1a
+indico/modules/rb/util.py core/ReplaceAndWithOr 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] d1f5c886bdf84ed58b0e1a37bbea1954
+indico/modules/rb/models/rooms.py core/ReplaceUnaryOperator_Delete_Not 12
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] c5c96df27141409ea01749d1bfa58997
+indico/modules/rb/models/rooms.py core/ReplaceUnaryOperator_Delete_Not 13
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] bb889a29caed4377822c973040477025
+indico/modules/rb/models/rooms.py core/ReplaceUnaryOperator_Delete_Not 14
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] df696507aaa1454e83b75ec5be3b7a17
+indico/modules/rb/models/rooms.py core/ReplaceUnaryOperator_Delete_Not 15
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 90da9aa5f585427cbd947607e1c692d9
+indico/modules/rb/models/rooms.py core/ReplaceUnaryOperator_Delete_Not 16
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 03b24762b3a64d0ebe64c9f519b03976
+indico/modules/rb/models/rooms.py core/ReplaceUnaryOperator_Delete_Not 17
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] d8ccf8812afb4580af9f20c2117b3145
+indico/modules/rb/models/rooms.py core/ReplaceUnaryOperator_Delete_Not 18
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] aaa89af7979c4353afe4d2d1b86db214
+indico/modules/rb/models/rooms.py core/ReplaceUnaryOperator_Delete_Not 19
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 584f0e2dda164f89991c9cf4ec02dd10
+indico/modules/rb/models/rooms.py core/AddNot 31
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 1c152cfca0314a0b87aa423133ba1bbb
+indico/modules/rb/models/rooms.py core/AddNot 32
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 96cdc17f3cec45bd9cc3582cef8d25de
+indico/modules/rb/models/rooms.py core/AddNot 33
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 4877942b9e2c43ca9a5ba58eafeafe19
+indico/modules/rb/models/rooms.py core/AddNot 34
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 914a86910681463490892e2ecda9c8a9
+indico/modules/rb/models/rooms.py core/AddNot 35
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 965033e8e62e44988d8569ba7e9aafe1
+indico/modules/rb/models/rooms.py core/AddNot 36
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 01f1666a25ab45f2843e9e8f48771e29
+indico/modules/rb/models/rooms.py core/ReplaceTrueWithFalse 32
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 5f1d337d6f1747d7b1a61e73553d0f24
+indico/modules/rb/models/rooms.py core/ReplaceTrueWithFalse 33
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 5e92d669a35040d4af4fcfbef516b15b
+indico/modules/rb/models/rooms.py core/ReplaceTrueWithFalse 34
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 5c25a45211ad427f81c8f9f180d6a9c3
+indico/modules/rb/models/rooms.py core/ReplaceTrueWithFalse 35
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] a08ef57a9eb64edbad9cd45d879cc407
+indico/modules/rb/models/rooms.py core/ReplaceFalseWithTrue 21
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f094ab4ddadf4efa9004dd950bfe5dbe
+indico/modules/rb/models/rooms.py core/ReplaceFalseWithTrue 22
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 9dd17b04b54d4d1482a3c8e8850f5d7c
+indico/modules/rb/models/rooms.py core/ReplaceFalseWithTrue 23
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 996cd920b4524866a26450b6ef059175
+indico/modules/rb/models/rooms.py core/ReplaceFalseWithTrue 24
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 67269c9f69f7471abec85f325ba81428
+indico/modules/rb/models/rooms.py core/ReplaceAndWithOr 16
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 989cb077ebd54f9b8e687b06dbb97bac
+indico/modules/rb/models/rooms.py core/ReplaceAndWithOr 17
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 7363b5092a0b4a39b446703eeb9ea538
+indico/modules/rb/models/rooms.py core/ReplaceAndWithOr 18
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 608ec91a13a44312979306e4c4743c56
+indico/modules/rb/models/rooms.py core/ReplaceAndWithOr 19
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 97131a3c27044f359d5bcb06d6371791
+indico/modules/rb/models/rooms.py core/ReplaceAndWithOr 20
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 5f71107b41e041008fd12b1ce3cec2da
+indico/modules/rb/models/rooms.py core/ReplaceAndWithOr 21
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 5847c537b85346eba0cfe8e34687b407
+indico/modules/rb/models/rooms.py core/ReplaceOrWithAnd 10
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] a7b513bbf9a446aa891135e3ec0fa402
+indico/modules/rb/models/rooms.py core/ReplaceOrWithAnd 11
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] eff74df3f79544f7b66c6cabffb1c3f8
+indico/modules/rb/controllers/backend/bookings.py sqe_room_booking/BR1BookingLimitBoundary 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 15dd0befaeb646b4ab3deac3fa94231b
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_Sub_Add 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 7b2313b53f184b94a785c86e016aa8f4
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_Sub_Mul 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 14d43214ead545dfb3ce47c72e7cd015
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_Sub_Div 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 1c73698690084351af4527159f0bb3f5
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_Sub_FloorDiv 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 322efb9a21ba4c5eaaeb1e95fbf4cc3b
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_Sub_Mod 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] dd334f85e5394eeeb97930fb43b6f63a
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_Sub_Pow 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 6abb9f6b0cb940f0bb15b7af39aaaf63
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_Sub_RShift 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 1cc60192d29a4002a318ea275c957963
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_Sub_LShift 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] b7728e83274d4787a67b03ab7ee8811f
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_Sub_BitOr 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 98be88ae367c4fe69bf10997eb024c06
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_Sub_BitAnd 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 14c8d509b1df4545983ed485a8aa376e
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_Sub_BitXor 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 917cb54f03b341ca82ac37906bfff4d4
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_BitOr_Add 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] d919b1fa3ec148f3923bf3da34fdf866
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_BitOr_Sub 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 35c77bece66f4636b031938a27ee1555
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_BitOr_Mul 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] d5e49de0c8cc4579ab3393344df34d7c
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_BitOr_Div 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] d26e232b1fb84cfcb1c589350206b90d
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_BitOr_FloorDiv 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] e47e47708270433b8318708fc74d27ed
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_BitOr_Mod 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] abb534e11e6340c0bee1ca32ae3bfd2d
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_BitOr_Pow 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 4750e62e8a394423a7c8fb20b2832480
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_BitOr_RShift 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 981d897680d4432bba9c34e4c29b68be
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_BitOr_LShift 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 67ef89f07ed549eabbfe9a019501d600
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_BitOr_BitAnd 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] da71c12184be49eb9d721772e0a233af
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceBinaryOperator_BitOr_BitXor 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 8982f9f805744e5c83f8a3f4e5a9ae25
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_NotEq 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] e9eb5abfe10140f7896194f3cdc9554a
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_NotEq 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] ed008edf7179403f9647c8b812352186
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_NotEq 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 38df96e0d76147059ecf6f2f2a6da51a
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_Lt 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 6a40ba93fce84a4cb96aef593d421bc3
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_Lt 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 7633bf0b0bba49af8fa3cca757c324c1
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_Lt 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] cfddcfcb14614b739e65e8afc0c9017d
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_LtE 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 12db6577adc64e2da1daec44ee1b67d3
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_LtE 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] afeec3e23a824362a864b62385349e74
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_LtE 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 5f46fb0f9efc448ea442121354953c85
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_Gt 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] f99b28cc3d1646fc95f8c043dfcfecf1
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_Gt 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 7fae7bd80a6e4189a478fe550220ce85
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_Gt 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 5238b03987eb4de187f888e5470781ad
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_GtE 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 274adc2f8f0b41118fb24bed8f93aacc
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_GtE 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 043311b0673d4500ba773bef0c9af575
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_GtE 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 50de4ac9d8b94887afd557cc4cada53f
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_Is 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] e1d9a0f0f13d4e6485a0646a42dc0d07
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_Is 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 27487a1375174439bd1fc57c22c8575d
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_Is 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 2cbde269acc4447a87138d95456ff265
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_IsNot 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 329956da445f48539129d8520b980b91
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_IsNot 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 33435369030f47d0be01e3153f7bab8e
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_Eq_IsNot 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 56cfda821ecd4a8e9bae8b459651cedb
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_LtE_Eq 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 3e4c258a663b4a6eb8844098d281fd80
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_LtE_NotEq 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 1529cbc462ae439d89393033432b7b37
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_LtE_Lt 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 01f44efc334b4284be1ef67fa1cfe771
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_LtE_Gt 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 1a69fda737e940e685ff91bd1acad336
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_LtE_GtE 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 6541146402ae4725a69caa4eb6ca2992
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_LtE_Is 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] a73247c5233644f19a60779908eb6760
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_LtE_IsNot 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 2cc0be83f18e4c34a1d42b0e68dea896
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_IsNot_Is 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 816db7dba742498f8ab4a881bb952946
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceComparisonOperator_IsNot_Is 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 278b9f57c75b4836bbf717d186e2a026
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceUnaryOperator_Delete_Not 4
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] eead235057d34b4a84227dd154881263
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceUnaryOperator_Delete_Not 5
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 12d5c8af26ff4647b87c177248117e95
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceUnaryOperator_Delete_Not 6
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 0a08edf6c6ab43a9b706a394bd814a86
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceUnaryOperator_Delete_Not 8
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 4e44d9b4ec87499e972e89b2a5fa8cfb
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceUnaryOperator_Delete_Not 9
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 43e79d40b11a4c7a933c6e4eea713b5e
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceUnaryOperator_Delete_Not 10
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] d2607704c8284e1ea5b3a775d701b768
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceUnaryOperator_Delete_Not 11
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 4e8c36610996482fba2459d0cf5f975f
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceUnaryOperator_Delete_Not 12
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 80994e4bb8e54afca3e57ae1e36c53f1
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceUnaryOperator_Delete_Not 13
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 3440574f6ad446d2b952b98c6e253883
+indico/modules/rb/controllers/backend/bookings.py core/AddNot 8
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 5d46ea7bacd748fcb78ca7793148c640
+indico/modules/rb/controllers/backend/bookings.py core/AddNot 11
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 4220fb26426f4d9d9c21f8a462bf98bc
+indico/modules/rb/controllers/backend/bookings.py core/AddNot 12
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 0843b6ab69bf4f8bac0bd1bb4842b3ec
+indico/modules/rb/controllers/backend/bookings.py core/AddNot 13
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 2d176e07e421477e9c8b12b58f984a5a
+indico/modules/rb/controllers/backend/bookings.py core/AddNot 14
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] d730e736b063428ca8ff2df22b656c7e
+indico/modules/rb/controllers/backend/bookings.py core/AddNot 16
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] a47a49c1bdc54f29b1ca2de51f5df107
+indico/modules/rb/controllers/backend/bookings.py core/AddNot 17
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 86c416af9bb6427195dd3c140f8b109e
+indico/modules/rb/controllers/backend/bookings.py core/AddNot 18
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 861b4f77be5d4abaad080e7cce4611a6
+indico/modules/rb/controllers/backend/bookings.py core/AddNot 19
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 753d8509f3ac442aab9211f4e6a252b3
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceFalseWithTrue 10
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 865100d30af3478e93297b222b1fa1ac
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceAndWithOr 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 8aaf86f2975f4a3f9f4117f00720d794
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceAndWithOr 1
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] aa671c9b679d4b83a73fc9a8c7bf6f5a
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceAndWithOr 2
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 5add79257d9a436c84bd07b2ba052ec0
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceOrWithAnd 3
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 26c35185d5d949b1a1ac43b303d0b43d
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceOrWithAnd 5
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] b73deada31eb4ebabd6e7be2d38d727f
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceOrWithAnd 6
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] bd096d44cafe43b89a90d797435522c6
+indico/modules/rb/controllers/backend/bookings.py core/ReplaceOrWithAnd 7
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 1431eb0ece24453c8b296be4d7a60aee
+indico/modules/rb/controllers/backend/bookings.py core/ExceptionReplacer 0
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 6d29a5cf01e34cca8cfce6bfc66e93dd
+indico/modules/rb/controllers/backend/bookings.py core/NumberReplacer 26
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] fff86c223f13448194f097620c3f43de
+indico/modules/rb/controllers/backend/bookings.py core/NumberReplacer 27
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+[job-id] 094979523f444a47b0aafef06a6ae847
+indico/modules/rb/controllers/backend/bookings.py core/NumberReplacer 28
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.KILLED
+[job-id] 08c86e4216f04cf58b89c85e733b493e
+indico/modules/rb/controllers/backend/bookings.py core/NumberReplacer 29
+worker outcome: WorkerOutcome.NORMAL, test outcome: TestOutcome.SURVIVED
+total jobs: 245
+complete: 245 (100.00%)
+surviving mutants: 44 (17.96%)

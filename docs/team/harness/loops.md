@@ -4,7 +4,7 @@ A loop = **measure → analyse → act → re-measure**, with an explicit stop c
 a metric. Run them with Claude Code's `/loop` (self-paced) or `/loop <interval>`. Each loop's prompt is below, so copy it as-is.
 Every loop ends by logging AI use (`sqe-ai-log`) and never edits evidence or lowers a gate.
 
-## L1: Coverage loop (Area 1)
+## L1: Coverage loop (Wania)
 Stop when: rule-surface statement **and** branch coverage = 100%, or the remaining lines are justified as unreachable.
 ```
 /loop Run `bash tests/team/run.sh unit`. Read tests/team/reports/unit/rule-surface-coverage.md. If both totals are 100%, stop the
@@ -13,7 +13,7 @@ them, propose one test (I will review before you write it), add it to the right 
 weaken existing assertions; never exclude code from coverage.
 ```
 
-## L2: Mutation-kill loop (Area 1)
+## L2: Mutation-kill loop (Wania; owns both custom operators)
 Stop when: every survivor is killed or classified equivalent with a proof, and score ≥ `mutation.score_min` final target.
 ```
 /loop Run `bash tests/team/run.sh mutation`. Read tests/team/reports/mutation/survivors.md. If there are no unclassified survivors,
@@ -29,7 +29,7 @@ Stop when: the PR's checks are all green, or a failure needs a human decision.
 root cause in two sentences and propose the smallest fix. Do not push anything without my approval, and never add continue-on-error.
 ```
 
-## L4: Weekly progress report (Fahima leads, Fridays)
+## L4: Weekly progress report (all three, Fridays)
 Stop when: `docs/team/weekly/<date>.md` is written and reviewed.
 ```
 /loop Collect this week's status: closed/open issues (gh issue list --state all --json ...), test counts per level, latest CI
@@ -43,7 +43,7 @@ coverage, reopen rate), plan-vs-actual and control actions. Every number must ci
 /loop 7d Use the rubric-auditor agent. Post its gap table as a comment on the pinned "Rubric tracker" issue, then stop.
 ```
 
-## L6: API case expansion (Area 2)
+## L6: API case expansion (Fahima)
 Stop when: every input of every in-scope endpoint has EP valid + all invalid classes + 3-point BVA cases executed.
 ```
 /loop Regenerate cases (`python tests/team/generator/generate.py openapi/rb.yaml -o tests/team/generator/out/cases.json`), run

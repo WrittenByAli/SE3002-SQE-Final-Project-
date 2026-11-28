@@ -3,7 +3,7 @@ name: sqe-mutation
 description: "Mutation testing of the Indico business-rule surface with mutmut 3, custom rule-based mutation operators, and surviving-mutant analysis (equivalent / missing test / weak assertion). Use for \"mutation score\", \"surviving mutants\", \"kill mutants\", \"custom operator\", \"mutmut\"."
 ---
 
-# Mutation analysis (Area 1, part of 8 marks)
+# Mutation analysis (Wania owns both required custom operators)
 
 Tooling ready: mutmut 3.8.1 in the Linux runner: `bash tests/team/run.sh mutation [args]` (e.g. `mutation run`,
 `mutation results`, `mutation show <name>`). mutmut does not support native Windows, so always use the runner.
@@ -11,7 +11,7 @@ What you build (suggested design):
 1. mutmut config (`[mutmut]` in `setup.cfg`: `paths_to_mutate` = the rule-surface files, tests = `tests/team/unit`). mutmut copies
    sources into `mutants/`; check that the tests really import the **mutated** copy (the runner installs Indico in editable mode).
    Restrict to rule-surface functions by passing mutant-name globs to `mutmut run`.
-2. **custom rule-based mutants** in `tests/team/mutation/` + a script that applies each one, runs the unit suite and reverts it;
+2. **custom rule-based mutants** in `tests/team/mutation/` + a script that applies each one, runs the unit suite and reverts it. Wania implements and documents at least two custom operators;
 3. a gate script that combines both into a score and fails below the threshold in `tests/team/quality-gates.yml`.
 Score = killed / (total − equivalent); keep every equivalent mutant with its reason in a file next to the operators.
 

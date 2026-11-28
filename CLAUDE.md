@@ -42,10 +42,9 @@ When a member starts a session, ask who they are if it is unclear, then load the
   The repo's first commit is that baseline, unmodified.
 - Module: **Room Booking** `indico/modules/rb`. Workflow A: user requests a room that needs confirmation (pending).
   Workflow B: room moderator approves/rejects. Shared record: the `Reservation` + slot availability.
-- Candidate business-rule surface (Area 1 fixes the final list in `tests/team/rule_surface.yml`; coverage/mutation gates measure only it):
-  BR1 boundary (booking length ≤ `booking_limit_days`, start not in past), BR2 decision (`can_accept` = pending ∧ can_moderate),
-  BR3 state (pending→accepted/rejected/cancelled, guards in `RHBookingStateActions._check_access`; **critical module** =
-  `Reservation.can_cancel` for MCC + MC/DC), BR4 permission (`Room.can_book` / `can_prebook`).
+- BR1–BR4 are project IDs, not built-in Indico names; see the source-based definitions and test ownership in `docs/team/01-scope-draft.md`.
+- Candidate business-rule surface (Wania fixes the final list in `tests/team/rule_surface.yml`; coverage/mutation gates measure only it): BR1 booking-start grace period and booking-length limit; BR2 approve eligibility; BR3 guarded state transitions and cancellation permissions; BR4 direct-book/pre-book permissions.
+- **Critical MCC/MC/DC target = `Reservation.can_cancel`** in `indico/modules/rb/models/reservations.py`, as agreed in the scope draft. Derive reachable atomic conditions from the pinned implementation before writing the MCC table.
 - Roles: `user1` (booker: can pre-book R1, cannot approve) and `mgr1` (R1 moderator: approve/reject). `admin` = setup only.
 - Full scope: `docs/team/01-scope-draft.md`. Verified behaviour + known findings: `docs/team/02-local-setup-verification.md`.
 
@@ -83,7 +82,7 @@ Every deliverable (tests, spec, generator, gates, reports) is built by its owner
 | Playwright tests, axe | `tests/team/e2e/` |
 | k6 scripts, recovery test | `tests/team/perf/` |
 | Security checks | `tests/team/e2e/security/` (Playwright access matrix), `docs/team/security/` |
-| Gate config (Area 1 creates) | `tests/team/quality-gates.yml`, `tests/team/rule_surface.yml` |
+| Gate config (Wania creates) | `tests/team/quality-gates.yml`, `tests/team/rule_surface.yml` |
 | Test management + reports | `docs/team/` (templates in `docs/team/templates/`) |
 | Evidence (tool output) | `docs/team/evidence/<area>/<date>-<what>/` (raw files, never edited) |
 
