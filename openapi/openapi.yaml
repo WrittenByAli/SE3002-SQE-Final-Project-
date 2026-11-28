@@ -218,13 +218,13 @@ components:
       schema:
         type: string
         enum: [XMLHttpRequest]
-        minLength: 14
-        maxLength: 14
-        pattern: '^XMLHttpRequest$'
         x-input-required: false
         x-unspecified-constraints:
           minimum: Not applicable to string input.
           maximum: Not applicable to string input.
+          minLength: No separate length constraint; the enum controls accepted values.
+          maxLength: No separate length constraint; the enum controls accepted values.
+          pattern: No separate pattern; the enum controls accepted values.
         x-business-rule: Selects the JSON error representation; it does not grant authentication or permissions.
     RoomId:
       name: room_id
@@ -266,13 +266,13 @@ components:
       schema:
         type: string
         enum: [approve, reject, cancel]
-        minLength: 6
-        maxLength: 7
-        pattern: '^(approve|reject|cancel)$'
         x-input-required: true
         x-unspecified-constraints:
           minimum: Not applicable to string input.
           maximum: Not applicable to string input.
+          minLength: No separate length constraint; the enum controls accepted values.
+          maxLength: No separate length constraint; the enum controls accepted values.
+          pattern: No separate pattern; the enum controls accepted values.
         x-business-rule: >-
           approve and reject require room moderation; cancel is limited to the owner/booked-for
           user or a Room Booking administrator and is state/time guarded.
@@ -317,13 +317,13 @@ components:
         type: string
         enum: [NEVER, DAY, WEEK, MONTH]
         default: NEVER
-        minLength: 3
-        maxLength: 5
-        pattern: '^(NEVER|DAY|WEEK|MONTH)$'
         x-input-required: false
         x-unspecified-constraints:
           minimum: Not applicable to string enum input.
           maximum: Not applicable to string enum input.
+          minLength: No separate length constraint; the enum controls accepted values.
+          maxLength: No separate length constraint; the enum controls accepted values.
+          pattern: No separate pattern; the enum controls accepted values.
         x-business-rule: The frequency selects the recurrence rule; NEVER is the default declared by source.
     TimelineRepeatInterval:
       name: repeat_interval
@@ -356,12 +356,12 @@ components:
         items:
           type: string
           enum: [mon, tue, wed, thu, fri, sat, sun]
-          minLength: 3
-          maxLength: 3
-          pattern: '^(mon|tue|wed|thu|fri|sat|sun)$'
           x-unspecified-constraints:
             minimum: Not applicable to string input.
             maximum: Not applicable to string input.
+            minLength: No separate length constraint; the enum controls accepted values.
+            maxLength: No separate length constraint; the enum controls accepted values.
+            pattern: No separate pattern; the enum controls accepted values.
         x-input-required: false
         x-unspecified-constraints:
           minimum: Not applicable to array input.
@@ -473,13 +473,13 @@ components:
         repeat_frequency:
           type: string
           enum: [NEVER, DAY, WEEK, MONTH]
-          minLength: 3
-          maxLength: 5
-          pattern: '^(NEVER|DAY|WEEK|MONTH)$'
           x-input-required: true
           x-unspecified-constraints:
             minimum: Not applicable to string enum input.
             maximum: Not applicable to string enum input.
+            minLength: No separate length constraint; the enum controls accepted values.
+            maxLength: No separate length constraint; the enum controls accepted values.
+            pattern: No separate pattern; the enum controls accepted values.
           x-business-rule: Selects how reservation occurrences are generated.
         repeat_interval:
           type: integer
@@ -500,19 +500,19 @@ components:
           items:
             type: string
             enum: [mon, tue, wed, thu, fri, sat, sun]
-            minLength: 3
-            maxLength: 3
-            pattern: '^(mon|tue|wed|thu|fri|sat|sun)$'
             x-unspecified-constraints:
               minimum: Not applicable to string input.
               maximum: Not applicable to string input.
+              minLength: No separate length constraint; the enum controls accepted values.
+              maxLength: No separate length constraint; the enum controls accepted values.
+              pattern: No separate pattern; the enum controls accepted values.
           uniqueItems: true
-          maxItems: 7
           x-input-required: false
           x-unspecified-constraints:
             minimum: Not applicable to array input.
             maximum: Not applicable to array input.
             minItems: No minimum array length is declared; empty array is accepted.
+            maxItems: No explicit maximum is declared; unique values from the seven-value item enum imply a practical maximum of seven.
             minLength: Not applicable to array input.
             maxLength: Not applicable to array input.
             enum: No array-level enum is declared.
@@ -533,14 +533,14 @@ components:
           type: string
           format: principal-identifier
           nullable: true
-          minLength: 1
-          pattern: '^(User:[0-9]+:.+|ExternalUser:.+)$'
           x-input-required: false
           x-unspecified-constraints:
             minimum: Not applicable to string input.
             maximum: Not applicable to string input.
+            minLength: No separate string length minimum is declared.
             maxLength: No length limit is declared.
             enum: No enum is declared.
+            pattern: No regex is declared; the custom principal-identifier format describes the source parser input.
           description: >-
             Optional principal booked-for user; accepts a signed User:<id>:<signature>
             identifier or cached ExternalUser:<opaque-id> identifier. Runtime verifies the
@@ -551,11 +551,11 @@ components:
         reason:
           type: string
           default: ''
-          minLength: 0
           x-input-required: false
           x-unspecified-constraints:
             minimum: Not applicable to string input.
             maximum: Not applicable to string input.
+            minLength: No positive minimum length is declared.
             maxLength: No maximum length is declared by the source field/model.
             enum: No enum is declared.
             pattern: No pattern is declared.
@@ -564,11 +564,11 @@ components:
             service rejects an empty or omitted reason although this schema field is optional.
         internal_note:
           type: string
-          minLength: 0
           x-input-required: false
           x-unspecified-constraints:
             minimum: Not applicable to string input.
             maximum: Not applicable to string input.
+            minLength: No positive minimum length is declared.
             maxLength: No length limit is declared.
             enum: No enum is declared.
             pattern: No pattern is declared.
@@ -590,13 +590,13 @@ components:
         link_type:
           type: string
           enum: [category, event, contribution, subcontribution, session, session_block]
-          minLength: 5
-          maxLength: 15
-          pattern: '^(category|event|contribution|subcontribution|session|session_block)$'
           x-input-required: false
           x-unspecified-constraints:
             minimum: Not applicable to string enum input.
             maximum: Not applicable to string enum input.
+            minLength: No separate length constraint; the enum controls accepted values.
+            maxLength: No separate length constraint; the enum controls accepted values.
+            pattern: No separate pattern; the enum controls accepted values.
           x-business-rule: A link is processed only when link_type and link_id are both present.
         link_id:
           type: integer
@@ -654,11 +654,11 @@ components:
       properties:
         reason:
           type: string
-          minLength: 0
           x-input-required: false
           x-unspecified-constraints:
             minimum: Not applicable to string input.
             maximum: Not applicable to string input.
+            minLength: No positive minimum length is declared.
             maxLength: No maximum length is declared.
             enum: No enum is declared.
             pattern: No pattern is declared.

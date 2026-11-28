@@ -1,0 +1,1498 @@
+[
+  {
+    "id": "BR1-001",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR1",
+    "technique": "DECISION",
+    "class_or_point": "combination_001",
+    "value": {
+      "conditions": {
+        "start_not_in_past": false,
+        "within_booking_limit": false
+      },
+      "expected_outcome": "reject_past_start"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR1-002",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR1",
+    "technique": "DECISION",
+    "class_or_point": "combination_002",
+    "value": {
+      "conditions": {
+        "start_not_in_past": false,
+        "within_booking_limit": true
+      },
+      "expected_outcome": "reject_past_start"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR1-003",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR1",
+    "technique": "DECISION",
+    "class_or_point": "combination_003",
+    "value": {
+      "conditions": {
+        "start_not_in_past": true,
+        "within_booking_limit": false
+      },
+      "expected_outcome": "reject_booking_limit"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR1-004",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR1",
+    "technique": "DECISION",
+    "class_or_point": "combination_004",
+    "value": {
+      "conditions": {
+        "start_not_in_past": true,
+        "within_booking_limit": true
+      },
+      "expected_outcome": "allow_creation_checks_to_continue"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR2-001",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR2",
+    "technique": "DECISION",
+    "class_or_point": "combination_001",
+    "value": {
+      "conditions": {
+        "is_pending": false,
+        "can_moderate": false
+      },
+      "expected_outcome": "reject_non_pending_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR2-002",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR2",
+    "technique": "DECISION",
+    "class_or_point": "combination_002",
+    "value": {
+      "conditions": {
+        "is_pending": false,
+        "can_moderate": true
+      },
+      "expected_outcome": "reject_non_pending_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR2-003",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR2",
+    "technique": "DECISION",
+    "class_or_point": "combination_003",
+    "value": {
+      "conditions": {
+        "is_pending": true,
+        "can_moderate": false
+      },
+      "expected_outcome": "reject_missing_moderation_permission"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR2-004",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR2",
+    "technique": "DECISION",
+    "class_or_point": "combination_004",
+    "value": {
+      "conditions": {
+        "is_pending": true,
+        "can_moderate": true
+      },
+      "expected_outcome": "approve_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR3_REJECT-001",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_REJECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_001",
+    "value": {
+      "conditions": {
+        "is_terminal_state": false,
+        "can_moderate": false,
+        "reason_present": false
+      },
+      "expected_outcome": "reject_missing_moderation_permission"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_REJECT-002",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_REJECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_002",
+    "value": {
+      "conditions": {
+        "is_terminal_state": false,
+        "can_moderate": false,
+        "reason_present": true
+      },
+      "expected_outcome": "reject_missing_moderation_permission"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_REJECT-003",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_REJECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_003",
+    "value": {
+      "conditions": {
+        "is_terminal_state": false,
+        "can_moderate": true,
+        "reason_present": false
+      },
+      "expected_outcome": "reject_missing_reason"
+    },
+    "expected_status": 422,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_REJECT-004",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_REJECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_004",
+    "value": {
+      "conditions": {
+        "is_terminal_state": false,
+        "can_moderate": true,
+        "reason_present": true
+      },
+      "expected_outcome": "reject_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR3_REJECT-005",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_REJECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_005",
+    "value": {
+      "conditions": {
+        "is_terminal_state": true,
+        "can_moderate": false,
+        "reason_present": false
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_REJECT-006",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_REJECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_006",
+    "value": {
+      "conditions": {
+        "is_terminal_state": true,
+        "can_moderate": false,
+        "reason_present": true
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_REJECT-007",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_REJECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_007",
+    "value": {
+      "conditions": {
+        "is_terminal_state": true,
+        "can_moderate": true,
+        "reason_present": false
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_REJECT-008",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_REJECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_008",
+    "value": {
+      "conditions": {
+        "is_terminal_state": true,
+        "can_moderate": true,
+        "reason_present": true
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-001",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_001",
+    "value": {
+      "conditions": {
+        "state": "pending",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "reject_actor_not_authorized"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-002",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_002",
+    "value": {
+      "conditions": {
+        "state": "pending",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "reject_actor_not_authorized"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-003",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_003",
+    "value": {
+      "conditions": {
+        "state": "pending",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "administrator_cancels_pending_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR3_CANCEL-004",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_004",
+    "value": {
+      "conditions": {
+        "state": "pending",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "administrator_cancels_pending_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR3_CANCEL-005",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_005",
+    "value": {
+      "conditions": {
+        "state": "pending",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "cancel_pending_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR3_CANCEL-006",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_006",
+    "value": {
+      "conditions": {
+        "state": "pending",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "cancel_pending_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR3_CANCEL-007",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_007",
+    "value": {
+      "conditions": {
+        "state": "pending",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "cancel_pending_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR3_CANCEL-008",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_008",
+    "value": {
+      "conditions": {
+        "state": "pending",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "cancel_pending_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR3_CANCEL-009",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_009",
+    "value": {
+      "conditions": {
+        "state": "accepted",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "reject_outside_cancel_grace_period"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-010",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_010",
+    "value": {
+      "conditions": {
+        "state": "accepted",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "reject_actor_not_authorized"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-011",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_011",
+    "value": {
+      "conditions": {
+        "state": "accepted",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "reject_outside_cancel_grace_period"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-012",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_012",
+    "value": {
+      "conditions": {
+        "state": "accepted",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "administrator_cancels_accepted_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR3_CANCEL-013",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_013",
+    "value": {
+      "conditions": {
+        "state": "accepted",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "reject_outside_cancel_grace_period"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-014",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_014",
+    "value": {
+      "conditions": {
+        "state": "accepted",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "cancel_accepted_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR3_CANCEL-015",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_015",
+    "value": {
+      "conditions": {
+        "state": "accepted",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "reject_outside_cancel_grace_period"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-016",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_016",
+    "value": {
+      "conditions": {
+        "state": "accepted",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "cancel_accepted_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR3_CANCEL-017",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_017",
+    "value": {
+      "conditions": {
+        "state": "rejected",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-018",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_018",
+    "value": {
+      "conditions": {
+        "state": "rejected",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-019",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_019",
+    "value": {
+      "conditions": {
+        "state": "rejected",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-020",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_020",
+    "value": {
+      "conditions": {
+        "state": "rejected",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-021",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_021",
+    "value": {
+      "conditions": {
+        "state": "rejected",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-022",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_022",
+    "value": {
+      "conditions": {
+        "state": "rejected",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-023",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_023",
+    "value": {
+      "conditions": {
+        "state": "rejected",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-024",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_024",
+    "value": {
+      "conditions": {
+        "state": "rejected",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-025",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_025",
+    "value": {
+      "conditions": {
+        "state": "cancelled",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-026",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_026",
+    "value": {
+      "conditions": {
+        "state": "cancelled",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-027",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_027",
+    "value": {
+      "conditions": {
+        "state": "cancelled",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-028",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_028",
+    "value": {
+      "conditions": {
+        "state": "cancelled",
+        "is_booker_or_booked_for": false,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-029",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_029",
+    "value": {
+      "conditions": {
+        "state": "cancelled",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-030",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_030",
+    "value": {
+      "conditions": {
+        "state": "cancelled",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": false,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-031",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_031",
+    "value": {
+      "conditions": {
+        "state": "cancelled",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": false
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR3_CANCEL-032",
+    "endpoint": "/rooms/api/bookings/{booking_id}/{action}",
+    "method": "POST",
+    "field": "BR3_CANCEL",
+    "technique": "DECISION",
+    "class_or_point": "combination_032",
+    "value": {
+      "conditions": {
+        "state": "cancelled",
+        "is_booker_or_booked_for": true,
+        "is_rb_admin": true,
+        "within_cancel_grace_period": true
+      },
+      "expected_outcome": "reject_terminal_booking"
+    },
+    "expected_status": 418,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_DIRECT-001",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_001",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": false,
+        "needs_confirmation": false,
+        "has_explicit_book_right": false
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_DIRECT-002",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_002",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": false,
+        "needs_confirmation": false,
+        "has_explicit_book_right": true
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_DIRECT-003",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_003",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": false,
+        "needs_confirmation": true,
+        "has_explicit_book_right": false
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_DIRECT-004",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_004",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": false,
+        "needs_confirmation": true,
+        "has_explicit_book_right": true
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_DIRECT-005",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_005",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": true,
+        "needs_confirmation": false,
+        "has_explicit_book_right": false
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_DIRECT-006",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_006",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": true,
+        "needs_confirmation": false,
+        "has_explicit_book_right": true
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_DIRECT-007",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_007",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": true,
+        "needs_confirmation": true,
+        "has_explicit_book_right": false
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_DIRECT-008",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_008",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": true,
+        "needs_confirmation": true,
+        "has_explicit_book_right": true
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_DIRECT-009",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_009",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": false,
+        "needs_confirmation": false,
+        "has_explicit_book_right": false
+      },
+      "expected_outcome": "reject_missing_book_permission"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_DIRECT-010",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_010",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": false,
+        "needs_confirmation": false,
+        "has_explicit_book_right": true
+      },
+      "expected_outcome": "allow_direct_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR4_DIRECT-011",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_011",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": false,
+        "needs_confirmation": true,
+        "has_explicit_book_right": false
+      },
+      "expected_outcome": "reject_missing_book_permission"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_DIRECT-012",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_012",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": false,
+        "needs_confirmation": true,
+        "has_explicit_book_right": true
+      },
+      "expected_outcome": "allow_direct_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR4_DIRECT-013",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_013",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": true,
+        "needs_confirmation": false,
+        "has_explicit_book_right": false
+      },
+      "expected_outcome": "allow_public_direct_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR4_DIRECT-014",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_014",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": true,
+        "needs_confirmation": false,
+        "has_explicit_book_right": true
+      },
+      "expected_outcome": "allow_direct_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR4_DIRECT-015",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_015",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": true,
+        "needs_confirmation": true,
+        "has_explicit_book_right": false
+      },
+      "expected_outcome": "reject_confirmation_required_without_permission"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_DIRECT-016",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_DIRECT",
+    "technique": "DECISION",
+    "class_or_point": "combination_016",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": true,
+        "needs_confirmation": true,
+        "has_explicit_book_right": true
+      },
+      "expected_outcome": "allow_direct_booking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR4_PREBOOK-001",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_001",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": false,
+        "needs_confirmation": false,
+        "has_explicit_prebook_right": false
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_PREBOOK-002",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_002",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": false,
+        "needs_confirmation": false,
+        "has_explicit_prebook_right": true
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_PREBOOK-003",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_003",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": false,
+        "needs_confirmation": true,
+        "has_explicit_prebook_right": false
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_PREBOOK-004",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_004",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": false,
+        "needs_confirmation": true,
+        "has_explicit_prebook_right": true
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_PREBOOK-005",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_005",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": true,
+        "needs_confirmation": false,
+        "has_explicit_prebook_right": false
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_PREBOOK-006",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_006",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": true,
+        "needs_confirmation": false,
+        "has_explicit_prebook_right": true
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_PREBOOK-007",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_007",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": true,
+        "needs_confirmation": true,
+        "has_explicit_prebook_right": false
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_PREBOOK-008",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_008",
+    "value": {
+      "conditions": {
+        "is_reservable": false,
+        "is_public": true,
+        "needs_confirmation": true,
+        "has_explicit_prebook_right": true
+      },
+      "expected_outcome": "reject_room_not_reservable"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_PREBOOK-009",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_009",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": false,
+        "needs_confirmation": false,
+        "has_explicit_prebook_right": false
+      },
+      "expected_outcome": "reject_missing_prebook_permission"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_PREBOOK-010",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_010",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": false,
+        "needs_confirmation": false,
+        "has_explicit_prebook_right": true
+      },
+      "expected_outcome": "allow_explicitly_permitted_prebooking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR4_PREBOOK-011",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_011",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": false,
+        "needs_confirmation": true,
+        "has_explicit_prebook_right": false
+      },
+      "expected_outcome": "reject_missing_prebook_permission"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_PREBOOK-012",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_012",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": false,
+        "needs_confirmation": true,
+        "has_explicit_prebook_right": true
+      },
+      "expected_outcome": "allow_explicitly_permitted_prebooking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR4_PREBOOK-013",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_013",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": true,
+        "needs_confirmation": false,
+        "has_explicit_prebook_right": false
+      },
+      "expected_outcome": "reject_missing_prebook_permission"
+    },
+    "expected_status": 403,
+    "expected_valid": false
+  },
+  {
+    "id": "BR4_PREBOOK-014",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_014",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": true,
+        "needs_confirmation": false,
+        "has_explicit_prebook_right": true
+      },
+      "expected_outcome": "allow_explicitly_permitted_prebooking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR4_PREBOOK-015",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_015",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": true,
+        "needs_confirmation": true,
+        "has_explicit_prebook_right": false
+      },
+      "expected_outcome": "allow_public_prebooking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  },
+  {
+    "id": "BR4_PREBOOK-016",
+    "endpoint": "/rooms/api/booking/create",
+    "method": "POST",
+    "field": "BR4_PREBOOK",
+    "technique": "DECISION",
+    "class_or_point": "combination_016",
+    "value": {
+      "conditions": {
+        "is_reservable": true,
+        "is_public": true,
+        "needs_confirmation": true,
+        "has_explicit_prebook_right": true
+      },
+      "expected_outcome": "allow_public_prebooking"
+    },
+    "expected_status": 200,
+    "expected_valid": true
+  }
+]
