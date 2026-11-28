@@ -6,10 +6,10 @@ description: "Start here. Onboards a team member to the SQE Indico project. Iden
 # SQE onboarding
 
 ## 1. Identify the member
-Ask (if unknown): **Muhammad Ali** (Area 1), **Fahima** (Area 2) or **Wania** (Area 3)? Then read their task file:
-- Ali → `docs/team/tasks/area1-muhammad-ali.md`
+Ask (if unknown): **Muhammad Ali** (Area 3), **Fahima** (Area 2) or **Wania** (Area 1)? Then read their task file:
+- Ali → `docs/team/tasks/area3-muhammad-ali.md`
 - Fahima → `docs/team/tasks/area2-fahima.md`
-- Wania → `docs/team/tasks/area3-wania.md`
+- Wania → `docs/team/tasks/area1-wania.md`
 and `docs/team/tasks/shared-test-management.md` + `docs/team/tasks/README.md` (timeline, use-case split).
 
 ## 2. Machine setup (once), run in Git Bash on Windows
@@ -23,7 +23,7 @@ bash tests/team/run.sh env-up       # first build 5–15 min
 bash tests/team/run.sh env-reset    # ~1 min, writes tests/team/.env.test
 PYTHON=.venv/Scripts/python bash tests/team/run.sh api   # expect: 4 passed
 ```
-Area 1 also: `bash tests/team/run.sh unit` (builds the Linux runner the first time). Area 3 also: `bash tests/team/run.sh e2e`.
+Area 1 (Wania) also: `bash tests/team/run.sh unit` (builds the Linux runner the first time). Area 3 (Ali) also: `bash tests/team/run.sh e2e`.
 Port 8081 busy? Change `NGINX_PORT` in `.env` **and** `BASE_URL` in `indico.conf`. Use the `sqe-env` skill for troubleshooting.
 
 ## 3. Show status + next action
