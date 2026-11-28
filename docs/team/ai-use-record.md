@@ -19,6 +19,8 @@ Required by the assignment (§7): tool, purpose, output, and what we checked or 
 
 | 12 | 2026-11-23 | Wania | Codex | Complete MCC/MC/DC for the agreed critical function and align BR3 test notes | `docs/team/mcc-mcdc.md`, `docs/team/unit-testing.md` | Checked `Reservation.can_cancel` in pinned v3.3.14 source; documented four decision tables, short-circuit masks, infeasible state combinations and MC/DC pairs for A–J; aligned the verification status to the current Docker daemon failure. Test execution was attempted but did not start because Docker was unavailable. |
 
+| 8 | 2026-11-28 | Ali | Claude Code (Claude Sonnet 4.6) | Phase 1 foundation for Area 3: write UC-A1 and UC-A2 use-case specs, test plan, finalise scope document, write initial risk register (12 risks, 3 exit criteria) | `docs/team/use-cases/UC-A1.md`, `docs/team/use-cases/UC-A2.md`, `docs/team/test-plan.md`, `docs/team/01-scope-draft.md` (finalised), `docs/team/risk-register.md` | Reviewed each UC spec: actor, preconditions, main/alt/exception flows, automation map, FR/BR traceability all match the running app behaviour in `02-local-setup-verification.md`. Risk IDs and scores cross-checked against the assignment rubric. Test plan entry/exit criteria reviewed against EC1–EC3 in risk register. |
+
 ## Prompts
 
 Keep the full prompt text or session exports here, or link to them (e.g. `docs/team/ai-prompts/`).
