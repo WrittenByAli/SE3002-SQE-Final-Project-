@@ -29,9 +29,9 @@ in which every member must explain their own work. These rules exist so that AI 
 
 | Member | GitHub | Area (examined on it in the viva) | Task file |
 |---|---|---|---|
-| Muhammad Ali | `WrittenByAli` | **Area 1**: SonarQube + cyclomatic complexity, white-box unit tests (100% stmt/branch, MCC, MC/DC), mutation testing, CI quality gate | `docs/team/tasks/area1-muhammad-ali.md` |
+| Muhammad Ali | `WrittenByAli` | **Area 3**: use cases + Playwright automation, usability and accessibility (Lighthouse, axe, keyboard), defensive security (access matrix, ZAP passive, pip-audit), performance (k6) + recovery | `docs/team/tasks/area3-muhammad-ali.md` |
 | Fahima | `Fahima-sohail` | **Area 2**: API and integration testing (EP, 3-point BVA, decision tables, state transitions, read-back), OpenAPI spec + test-data generator | `docs/team/tasks/area2-fahima.md` |
-| Wania | _(add GitHub username)_ | **Area 3**: use cases + Playwright automation, usability and accessibility (Lighthouse, axe, keyboard), defensive security (access matrix, ZAP passive, pip-audit), performance (k6) + recovery | `docs/team/tasks/area3-wania.md` |
+| Wania | _(add GitHub username)_ | **Area 1**: SonarQube + cyclomatic complexity, white-box unit tests (100% stmt/branch, MCC, MC/DC), mutation testing, CI quality gate | `docs/team/tasks/area1-wania.md` |
 | All three | | **Test management**: plan, estimation, risk register, traceability, defects + RCA, weekly reports, completion report | `docs/team/tasks/shared-test-management.md` |
 
 When a member starts a session, ask who they are if it is unclear, then load their task file and work from its checklist.

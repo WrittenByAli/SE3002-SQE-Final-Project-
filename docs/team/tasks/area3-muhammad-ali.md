@@ -1,4 +1,4 @@
-# Area 3: Wania: Use cases, usability, accessibility, security, performance (25 marks + leads)
+# Area 3: Muhammad Ali: Use cases, usability, accessibility, security, performance (25 marks + leads)
 
 Skills: `sqe-use-cases`, `sqe-a11y`, `sqe-security`, `sqe-performance`. Agents: `evidence-verifier`, `viva-examiner`.
 Commands: `bash tests/team/run.sh env-reset`, `bash tests/team/run.sh e2e`, `bash tests/team/run.sh perf`.
@@ -10,7 +10,7 @@ Test accounts: `user1` / `mgr1` (password `<username>-Pass123!`), app at http://
 - [ ] Every member writes **2 use cases** (see the split in `docs/team/tasks/README.md`), each with preconditions, main flow,
       **≥2 alternative + ≥2 exception flows**, and postconditions, derived from the requirements (FR-/BR- IDs). → `docs/team/use-cases/`
 - [ ] **Automate every flow in Playwright (Chromium)**: assert the result shown **and** the postconditions (read back via API
-      or UI). The Playwright project (`tests/team/e2e/`: config, Chromium, axe, login helper) is set up and ready; tests go in `tests/team/e2e/tests/`. Your own: UC-W1, UC-W2.
+      or UI). The Playwright project (`tests/team/e2e/`: config, Chromium, axe, login helper) is set up and ready; tests go in `tests/team/e2e/tests/`. Your own: UC-A1, UC-A2.
 - [ ] Review the other members' use cases for completeness before they automate them.
 
 ## 2. Usability & accessibility (5 marks)
@@ -55,3 +55,4 @@ Test accounts: `user1` / `mgr1` (password `<username>-Pass123!`), app at http://
 
 - [ ] Rerun the keyboard test live and explain each focus assertion; explain why an issue counted once across Lighthouse+axe;
       explain the p95 limit you chose.
+

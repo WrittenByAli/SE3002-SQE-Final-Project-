@@ -65,9 +65,9 @@ docker compose down -v                                             # also wipe d
 
 | Member | Area | Task file |
 |---|---|---|
-| Muhammad Ali (`WrittenByAli`) | 1. Static analysis, white-box, mutation, CI | [area1-muhammad-ali.md](docs/team/tasks/area1-muhammad-ali.md) |
+| Muhammad Ali (`WrittenByAli`) | 3. Use cases, usability, accessibility, security, performance | [area3-muhammad-ali.md](docs/team/tasks/area3-muhammad-ali.md) |
 | Fahima (`Fahima-sohail`) | 2. API testing and test data generation | [area2-fahima.md](docs/team/tasks/area2-fahima.md) |
-| Wania | 3. Use cases, usability, accessibility, security, performance | [area3-wania.md](docs/team/tasks/area3-wania.md) |
+| Wania | 1. Static analysis, white-box, mutation, CI | [area1-wania.md](docs/team/tasks/area1-wania.md) |
 | All three | Test management (leads per component) | [shared-test-management.md](docs/team/tasks/shared-test-management.md) |
 
 ## Start here (new member)
